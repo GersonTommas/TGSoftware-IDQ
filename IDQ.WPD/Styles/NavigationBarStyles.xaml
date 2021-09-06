@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:IDQ.WPF.Styles"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    mc:Ignorable="d">
+    <ResourceDictionary.MergedDictionaries>
+        <local:SkinResourceDictionary LightSource="/Styles/SkinColorsLight.xaml"
+                                      DarkSource="/Styles/SkinColorsDark.xaml" />
+        <d:ResourceDictionary Source="SkinColorsDark.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--RadioButton Tabs-->
+    <Style x:Key="NavRadioButton" TargetType="RadioButton">
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Background" Value="{StaticResource BrushNavigationTab}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="mainGrid" Background="{TemplateBinding Background}">
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Padding="{TemplateBinding Padding}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Foreground="{StaticResource BrushNavForegroundTab}"
+                                   />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BrushSelectedTab}" TargetName="mainGrid" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="{StaticResource ColorNaviBackgroundHighlightTab}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="{StaticResource ColorNavigationTab}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+    
+</ResourceDictionary>

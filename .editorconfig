@@ -1,0 +1,13 @@
+﻿[*.{cs,vb}]
+
+# IDE0040: Add accessibility modifiers
+dotnet_style_require_accessibility_modifiers = omit_if_default
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = none
+
+# CA2211: Non-constant fields should not be visible
+dotnet_diagnostic.CA2211.severity = none
+
+# IDE0049: Simplify Names
+dotnet_diagnostic.IDE0049.severity = none

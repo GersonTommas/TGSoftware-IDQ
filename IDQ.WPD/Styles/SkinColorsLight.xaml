@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Colors-->
+    <Color x:Key="ColorNavigationUpperDeck">#cec3f9</Color>
+    <Color x:Key="ColorNavigationTab">#cec3f9</Color>
+    <Color x:Key="ColorNaviBackgroundHighlightTab">#b39eff</Color>
+    <Color x:Key="ColorNavigationSelectedTab">#806ac8</Color>
+    <Color x:Key="ColorNavForegroundTab">#232323</Color>
+
+    <!--Brushes-->
+    <SolidColorBrush x:Key="BrushNavigationUpperDeck" Color="{StaticResource ColorNavigationUpperDeck}" />
+    <SolidColorBrush x:Key="BrushNavigationTab" Color="{StaticResource ColorNavigationTab}" />
+    <SolidColorBrush x:Key="BrushSelectedTab" Color="{StaticResource ColorNavigationSelectedTab}" />
+    <SolidColorBrush x:Key="BrushNavForegroundTab" Color="{StaticResource ColorNavForegroundTab}" />
+    
+</ResourceDictionary>
