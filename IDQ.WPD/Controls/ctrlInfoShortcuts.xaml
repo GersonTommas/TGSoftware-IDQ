@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="IDQ.WPF.Controls.ctrlInfoShortcuts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IDQ.WPF.Controls"
+             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
+             mc:Ignorable="d"
+             x:Name="thisControl"
+             d:Background="White">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+    
+
+    <GroupBox Header="Comandos" VerticalAlignment="Top" Grid.Column="1">
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasGuardar, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="F1: "/>
+                    <TextBlock Text="Guardar" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasTag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="F2: "/>
+                    <TextBlock Text="Nuevo Tag" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasMedidas, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="F3: "/>
+                    <TextBlock Text="Nueva Medida" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasProductos, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="F4: "/>
+                    <TextBlock Text="Productos" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasAbrirProducto, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="F5: " />
+                    <TextBlock Text="Abrir Producto" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasAgregar, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Enter: "/>
+                    <TextBlock Text="Agregar" Grid.Column="1" />
+                </Grid>
+                <Grid Visibility="{Binding ElementName=thisControl, Path=hasCancelar, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Esc: "/>
+                    <TextBlock Text="Cancelar" Grid.Column="1" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

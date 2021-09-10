@@ -11,3 +11,21 @@ dotnet_diagnostic.CA2211.severity = none
 
 # IDE0049: Simplify Names
 dotnet_diagnostic.IDE0049.severity = none
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+
+# CA1051: Do not declare visible instance fields
+dotnet_diagnostic.CA1051.severity = none
+
+# CA1304: Specify CultureInfo
+dotnet_diagnostic.CA1304.severity = none
+
+# CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1711.severity = none
+
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = true
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none

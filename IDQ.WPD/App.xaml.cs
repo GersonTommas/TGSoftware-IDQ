@@ -1,61 +1,54 @@
 ﻿using IDQ.EntityFramework;
+using IDQ.WPF.Enumerators;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
 namespace IDQ.WPF
 {
-    public enum Skin { Dark, Light }
-
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        public static Skin skin { get; set; } = Skin.Light;
+        public static SkinEnum skin { get; set; } = SkinEnum.Light;
+        public static CardEnum card { get; set; } = CardEnum.Light;
 
         public App()
         {
-            if (Enum.TryParse(WPF.Properties.Settings.Default.skinTheme, result: out Skin tempSkin)) { if (Enum.IsDefined(typeof(Skin), tempSkin)) { skin = tempSkin; } }
+            if (Enum.TryParse(WPF.Properties.Settings.Default.skinTheme, result: out SkinEnum tempSkin)) { if (Enum.IsDefined(typeof(SkinEnum), tempSkin)) { skin = tempSkin; } }
+            if (Enum.TryParse(WPF.Properties.Settings.Default.cardTheme, result: out CardEnum tempCard)) { if (Enum.IsDefined(typeof(CardEnum), tempCard)) { card = tempCard; } }
         }
 
-        public static new App Current { get => Application.Current as App; }
+        public static new App Current => Application.Current as App;
 
-        private void OnStartup(object sender, StartupEventArgs e)
+        void OnStartup(object sender, StartupEventArgs e)
         {
-            var splashScreen = new SplashWindow();
+            SplashWindow splashScreen = new SplashWindow();
             splashScreen.Show();
         }
 
         internal void InitializeApplication(SplashWindow splashWindow)
         {
             context.InitializeDatabase();
-            // fake workload, but with progress updates.
-            //Thread.Sleep(1500);
+            EntityFramework.Updates.xUpdateService.xDoUpdate();
 
             EventWaitHandle mainWindowLoaded = new ManualResetEvent(false);
 
             // Create the main window, but on the UI thread.
-            Dispatcher.BeginInvoke((Action)(() =>
-            {
-                MainWindow = new Views.MainView();
-                MainWindow.Loaded += (sender, e) =>
-                {
-                    mainWindowLoaded.Set();
-                };
-                splashWindow.SetProgress(0.9);
-                MainWindow.Show();
-                splashWindow.SetProgress(1);
-            }));
+            _ = Dispatcher.BeginInvoke((Action)(() =>
+              {
+                  MainWindow = new ContentWindow(); //Views.MainView();
+                  MainWindow.Loaded += (sender, e) =>
+                  {
+                      _ = mainWindowLoaded.Set();
+                  };
+                  MainWindow.Show();
+              }));
 
             // Wait until the Main window has finished initializing and loading
-            mainWindowLoaded.WaitOne();
+            _ = mainWindowLoaded.WaitOne();
         }
     }
 }

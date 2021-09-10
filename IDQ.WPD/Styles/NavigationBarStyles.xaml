@@ -1,20 +1,28 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:IDQ.WPF.Styles"
-                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                    mc:Ignorable="d">
-    <ResourceDictionary.MergedDictionaries>
-        <local:SkinResourceDictionary LightSource="/Styles/SkinColorsLight.xaml"
-                                      DarkSource="/Styles/SkinColorsDark.xaml" />
-        <d:ResourceDictionary Source="SkinColorsDark.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+                    xmlns:local="clr-namespace:IDQ.WPF.Styles">
 
-    <!--RadioButton Tabs-->
+
+    
+    <!--#region Navigation Label-->
+    <Style x:Key="NavigationLabel" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+        <Setter Property="Foreground" Value="{StaticResource Brush.Window.Upper.Foreground.Dark}"/>
+    </Style>
+    <!--#endregion Navigation Label-->
+    
+    
+    <!--#region Navigation GroupBox-->
+    <Style x:Key="NavGroupBox" TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+        <Setter Property="Foreground" Value="{StaticResource Brush.Window.Upper.Foreground.Dark}"/>
+    </Style>
+    <!--#endregion Navigation GroupBox-->
+    
+    
+    <!--#region RadioButton Tabs-->
     <Style x:Key="NavRadioButton" TargetType="RadioButton">
-        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="Padding" Value="8,2" />
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="Background" Value="{StaticResource BrushNavigationTab}" />
+        <Setter Property="Background" Value="{StaticResource Brush.Navigation.Background.Normal}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
@@ -23,12 +31,12 @@
                                    Padding="{TemplateBinding Padding}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Foreground="{StaticResource BrushNavForegroundTab}"
+                                   Foreground="{StaticResource Brush.Navigation.Foreground}"
                                    />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{StaticResource BrushSelectedTab}" TargetName="mainGrid" />
+                            <Setter Property="Background" Value="{StaticResource Brush.Navigation.Background.Selected}" TargetName="mainGrid" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -38,18 +46,18 @@
             <EventTrigger RoutedEvent="MouseEnter">
                 <BeginStoryboard>
                     <Storyboard>
-                        <ColorAnimation To="{StaticResource ColorNaviBackgroundHighlightTab}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
+                        <ColorAnimation To="{StaticResource Color.Navigation.Background.Highlight}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
             <EventTrigger RoutedEvent="MouseLeave">
                 <BeginStoryboard>
                     <Storyboard>
-                        <ColorAnimation To="{StaticResource ColorNavigationTab}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
+                        <ColorAnimation To="{StaticResource Color.Navigation.Background.Normal}" Duration="0:0:0.1" Storyboard.TargetProperty="Background.Color" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
         </Style.Triggers>
     </Style>
-    
+    <!--#endregion RadioButton Tabs-->
 </ResourceDictionary>

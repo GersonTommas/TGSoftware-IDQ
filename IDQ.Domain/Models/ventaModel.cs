@@ -9,10 +9,12 @@ namespace IDQ.Domain.Models
     public class ventaModel : Base.ModelBase
     {
         #region Private
-        cajaModel _Caja; String _Hora; fechaModel _Fecha; usuarioModel _Usuario; deudorModel _Deudor;
+        String _Hora; Double _PrecioTotal; cajaModel _Caja; fechaModel _Fecha; usuarioModel _Usuario; deudorModel _Deudor;
         #endregion // Private
 
         #region Public
+        public Double PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, value)) { OnPropertyChanged(); } } }
+
         public int CajaId { get; set; }
         public virtual cajaModel Caja { get => _Caja; set { if (SetProperty(ref _Caja, value)) { OnPropertyChanged(); } } }
 
@@ -34,7 +36,7 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public Double PrecioTotal => Math.Round(VentaProductosPerVenta.Sum(x => x.PrecioTotal), 2);
+        public Double discardPrecioTotal => Math.Round(VentaProductosPerVenta.Sum(x => x.PrecioTotal), 2);
         [NotMapped]
         public int isVentaDeuda => VentaProductosPerVenta.All(x => x.isProductoDeuda == 0) ? 0 : VentaProductosPerVenta.All(x => x.isProductoDeuda == 2) ? 2 : 1;
         [NotMapped]
@@ -45,7 +47,7 @@ namespace IDQ.Domain.Models
 
         public override void updateModel()
         {
-            OnPropertyChanged(nameof(PrecioTotal));
+            OnPropertyChanged(nameof(discardPrecioTotal));
         }
     }
 }

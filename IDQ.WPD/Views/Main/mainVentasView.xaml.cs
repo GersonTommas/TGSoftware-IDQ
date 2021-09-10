@@ -1,5 +1,7 @@
-﻿using System;
+﻿using IDQ.Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,19 @@ namespace IDQ.WPF.Views.Main
         public mainVentasView()
         {
             InitializeComponent();
+        }
+
+        void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (e.Item is fechaModel item)
+            {
+                if (item.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd") | item.VentasPerFecha.Count > 0)
+                { e.Accepted = true; }
+                else
+                {
+                    e.Accepted = false;
+                }
+            }
         }
     }
 }

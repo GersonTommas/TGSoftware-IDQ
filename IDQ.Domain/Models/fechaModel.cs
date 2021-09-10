@@ -39,7 +39,7 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public int TotalCantidadVentasDiario => VentasPerFecha.Count;
         [NotMapped]
-        public Double TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.PrecioTotal);
+        public Double TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.discardPrecioTotal);
 
         [NotMapped]
         public int TotalCantidadConsumosDiario => ConsumosProductosPerFecha.Count;

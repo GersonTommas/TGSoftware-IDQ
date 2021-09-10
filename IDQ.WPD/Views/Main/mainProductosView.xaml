@@ -4,9 +4,86 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main"
+             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
+             xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
+             xmlns:vm="clr-namespace:IDQ.WPF.ViewModels.Main"
              mc:Ignorable="d" 
+             x:Name="thisPage"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Blue">
-            
+    <UserControl.DataContext>
+        <vm:mainProductosViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="AUTO" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="AUTO" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Buscar">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="{Binding buttonStringBusqueda}" MinWidth="70" Command="{Binding buttonCommandBusqueda}" />
+                <ctrls:ctrlTextBox text="{Binding textBoxStringBusqueda}" isLabelOn="False" isMaster="True" textAlignment="Left" isCurrency="False" VerticalAlignment="Center" Width="200"/>
+                
+                <CheckBox Content="{Binding checkBoxStringActive}" IsThreeState="True" IsChecked="{Binding checkBoxBoolActive}" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="0">
+            <GroupBox Header="Vistas">
+                <Button Content="{Binding buttonStringVistas}" Command="{Binding buttonCommandVistas}"/>
+            </GroupBox>
+
+
+            <GroupBox Header="Detalles">
+                <StackPanel>
+                    <Button Content="Detalles" Command="{Binding comStockDetalleProducto}" HorizontalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+            <ContentControl Content="{Binding ElementName=thisPage, Path=DataContext.Navigator.CurrentViewModel}" DataContext="{Binding collectionAllProductos}" />
+        </Grid>
+
+
+        <ctrls:ctrlTextBox text="{Binding stockIntProductosTotal, Mode=OneWay}" labelContent="Total de Productos:" isReadOnly="True" isCurrency="False" textAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" Margin="115,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
+
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="AUTO" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <GroupBox Header="Editar">
+                    <StackPanel>
+                        <Button Content="Nuevo Producto" Command="{Binding buttonCommandNewProducto}" HorizontalAlignment="Center" />
+                        <Button Content="Cambiar Precio" Command="{Binding comStockCambiarPrecio}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                        <Button Content="Editar Producto" Command="{Binding butttonCommandEditProducto}" HorizontalAlignment="Center" />
+                        <Button Content="Cambiar Estado" Command="{Binding comStockDesactivarProducto}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                        <Button Content="Modificar Stock" Command="{Binding buttonCommandModificarStock}" HorizontalAlignment="Center" />
+                        <Button Content="Abrir Bolsa xD"  Command="{Binding comStockAbrirProducto}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+
+            <ctrls:ctrlInfoColors isActivoFullLine="False" hasActivoInactivo="True" hasActiveAndStock="True" hasMiddleColors="True" Grid.Row="2" />
+        </Grid>
     </Grid>
 </UserControl>

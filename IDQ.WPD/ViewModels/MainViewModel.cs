@@ -1,13 +1,7 @@
 ﻿using IDQ.Domain.Models;
-using IDQ.Domain.Services;
 using IDQ.EntityFramework;
-using IDQ.EntityFramework.Services;
 using IDQ.WPF.States.Navigators;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IDQ.WPF.ViewModels
 {
@@ -22,10 +16,8 @@ namespace IDQ.WPF.ViewModels
 
         public static Command comTest => new((object parameter) =>
         {
-            IDataService<cajaModel> cajaActualService = new GenericDataService<cajaModel>();
-            cajaModel cajaActual = cajaActualService.Get(1).Result;
-            cajaActual.CajaActual -= 30;
-            cajaActualService.Update(cajaActual.Id, cajaActual);
+            _ = context.globalDb.fechas.Add(new fechaModel { Fecha = DateTime.Today.ToString(@"yyyy/MM/dd") });
+            context.globalDb.SaveChanges();
 
         });
         //public static Command darkCommand => new((object parameter) => { Properties.Settings.Default.skinTheme = Skin.Dark.ToString(); Properties.Settings.Default.Save(); });

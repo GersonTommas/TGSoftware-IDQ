@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IDQ.WPF.Enumerators;
+using System;
 using System.Windows;
 
 namespace IDQ.WPF.Styles
@@ -30,7 +31,7 @@ namespace IDQ.WPF.Styles
 
         void UpdateSource()
         {
-            Uri val = App.skin == Skin.Light ? LightSource : DarkSource;
+            Uri val = App.skin == SkinEnum.Light ? LightSource : DarkSource;
             if (val != null && Source != val)
             {
                 Source = val;

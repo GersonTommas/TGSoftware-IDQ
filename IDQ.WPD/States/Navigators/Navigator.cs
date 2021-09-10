@@ -4,10 +4,10 @@ using System.Windows.Input;
 
 namespace IDQ.WPF.States.Navigators
 {
-    public class Navigator : IDQ.Domain.Base.PropertyChangedBase, INavigator
+    public class Navigator : Domain.Base.PropertyChangedBase, INavigator
     {
         Base.ViewModelBase _currentViewModel;
-        public Base.ViewModelBase CurrentViewModel
+        public virtual Base.ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
             set

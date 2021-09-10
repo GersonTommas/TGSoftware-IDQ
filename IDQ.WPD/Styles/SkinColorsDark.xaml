@@ -2,15 +2,32 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--Colors-->
-    <Color x:Key="ColorNavigationUpperDeck">#434c5e</Color>
-    <Color x:Key="ColorNavigationTab">#181818</Color>
-    <Color x:Key="ColorNaviBackgroundHighlightTab">#454545</Color>
-    <Color x:Key="ColorNavigationSelectedTab">#2e3440</Color>
-    <Color x:Key="ColorNavForegroundTab">#E4E5E6</Color>
+    <Color x:Key="Color.WindowUpper.Background.Dark">#2e3440</Color>
+    <Color x:Key="Color.WindowUpper.Foreground.Dark">#A6A867</Color>
+    <Color x:Key="Color.WindowInner.Background.Soft">#434c5e</Color>
+    <Color x:Key="Color.WindowInner.Foreground.Soft">#E3DC95</Color>
 
-    <!--Brushes-->
-    <SolidColorBrush x:Key="BrushNavigationUpperDeck" Color="{StaticResource ColorNavigationUpperDeck}" />
-    <SolidColorBrush x:Key="BrushNavigationTab" Color="{StaticResource ColorNavigationTab}" />
-    <SolidColorBrush x:Key="BrushSelectedTab" Color="{StaticResource ColorNavigationSelectedTab}" />
-    <SolidColorBrush x:Key="BrushNavForegroundTab" Color="{StaticResource ColorNavForegroundTab}" />
-</ResourceDictionary>
+    <Color x:Key="Color.Navigation.Background.Normal">#181818</Color>
+    <Color x:Key="Color.Navigation.Background.Highlight">#454545</Color>
+    <Color x:Key="Color.Navigation.Background.Selected">#434c5e</Color>
+    <Color x:Key="Color.Navigation.Foreground">#E4E5E6</Color>
+
+    <Color x:Key="Color.Button.Background.Normal">#8ba2a2</Color>
+    <Color x:Key="Color.Button.Background.Highlight">#87b686</Color>
+    <Color x:Key="Color.Button.Background.Pressed">#4b684b</Color>
+    <Color x:Key="Color.Button.Foreground">#1B2021</Color>
+
+    <Color x:Key="Color.Grid.Background.Header">#9DB4C0</Color>
+    <Color x:Key="Color.Grid.Foregound.Header">#181818</Color>
+    <Color x:Key="Color.Grid.Background.Normal">#E0FBEE</Color>
+    <Color x:Key="Color.Grid.Foregound">#181818</Color>
+
+    <Color x:Key="Color.TextBox.Background.Dark">#dfd7a5</Color>
+    <Color x:Key="Color.TextBox.Foreground.Dark">#1B2021</Color>
+    <Color x:Key="Color.TextBox.Background.Light">#9DB4C0</Color>
+    <Color x:Key="Color.TextBox.Foreground.Light">#1B2021</Color>
+
+    <Color x:Key="Color.TabControl.Background.Normal">#434c5e</Color>
+    <Color x:Key="Color.TabControl.Background.MouseOver">#4b684b</Color>
+    <Color x:Key="Color.TabControl.Background.IsSelected">#2e3440</Color>
+</ResourceDictionary> 

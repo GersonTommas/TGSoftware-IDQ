@@ -34,5 +34,17 @@ namespace IDQ.WPF.Properties {
                 this["skinTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Dark")]
+        public string cardTheme {
+            get {
+                return ((string)(this["cardTheme"]));
+            }
+            set {
+                this["cardTheme"] = value;
+            }
+        }
     }
 }

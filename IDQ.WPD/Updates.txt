@@ -1,0 +1,7 @@
+﻿2.0
+ventasModel.cs
+public Double PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, value)) { OnPropertyChanged(); } } } // Added
+[NotMapped] discardPrecioTotal //discardPending, update PrecioTotal with discardPrecioTotal.Value
+
+
+1.5

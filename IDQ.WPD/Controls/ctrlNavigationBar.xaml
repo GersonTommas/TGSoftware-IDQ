@@ -4,15 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
-             xmlns:UC="clr-namespace:IDQ.userControl"
              xmlns:nav="clr-namespace:IDQ.WPF.States.Navigators"
+             xmlns:vm="clr-namespace:IDQ.WPF.ViewModels"
              xmlns:vmMain="clr-namespace:IDQ.WPF.ViewModels.Main"
              xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              x:Name="thisControl"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <UserControl.Resources>
-        <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter" />
-        <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
+        <ResourceDictionary>
+            <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter" />
+            <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
+            <Style TargetType="GroupBox" BasedOn="{StaticResource NavGroupBox}"/>
+            <Style TargetType="Label" BasedOn="{StaticResource NavigationLabel}"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.DataContext>
@@ -23,7 +27,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Background="{StaticResource BrushNavigationUpperDeck}" RenderOptions.EdgeMode="Aliased" Grid.Row="0">
+        <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}" RenderOptions.EdgeMode="Aliased" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -36,8 +40,8 @@
                     <Button Content="Cerrar Sesión" Command="{Binding comCerrarSesion}" />
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center">
-                    <UC:ctrlTextBox textboxText="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
-                    <UC:ctrlTextBox textboxText="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
+                    <local:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
+                    <local:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
                 </StackPanel>
             </StackPanel>
 
@@ -51,16 +55,17 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox>
+                <local:ctrlClock hasSeconds="True" FontSize="30" />
+                <GroupBox Visibility="Collapsed">
                     <Label Content="{Binding strClock}" FontSize="30" />
                 </GroupBox>
             </StackPanel>
         </Grid>
 
-        <StackPanel DataContext="{Binding ElementName=thisControl, Path=DataContext}" Background="{StaticResource BrushNavigationTab}" RenderOptions.EdgeMode="Aliased" Orientation="Horizontal" Grid.Row="1">
+        <StackPanel DataContext="{Binding ElementName=thisControl, Path=DataContext}" Background="{StaticResource Brush.Navigation.Background.Normal}" RenderOptions.EdgeMode="Aliased" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
             <RadioButton Content="Productos" IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type vmMain:mainProductosViewModel}}" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Productos}" />
             <RadioButton Content="Ventas" IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type vmMain:mainVentasViewModel}}"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Ventas}" />
-            <RadioButton Content="Ingresos" IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type vmMain:mainVentasViewModel}}" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Ingresos}" />
+            <RadioButton Content="Ingresos" IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type vmMain:mainIngresosViewModel}}" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Ingresos}" />
         </StackPanel>
         
     </Grid>

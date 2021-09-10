@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="IDQ.WPF.Controls.ctrlClock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IDQ.WPF.Controls"
+             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
+             mc:Ignorable="d"
+             x:Name="thisControl">
+    <UserControl.DataContext>
+        <local:ClockViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    
+    
+    <GroupBox Grid.Column="2">
+        <Grid>
+            <Label Content="{Binding stringLongTime, FallbackValue=00:00:00}" FontSize="{Binding ElementName=thisControl, Path=FontSize}" Visibility="{Binding ElementName=thisControl, Path=hasSeconds, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Label Content="{Binding stringShortTime, FallbackValue=00:00}" FontSize="{Binding ElementName=thisControl, Path=FontSize}" Visibility="{Binding ElementName=thisControl, Path=hasSeconds, Converter={StaticResource InvertBoolToVisibilityConverter}}" />
+        </Grid>
+    </GroupBox>
+</UserControl>

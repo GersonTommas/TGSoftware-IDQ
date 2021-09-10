@@ -30,7 +30,7 @@ namespace IDQ.WPF.Controls
         }
     }
 
-    class navigationBarViewModel : Base.ViewModelBase
+    public class navigationBarViewModel : Base.ViewModelBase
     {
         public navigationBarViewModel()
         {

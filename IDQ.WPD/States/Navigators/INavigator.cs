@@ -5,9 +5,14 @@ namespace IDQ.WPF.States.Navigators
 {
     public enum ViewType
     {
+        Blank,
         Productos,
+        ProductosBasic,
+        ProductosAdvanced,
         Ventas,
-        Ingresos
+        Ingresos,
+        Tags,
+        Medidas
     }
 
     public interface INavigator

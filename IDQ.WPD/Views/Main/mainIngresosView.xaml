@@ -3,10 +3,103 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main"
+             xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
+             xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels.Main"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Green">
-            
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="AntiqueWhite">
+    <UserControl.DataContext>
+        <viewmodels:mainIngresosViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="collectionViewSourceFechas" Source="{Binding sourceCollectionFechas}" Filter="CollectionViewSource_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Fecha" Direction="Descending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="collectionViewSourceProveedores" Source="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/IngresosPerFecha}"/>
+
+    </UserControl.Resources>
+    
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+
+        <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" IsTabStop="True" />
+
+        <Grid Grid.Row="1" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="AUTO" />
+            </Grid.RowDefinitions>
+
+
+            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Header="Hora" SortDirection="Descending" SortMemberPath="Hora" Binding="{Binding Hora}" />
+                    <DataGridTextColumn Width="*" Header="Proveedor" Binding="{Binding Proveedor.Nombre}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/IngresoProductosPerIngreso, Mode=OneWay}" Grid.Column="1" Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="70" Header="Código" Binding="{Binding Producto.Codigo}" Visibility="Collapsed"/>
+                <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Producto.Descripcion}"/>
+                <DataGridTemplateColumn MinWidth="90" Width="auto" Header="Precio Venta U.">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" />
+                                <TextBlock Text="{Binding PrecioActual}" TextAlignment="Right" Grid.Column="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn MinWidth="60" Width="auto" Header="Cantidad" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Cantidad}" />
+                <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Total" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" />
+                                <TextBlock Text="{Binding PrecioTotal}" TextAlignment="Right" Grid.Column="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="AUTO" />
+            </Grid.ColumnDefinitions>
+
+            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/Proveedor.Nombre, Mode=OneWay}" labelContent="Proveedor:" isReadOnly="True" textAlignment="Left" isCurrency="False" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <StackPanel HorizontalAlignment="Right" Grid.Column="2">
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right"  />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

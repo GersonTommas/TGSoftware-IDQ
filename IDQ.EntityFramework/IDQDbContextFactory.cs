@@ -19,11 +19,10 @@ namespace IDQ.EntityFramework
             _ = Directory.CreateDirectory(dirPath);
 
             _ = options.UseSqlite("Data Source=" + dirPath + "\\UltraDatabase.db");
-
             _ = options.UseLazyLoadingProxies();
+
             new IDQDbContext(options.Options).Database.Migrate();
             IDQDbContext _context = new IDQDbContext(options.Options);
-            //_context.Database.Migrate();
 
             return _context;
         }

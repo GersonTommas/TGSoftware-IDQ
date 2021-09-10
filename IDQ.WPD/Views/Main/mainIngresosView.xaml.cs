@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IDQ.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,19 @@ namespace IDQ.WPF.Views.Main
         public mainIngresosView()
         {
             InitializeComponent();
+        }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (e.Item is fechaModel item)
+            {
+                if (item.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd") | item.IngresosPerFecha.Count > 0)
+                { e.Accepted = true; }
+                else
+                {
+                    e.Accepted = false;
+                }
+            }
         }
     }
 }
