@@ -25,7 +25,7 @@ namespace IDQ.WPF.Controls
         public bool isCurrency { get => (bool)GetValue(isCurrencyProperty); set { SetValue(isCurrencyProperty, value); OnPropChanged(); } }
         public TextAlignment textAlignment { get => (TextAlignment)GetValue(textAlignmentProperty); set { SetValue(textAlignmentProperty, value); OnPropChanged(); } }
         public int inputType { get => (int)GetValue(inputTypeProperty); set { SetValue(inputTypeProperty, value); OnPropChanged(); } }
-        public bool isMaster { get => (bool)GetValue(isMasterProperty); set { SetValue(isMasterProperty, value); OnPropChanged(); _ = textBox.Focus(); } }
+        public bool isMaster { get => (bool)GetValue(isMasterProperty); set { SetValue(isMasterProperty, value); OnPropChanged(); SetValue(FocusManager.FocusedElementProperty, textBox); } }
         public bool selectAll { get => (bool)GetValue(selectAllProperty); set { SetValue(selectAllProperty, value); OnPropChanged(); if (value) { textBox.SelectAll(); selectAll = false; } } }
         public bool isLabelOn { get => (bool)GetValue(isLabelOnProperty); set { SetValue(isLabelOnProperty, value); OnPropChanged(); } }
         public bool isReadOnly { get => (bool)GetValue(isReadOnlyProperty); set { SetValue(isReadOnlyProperty, value); OnPropChanged(); } }
@@ -44,7 +44,7 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty isLabelOnProperty = DependencyProperty.Register("isLabelOn", typeof(bool), typeof(ctrlTextBox), new PropertyMetadata(true));
         public static readonly DependencyProperty isReadOnlyProperty = DependencyProperty.Register("isReadOnly", typeof(bool), typeof(ctrlTextBox), new PropertyMetadata(false));
         public static readonly DependencyProperty enterCommandProperty = DependencyProperty.Register("enterCommand", typeof(Command), typeof(ctrlTextBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty textWithdProperty = DependencyProperty.Register("textWidth", typeof(int), typeof(ctrlTextBox), new PropertyMetadata(80));
+        public static readonly DependencyProperty textWithdProperty = DependencyProperty.Register("textWidth", typeof(int), typeof(ctrlTextBox), new PropertyMetadata(70));
 
 
         readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();

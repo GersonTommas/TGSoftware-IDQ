@@ -34,6 +34,7 @@ namespace IDQ.Domain.Models
 
         #region Navigation
         public virtual ICollection<cajaModel> CajasPerVentaProducto { get; private set; } = new ObservableCollection<cajaModel>();
+        public virtual ICollection<deudorPagoModel> deudorPagosPerVentaProducto { get; private set; } = new ObservableCollection<deudorPagoModel>();
         #endregion // Navigation
 
 

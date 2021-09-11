@@ -8,6 +8,9 @@ namespace IDQ.EntityFramework.Updates
 {
     public class xUpdateService
     {
-        public static void xDoUpdate() { }
+        public static void xDoUpdate()
+        {
+            Update016000.xDoUpdate();
+        }
     }
 }

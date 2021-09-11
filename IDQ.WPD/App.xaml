@@ -29,41 +29,69 @@
             </DataTemplate>
             <!--#endregion Blank-->
 
+            <!--#region Views-->
+            <DataTemplate DataType="{x:Type viewmodels:ComprasViewModel}">
+                <views:ComprasView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ConsumosViewModel}">
+                <views:ConsumosView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:MainViewModel}">
+                <views:MainView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:VentasViewModel}">
+                <views:VentasView/>
+            </DataTemplate>
+            <!--#endregion Views-->
+            
             <!--#region Main-->
             <!--Main-Base-->
+            <DataTemplate DataType="{x:Type viewmodelsmain:mainDeudoresViewModel}">
+                <viewsmain:mainDeudoresView/>
+            </DataTemplate>
+            
             <DataTemplate DataType="{x:Type viewmodelsmain:mainIngresosViewModel}">
                 <viewsmain:mainIngresosView/>
             </DataTemplate>
-
+            
+            <DataTemplate DataType="{x:Type viewmodelsmain:mainProductosViewModel}">
+                <viewsmain:mainProductosView/>
+            </DataTemplate>
+            
             <DataTemplate DataType="{x:Type viewmodelsmain:mainVentasViewModel}">
                 <viewsmain:mainVentasView/>
             </DataTemplate>
+            
             <!--Main-Productos-->
-            <DataTemplate DataType="{x:Type viewmodelsproductos:productosBasicViewModel}">
-                <viewsproductos:productosBasicView/>
-            </DataTemplate>
-
             <DataTemplate DataType="{x:Type viewmodelsproductos:productosAdvancedViewModel}">
                 <viewsproductos:productosAdvancedView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodelsproductos:productosBasicViewModel}">
+                <viewsproductos:productosBasicView/>
+            </DataTemplate>
             <!--#endregion Main-->
-            
-            
+
+
             <!--#region Helpers-->
-            <DataTemplate DataType="{x:Type viewModelsHelper:productoNewEditViewModel}">
-                <viewsHelper:productoNewEditView/>
+            <DataTemplate DataType="{x:Type viewModelsHelper:abrirBolsaViewModel}">
+                <viewsHelper:abrirBolsaView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelsHelper:tagNewEditViewModel}">
-                <viewsHelper:tagNewEditView/>
-            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModelsHelper:medidaNewEditViewModel}">
                 <viewsHelper:medidaNewEditView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModelsHelper:productoNewEditViewModel}">
+                <viewsHelper:productoNewEditView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModelsHelper:stockEditViewModel}">
                 <viewsHelper:stockEditView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelsHelper:abrirBolsaViewModel}">
-                <viewsHelper:abrirBolsaView/>
+            
+            <DataTemplate DataType="{x:Type viewModelsHelper:tagNewEditViewModel}">
+                <viewsHelper:tagNewEditView/>
             </DataTemplate>
             <!--#endregion Helpers-->
             

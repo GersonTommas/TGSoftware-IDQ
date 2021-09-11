@@ -9,7 +9,7 @@ namespace IDQ.Domain.Models
     public class deudorModel : Base.ModelBase
     {
         #region Private
-        int _Nivel; Double _Resto; string _Nombre, _Detalles; usuarioModel _Usuario;
+        int _Nivel; Double _Resto, _DeudaTotal; string _Nombre, _Detalles; usuarioModel _Usuario;
         #endregion // Private
 
         #region Public
@@ -27,7 +27,7 @@ namespace IDQ.Domain.Models
         #region Navigation
         public virtual ICollection<ventaModel> VentasPerDeudor { get; private set; } = new ObservableCollection<ventaModel>();
         public virtual ICollection<ventaProductoModel> VentaProductosPerDeudor { get; private set; } = new ObservableCollection<ventaProductoModel>();
-        //public virtual ICollection<DBDeudorPagoClass> DeudorPagosPerDeudor { get; private set; } = new ObservableCollection<DBDeudorPagoClass>();
+        public virtual ICollection<deudorPagoModel> DeudorPagosPerDeudor { get; private set; } = new ObservableCollection<deudorPagoModel>();
         #endregion // Navigation
 
         #region NotMapped

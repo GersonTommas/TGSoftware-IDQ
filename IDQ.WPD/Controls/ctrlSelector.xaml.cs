@@ -56,7 +56,7 @@ namespace IDQ.WPF.Controls
         public void setInitialize(ctrlSelector tempControl)
         {
             initilizeSearchTimer(); thisControl = tempControl;
-            selectorListProductosSource.Source = context.globalDb.productos.Local.ToObservableCollection();
+            selectorListProductosSource.Source = context.globalAllProductos;
             OnPropChanged(nameof(selectorListProductos));
 
 

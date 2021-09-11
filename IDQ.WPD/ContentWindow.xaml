@@ -7,37 +7,22 @@
         xmlns:views="clr-namespace:IDQ.WPF.Views"
         xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="ContentWindow" Height="600" Width="800" Padding="0" Margin="0" Background="{StaticResource Brush.Window.Upper.Background.Dark}">
+        Title="IDQ - TgSoftware" Height="600" Width="800" Padding="0" Margin="0" Background="{StaticResource Brush.Navigation.Background.Normal}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.DataContext>
+        <local:ContentViewModel/>
+    </Window.DataContext>
 
-    <TabControl Padding="0" Margin="0" Template="{DynamicResource verticalTabControlTemplate}" BorderThickness="0" Background="{StaticResource Brush.Window.Upper.Background.Dark}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TabControl.ItemContainerStyle>
-            <Style TargetType="TabItem">
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Background" Value="{StaticResource Brush.Window.Inner.Background.Soft}"/>
-                <Setter Property="LayoutTransform">
-                    <Setter.Value>
-                        <RotateTransform Angle="270" />
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="{StaticResource Brush.Window.Upper.Background.Dark}"/>
-                    </Trigger>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{StaticResource Brush.Navigation.Background.Selected}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </TabControl.ItemContainerStyle>
-        <TabItem Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Options">
+    <TabControl TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False">
+        <TabItem Header="Options">
             
         </TabItem>
         
-        <TabItem IsSelected="True" Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Principal">
-            <views:MainView />
+        <TabItem IsSelected="True" Header="Principal">
+            <ContentControl Content="{Binding mainNavigator.CurrentViewModel}"/>
         </TabItem>
-        <TabItem Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Venta">
-            <TabControl Template="{StaticResource verticalTabControlTemplate}" BorderThickness="0" Background="{StaticResource Brush.Window.Upper.Background.Dark}">
+        
+        <TabItem Header="Venta">
+            <TabControl>
                 <TabItem Header="Venta 1">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -51,17 +36,17 @@
                 </TabItem>
             </TabControl>
         </TabItem>
-        <TabItem Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Ingreso">
+        <TabItem Header="Ingreso">
 
         </TabItem>
         <TabItem Header="Consumos">
-            <views:ConsumosView />
+            <ContentControl Content="{Binding consumosNavigator.CurrentViewModel}"/>
         </TabItem>
         
-        <TabItem Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Cuentas">
+        <TabItem Header="Cuentas">
 
         </TabItem>
-        <TabItem Template="{StaticResource verticalTabControlTabItemTemplate}" Header="Cerrar Sesion">
+        <TabItem Header="Cerrar Sesion">
 
         </TabItem>
     </TabControl>

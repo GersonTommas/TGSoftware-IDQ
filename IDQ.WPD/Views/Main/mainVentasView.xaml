@@ -10,9 +10,9 @@
              xmlns:vm="clr-namespace:IDQ.WPF.ViewModels.Main"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
+    <d:UserControl.DataContext>
         <vm:mainVentasViewModel />
-    </UserControl.DataContext>
+    </d:UserControl.DataContext>
     <UserControl.Resources>
         <CollectionViewSource x:Key="collectionViewSourceFechas" Source="{Binding sourceCollectionFechas}" Filter="CollectionViewSource_Filter" IsLiveSortingRequested="True">
             <CollectionViewSource.SortDescriptions>
@@ -38,16 +38,18 @@
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
 
-        <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" IsTabStop="True" />
+        
 
         <Grid Grid.Row="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
 
+            <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" Focusable="True" Grid.Row="0" />
 
-            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceHoras}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True">
+            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceHoras}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True" Grid.Row="1" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="AUTO">
                         <DataGridTemplateColumn.CellTemplate>
@@ -78,16 +80,14 @@
             </DataGrid>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
                 <Label Content="Ventas: " />
-                <ctrls:ctrlTextBox text="{Binding doubleVentasDiariasPesos, Mode=OneWay}" labelContent="{Binding ventasSelectedFecha.TotalCantidadVentasDiario, Mode=OneWay}" isReadOnly="True" Width="70" VerticalAlignment="Top" />
-                <Label Content="{Binding doubleVentasDiariasPesos}" />
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalPesosVentasDiario, Mode=OneWay}" labelContent="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalCantidadVentasDiario, Mode=OneWay}" isReadOnly="True" VerticalAlignment="Top" />
             </StackPanel>
         </Grid>
 
         <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProductos}, Mode=OneWay}" Grid.Column="1" Grid.RowSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="70" Header="Código" Binding="{Binding Producto.Codigo}" Visibility="Collapsed"/>
                 <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Producto.Descripcion}"/>
                 <DataGridTemplateColumn MinWidth="90" Width="auto" Header="Precio Venta U.">
                     <DataGridTemplateColumn.CellTemplate>

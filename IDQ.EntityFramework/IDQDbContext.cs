@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace IDQ.EntityFramework
         public DbSet<cajaModel> caja { get; set; }
         public DbSet<consumoProductoModel> consumosProductos { get; set; }
         public DbSet<deudorModel> deudores { get; set; }
+        public DbSet<deudorPagoModel> deudorPagos { get; set; }
         public DbSet<fechaModel> fechas { get; set; }
         public DbSet<ingresoProductoModel> ingresoProductos { get; set; }
         public DbSet<ingresoModel> ingresos { get; set; }
@@ -46,10 +48,16 @@ namespace IDQ.EntityFramework
     {
         public static IDQDbContext globalDb = new IDQDbContextFactory().CreateDbContext();
         public static cajaModel globalCajaActual;
+        public static ObservableCollection<usuarioModel> globalAllUsuarios;
+        public static ObservableCollection<productoModel> globalAllProductos;
+        public static ObservableCollection<tagModel> globalAllTags;
+        public static ObservableCollection<medidaModel> globalAllMedidas;
+        public static ObservableCollection<fechaModel> globalAllFechas;
+        public static ObservableCollection<deudorModel> globalAllDeudores;
 
-
-        public static void InitializeDatabase()
+        public context()
         {
+            /*
             IDQDbContextFactory _contextFactory;
             _contextFactory = new IDQDbContextFactory();
 
@@ -76,6 +84,50 @@ namespace IDQ.EntityFramework
             globalDb.ventas.LoadAsync();
 
             globalCajaActual = globalDb.caja.Local.Single(x => x.Id == 1);
+            globalAllUsuarios = globalDb.usuarios.Local.ToObservableCollection();
+            globalAllProductos = globalDb.productos.Local.ToObservableCollection();
+            globalAllTags = globalDb.tags.Local.ToObservableCollection();
+            globalAllMedidas = globalDb.medidas.Local.ToObservableCollection();
+            globalAllFechas = globalDb.fechas.Local.ToObservableCollection();
+            globalAllDeudores = globalDb.deudores.Local.ToObservableCollection();
+            */
+        }
+
+        public static void InitializeDatabase()
+        {
+            IDQDbContextFactory _contextFactory;
+            _contextFactory = new IDQDbContextFactory();
+
+            globalDb = _contextFactory.CreateDbContext();
+
+            globalDb.abiertoProductos.LoadAsync();
+            globalDb.caja.LoadAsync();
+            globalDb.cajaConteos.LoadAsync();
+            globalDb.consumosProductos.LoadAsync();
+            globalDb.deudores.LoadAsync();
+            globalDb.deudorPagos.LoadAsync();
+            globalDb.fechas.LoadAsync();
+            globalDb.ingresos.LoadAsync();
+            globalDb.ingresoProductos.LoadAsync();
+            globalDb.medidas.LoadAsync();
+            globalDb.modificadoProductos.LoadAsync();
+            globalDb.productos.LoadAsync();
+            globalDb.proveedores.LoadAsync();
+            globalDb.retiros.LoadAsync();
+            globalDb.retiroMotivos.LoadAsync();
+            globalDb.sacadoProductos.LoadAsync();
+            globalDb.tags.LoadAsync();
+            globalDb.usuarios.LoadAsync();
+            globalDb.ventaProductos.LoadAsync();
+            globalDb.ventas.LoadAsync();
+
+            globalCajaActual = globalDb.caja.Local.Single(x => x.Id == 1);
+            globalAllUsuarios = globalDb.usuarios.Local.ToObservableCollection();
+            globalAllProductos = globalDb.productos.Local.ToObservableCollection();
+            globalAllTags = globalDb.tags.Local.ToObservableCollection();
+            globalAllMedidas = globalDb.medidas.Local.ToObservableCollection();
+            globalAllFechas = globalDb.fechas.Local.ToObservableCollection();
+            globalAllDeudores = globalDb.deudores.Local.ToObservableCollection();
         }
     }
 }

@@ -15,6 +15,6 @@ namespace IDQ.WPF.ViewModels.Main
     {
         public mainVentasViewModel() { }
 
-        public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalDb.fechas.Local.ToObservableCollection();
+        public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalAllFechas;
     }
 }

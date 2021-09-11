@@ -25,7 +25,7 @@ namespace IDQ.Domain.Models
         public virtual ICollection<modificadoProductoModel> ModificadosProductosPerFecha { get; private set; } = new ObservableCollection<modificadoProductoModel>();
         public virtual ICollection<abiertoProductoModel> AbiertoProductosPerFecha { get; private set; } = new ObservableCollection<abiertoProductoModel>();
         public virtual ICollection<retiroCajaModel> RetirosPerFecha { get; private set; } = new ObservableCollection<retiroCajaModel>();
-        //public virtual ICollection<DBDeudorPagoClass> DeudorPagosPerFecha { get; private set; } = new ObservableCollection<DBDeudorPagoClass>();
+        public virtual ICollection<deudorPagoModel> DeudorPagosPerFecha { get; private set; } = new ObservableCollection<deudorPagoModel>();
 
         public virtual ICollection<ventaProductoModel> VentaProductosPagadosPerFecha { get; private set; } = new ObservableCollection<ventaProductoModel>();
 
@@ -39,7 +39,7 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public int TotalCantidadVentasDiario => VentasPerFecha.Count;
         [NotMapped]
-        public Double TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.discardPrecioTotal);
+        public Double TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.PrecioTotal);
 
         [NotMapped]
         public int TotalCantidadConsumosDiario => ConsumosProductosPerFecha.Count;

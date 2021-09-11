@@ -18,7 +18,7 @@ namespace IDQ.WPF.ViewModels.Helpers
             newStockProducto.Producto = sentProducto; thisWindow = sentWindow;
         }
 
-        public ObservableCollection<usuarioModel> listUsersSource = context.globalDb.usuarios.Local.ToObservableCollection();
+        public ObservableCollection<usuarioModel> listUsersSource => context.globalAllUsuarios;
 
         modificadoProductoModel _newStockProducto;
         public modificadoProductoModel newStockProducto { get => _newStockProducto; set { if (SetProperty(ref _newStockProducto, value)) { OnPropertyChanged(); } } }

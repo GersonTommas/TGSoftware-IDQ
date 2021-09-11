@@ -28,6 +28,7 @@ namespace IDQ.Domain.Models
         #region Navigation
         public virtual ICollection<ventaProductoModel> VentaProductosPerCaja { get; private set; } = new ObservableCollection<ventaProductoModel>();
         public virtual ICollection<retiroCajaModel> RetirosCajaPerCaja { get; private set; } = new ObservableCollection<retiroCajaModel>();
+        public virtual ICollection<deudorPagoModel> DeudorPagosPerCaja { get; private set; } = new ObservableCollection<deudorPagoModel>();
         #endregion // Navigation
 
         #region Helpers
@@ -47,6 +48,8 @@ namespace IDQ.Domain.Models
         #region NotMapped
         [NotMapped]
         public Double doubleEfectivoTotal => CajaActual - Vuelto;
+        [NotMapped]
+        public Double doubleTotalTotal => CajaActual + MercadoPago - Vuelto;
         #endregion // NotMapped
 
         public override void updateModel()

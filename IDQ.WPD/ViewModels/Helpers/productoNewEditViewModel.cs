@@ -74,8 +74,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
 
-        public ObservableCollection<tagModel> sourceCollectionTags => context.globalDb.tags.Local.ToObservableCollection();
-        public ObservableCollection<medidaModel> sourceCollectionMedidas => context.globalDb.medidas.Local.ToObservableCollection();
+        public ObservableCollection<tagModel> sourceCollectionTags => context.globalAllTags;
+        public ObservableCollection<medidaModel> sourceCollectionMedidas => context.globalAllMedidas;
 
 
         public Command controlCommandNewTag => new Command(

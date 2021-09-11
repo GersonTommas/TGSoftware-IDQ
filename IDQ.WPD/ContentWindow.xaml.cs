@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IDQ.WPF.States.Navigators;
+using IDQ.WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,6 +31,18 @@ namespace IDQ.WPF
         {
             Properties.Settings.Default.Save();
             base.OnClosing(e);
+        }
+    }
+
+    public class ContentViewModel : Base.ViewModelBase
+    {
+        public INavigator mainNavigator { get; } = new Navigator();
+        public INavigator consumosNavigator { get; } = new Navigator();
+
+        public ContentViewModel()
+        {
+            mainNavigator.CurrentViewModel = new MainViewModel();
+            consumosNavigator.CurrentViewModel = new ConsumosViewModel();
         }
     }
 }

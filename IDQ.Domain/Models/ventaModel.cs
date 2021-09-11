@@ -15,7 +15,7 @@ namespace IDQ.Domain.Models
         #region Public
         public Double PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, value)) { OnPropertyChanged(); } } }
 
-        public int CajaId { get; set; }
+        public int? CajaId { get; set; }
         public virtual cajaModel Caja { get => _Caja; set { if (SetProperty(ref _Caja, value)) { OnPropertyChanged(); } } }
 
         public String Hora { get => _Hora; set { if (SetProperty(ref _Hora, Convert.ToDateTime(value).ToString("HH:mm:ss"))) { OnPropertyChanged(); } } }
@@ -32,11 +32,10 @@ namespace IDQ.Domain.Models
 
         #region Navigation
         public virtual ICollection<ventaProductoModel> VentaProductosPerVenta { get; private set; } = new ObservableCollection<ventaProductoModel>();
+        public virtual ICollection<deudorPagoModel> DeudaorPagosPerVenta { get; private set; } = new ObservableCollection<deudorPagoModel>();
         #endregion // Navigation
 
         #region NotMapped
-        [NotMapped]
-        public Double discardPrecioTotal => Math.Round(VentaProductosPerVenta.Sum(x => x.PrecioTotal), 2);
         [NotMapped]
         public int isVentaDeuda => VentaProductosPerVenta.All(x => x.isProductoDeuda == 0) ? 0 : VentaProductosPerVenta.All(x => x.isProductoDeuda == 2) ? 2 : 1;
         [NotMapped]
@@ -44,10 +43,5 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public Double DeudaTotalVenta => Math.Round(VentaProductosPerVenta.Sum(x => x.TotalFaltante), 2);
         #endregion // NotMapped
-
-        public override void updateModel()
-        {
-            OnPropertyChanged(nameof(discardPrecioTotal));
-        }
     }
 }

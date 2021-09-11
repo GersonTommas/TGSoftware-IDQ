@@ -13,6 +13,6 @@ namespace IDQ.WPF.ViewModels.Main
     {
         public mainIngresosViewModel() { }
 
-        public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalDb.fechas.Local.ToObservableCollection();
+        public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalAllFechas;
     }
 }
