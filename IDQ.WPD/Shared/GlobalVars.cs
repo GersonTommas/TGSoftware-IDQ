@@ -1,6 +1,7 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.EntityFramework.Services;
+using IDQ.WPF.States.Navigators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -22,6 +23,13 @@ namespace IDQ.WPF.Shared
         public static string strFecha => DateTime.Today.ToString(@"yyyy/MM/dd");
         public static string strHora => DateTime.Now.ToString(@"HH:mm:ss");
         public static usuarioModel usuarioLogueado;
+
+        public static INavigator upperNavigator { get; } = new Navigator();
+
+        public static void UpdateEditorSlider(Base.ViewModelBase sentObject)
+        {
+            ContentWindow.updateEditorSlider(sentObject);
+        }
 
         public static void nextTarget(object sender, bool reverse = false)
         {

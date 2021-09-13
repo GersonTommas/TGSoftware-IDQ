@@ -8,20 +8,30 @@ namespace IDQ.WPF.ViewModels.Helpers
 {
     public class stockEditViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public stockEditViewModel()
         {
             _newStockProducto = new modificadoProductoModel() { Fecha = Shared.GlobalVars.returnFecha() };
+        }
+
+        public stockEditViewModel(productoModel sentProducto)
+        {
+            newStockProducto.Producto = sentProducto;
         }
 
         public void setInitialize(productoModel sentProducto, Window sentWindow = null)
         {
             newStockProducto.Producto = sentProducto; thisWindow = sentWindow;
         }
+        #endregion // Initialize
 
+
+        #region Variables
         public ObservableCollection<usuarioModel> listUsersSource => context.globalAllUsuarios;
 
         modificadoProductoModel _newStockProducto;
         public modificadoProductoModel newStockProducto { get => _newStockProducto; set { if (SetProperty(ref _newStockProducto, value)) { OnPropertyChanged(); } } }
+        #endregion // Variables
 
 
         #region Helpers

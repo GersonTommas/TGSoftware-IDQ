@@ -8,7 +8,7 @@ namespace IDQ.Domain.Models
     public class cajaModel : Base.ModelBase
     {
         #region Private
-        Double _CajaActual, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja; ventaModel _VentaForCaja;
+        Double _CajaActual, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja, _CajaConteoCierreForCaja; ventaModel _VentaForCaja;
         #endregion // Private
 
         #region Public
@@ -21,8 +21,13 @@ namespace IDQ.Domain.Models
         public int FechaID { get; set; }
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
-        public virtual cajaConteoModel CajaConteoForCaja { get => _CajaConteoForCaja; set { if (SetProperty(ref _CajaConteoForCaja, value)) { OnPropertyChanged(); } } }
         public virtual ventaModel VentaForCaja { get => _VentaForCaja; set { if (SetProperty(ref _VentaForCaja, value)) { OnPropertyChanged(); } } }
+
+
+        [InverseProperty(nameof(cajaConteoModel.Caja))]
+        public virtual cajaConteoModel CajaConteoForCaja { get => _CajaConteoForCaja; set { if (SetProperty(ref _CajaConteoForCaja, value)) { OnPropertyChanged(); } } }
+        [InverseProperty(nameof(cajaConteoModel.CajaCierre))]
+        public virtual cajaConteoModel CajaConteoCierreForCaja { get => _CajaConteoCierreForCaja; set { if (SetProperty(ref _CajaConteoCierreForCaja, value)) { OnPropertyChanged(); } } }
         #endregion // Public
 
         #region Navigation

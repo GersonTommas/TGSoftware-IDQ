@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views"
-             xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d">
     <d:UserControl.DataContext>
-        <viewmodels:ConsumosViewModel />
+        <viewmodel:ConsumosViewModel />
     </d:UserControl.DataContext>
 
     <Grid>
@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="Consumo">
+            <GroupBox Header="Consumo" Grid.Column="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>

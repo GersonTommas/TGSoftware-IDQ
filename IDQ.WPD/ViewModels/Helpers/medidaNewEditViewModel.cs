@@ -1,19 +1,20 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IDQ.WPF.ViewModels.Helpers
 {
     public class medidaNewEditViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public INavigator Navigator { get; set; }
 
         public medidaNewEditViewModel() { }
+        public medidaNewEditViewModel(INavigator sentNavigator)
+        {
+            Navigator = sentNavigator;
+        }
 
         public void setInitialize(medidaModel sentMedida)
         {
@@ -29,8 +30,10 @@ namespace IDQ.WPF.ViewModels.Helpers
                 isEdit = true;
             }
         }
+        #endregion // Initialize
 
 
+        #region Variables
         bool _isEdit;
         public bool isEdit { get => _isEdit; set { if (SetProperty(ref _isEdit, value)) { OnPropertyChanged(); } } }
 
@@ -40,10 +43,11 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         medidaModel _newMedida = new medidaModel() { Activo = true };
         public medidaModel newMedida { get => _newMedida; set { if (SetProperty(ref _newMedida, value)) { OnPropertyChanged(); } } }
+        #endregion // Variables
 
 
-
-        void helperGuardar(object sentParameter)
+        #region Helpers
+        void helperGuardar()
         {
             medidaModel compareMedida = null;
             if (!string.IsNullOrWhiteSpace(newMedida.Medida)) { newMedida.Medida = newMedida.Medida.Trim(); }
@@ -75,10 +79,13 @@ namespace IDQ.WPF.ViewModels.Helpers
         }
 
         bool checkGuardar => !string.IsNullOrWhiteSpace(newMedida.Medida) && newMedida.Medida.Length > 0 && newMedida.Tipo > 0;
+        #endregion // Helpers
 
 
+        #region Commands
         public Command guardarCommand => new Command(
-            (object parameter) => helperGuardar(parameter),
+            (object parameter) => helperGuardar(),
             (object parameter) => checkGuardar);
+        #endregion // Commands
     }
 }

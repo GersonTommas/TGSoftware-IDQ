@@ -5,12 +5,15 @@
              xmlns:views="clr-namespace:IDQ.WPF.Views"
              xmlns:viewmodelsmain="clr-namespace:IDQ.WPF.ViewModels.Main"
              xmlns:viewsmain="clr-namespace:IDQ.WPF.Views.Main"
+             xmlns:viewmodelsdeudores="clr-namespace:IDQ.WPF.ViewModels.Main.Deudores"
+             xmlns:viewsdeudores="clr-namespace:IDQ.WPF.Views.Main.Deudores"
              xmlns:viewmodelsproductos="clr-namespace:IDQ.WPF.ViewModels.Main.Productos"
              xmlns:viewsproductos="clr-namespace:IDQ.WPF.Views.Main.Productos"
              xmlns:viewModelsHelper="clr-namespace:IDQ.WPF.ViewModels.Helpers"
              xmlns:viewsHelper="clr-namespace:IDQ.WPF.Views.Helpers"
              xmlns:local="clr-namespace:IDQ.WPF"
              xmlns:styles="clr-namespace:IDQ.WPF.Styles"
+             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              Startup="OnStartup">
     <Application.Resources>
         <ResourceDictionary>
@@ -22,6 +25,14 @@
                 <ResourceDictionary Source="/Styles/GenericStyles.xaml" />
                 <ResourceDictionary Source="/Styles/NavigationBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <!--#region Converters-->
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:NullToTrueComparerConverter x:Key="NullToTrueComparerConverter"/>
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
+            <!--#endregion Converters-->
+            
+            
 
             <!--#region Blank-->
             <DataTemplate DataType="{x:Type viewmodels:xBlankNavigatorViewModel}">
@@ -29,6 +40,17 @@
             </DataTemplate>
             <!--#endregion Blank-->
 
+            
+            <!--#region LogIn-->
+            <DataTemplate DataType="{x:Type local:LogInViewModel}">
+                <local:LogInView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:LogInCajaViewModel}">
+                <local:LogInCajaView/>
+            </DataTemplate>
+            <!--#endregion LogIn-->
+            
+            
             <!--#region Views-->
             <DataTemplate DataType="{x:Type viewmodels:ComprasViewModel}">
                 <views:ComprasView/>
@@ -43,6 +65,7 @@
                 <views:VentasView/>
             </DataTemplate>
             <!--#endregion Views-->
+            
             
             <!--#region Main-->
             <!--Main-Base-->
@@ -61,6 +84,16 @@
             <DataTemplate DataType="{x:Type viewmodelsmain:mainVentasViewModel}">
                 <viewsmain:mainVentasView/>
             </DataTemplate>
+
+            <!--Main-Deudores-->
+            <DataTemplate DataType="{x:Type viewmodelsdeudores:deudoresFechaViewModel}">
+                <viewsdeudores:deudoresFechaView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodelsdeudores:deudoresListaViewModel}">
+                <viewsdeudores:deudoresListaView/>
+            </DataTemplate>
+            
             
             <!--Main-Productos-->
             <DataTemplate DataType="{x:Type viewmodelsproductos:productosAdvancedViewModel}">

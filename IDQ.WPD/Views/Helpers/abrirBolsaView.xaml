@@ -16,6 +16,7 @@
         <KeyBinding Key="F1" Command="{Binding comGuardar}" />
         <KeyBinding Key="F4" Command="{Binding comSeleccionarProducto}" />
     </UserControl.InputBindings>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="AUTO" />
@@ -28,9 +29,9 @@
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
 
-        <Label Content="Desde:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Label Content="Desde:" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
 
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -50,13 +51,13 @@
             <ctrls:ctrlTextBox text="Paquete" labelContent="Medida:" isReadOnly="True" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="4" />
         </Grid>
 
-        <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Border BorderBrush="Gray" BorderThickness="0.5" Margin="5" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"/>
 
         <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Grid.Column="1" Grid.RowSpan="3" />
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Column="0" Grid.Row="2">
             <Label Content="Hacia:" HorizontalAlignment="Center" />
-            <Button Content="Producto" Command="{Binding comSeleccionarProducto}" VerticalAlignment="Bottom" Grid.Row="2"/>
+            <Button Content="Producto" Command="{Binding comSeleccionarProducto}" VerticalAlignment="Bottom" />
         </StackPanel>
 
 
@@ -69,6 +70,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            
             <ctrls:ctrlTextBox text="{Binding newConversion.ProductoAgregado.Codigo, Mode=OneWay}" labelContent="Código:" isReadOnly="True" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="0" />
 
             <ctrls:ctrlTextBox text="{Binding newConversion.ProductoAgregado.Descripcion, Mode=OneWay}" labelContent="Descripción:" isReadOnly="True" isCurrency="False" isHeaderTop="True" textAlignment="Left" Grid.Column="1" />

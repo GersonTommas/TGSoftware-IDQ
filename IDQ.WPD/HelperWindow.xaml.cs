@@ -2,19 +2,7 @@
 using IDQ.WPF.Enumerators;
 using IDQ.WPF.States.Navigators;
 using IDQ.WPF.ViewModels.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace IDQ.WPF
 {
@@ -23,6 +11,7 @@ namespace IDQ.WPF
     /// </summary>
     public partial class HelperWindow : Window
     {
+        #region Initialize
         public HelperWindow(ProductosEnum sentEnum, productoModel sentProducto = null)
         {
             InitializeComponent(); HelperWindowViewModel dtContext = DataContext as HelperWindowViewModel; dtContext.setInitialize(this);
@@ -40,12 +29,15 @@ namespace IDQ.WPF
                 }
             }
         }
+        #endregion // Initialize
     }
+
+
 
     class HelperWindowViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public INavigator Navigator { get; set; } = new Navigator();
-
 
         public HelperWindowViewModel() { }
 
@@ -70,7 +62,11 @@ namespace IDQ.WPF
                 (Navigator.CurrentViewModel as productoNewEditViewModel).setInitialize(sentProducto, thisWindow);
             }
         }
+        #endregion // Initialize
 
+
+        #region Commands
         public Command cancelCommand => new Command((object parameter) => thisWindow.DialogResult = false);
+        #endregion // Commands
     }
 }

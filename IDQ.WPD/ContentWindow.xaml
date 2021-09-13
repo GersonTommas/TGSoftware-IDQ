@@ -5,49 +5,141 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IDQ.WPF"
         xmlns:views="clr-namespace:IDQ.WPF.Views"
-        xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels"
+        xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
         mc:Ignorable="d"
         Title="IDQ - TgSoftware" Height="600" Width="800" Padding="0" Margin="0" Background="{StaticResource Brush.Navigation.Background.Normal}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.DataContext>
         <local:ContentViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Storyboard x:Key="storyHeightShow">
+            <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="100" Duration="0:0:2" AutoReverse="False"/>
+        </Storyboard>
+        <Storyboard x:Key="storyHeightHide">
+            <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="100" To="0" Duration="0:0:2" AutoReverse="False"/>
+        </Storyboard>
+        <Storyboard x:Key="storyWidthShow">
+            <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="0" To="100" Duration="0:0:2" AutoReverse="False"/>
+        </Storyboard>
+        <Storyboard x:Key="storyWithHide">
+            <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="100" To="0" Duration="0:0:2" AutoReverse="False"/>
+        </Storyboard>
+    </Window.Resources>
+    
 
-    <TabControl TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False">
-        <TabItem Header="Options">
-            
-        </TabItem>
-        
-        <TabItem IsSelected="True" Header="Principal">
-            <ContentControl Content="{Binding mainNavigator.CurrentViewModel}"/>
-        </TabItem>
-        
-        <TabItem Header="Venta">
-            <TabControl>
-                <TabItem Header="Venta 1">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="0" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <views:VentasView Grid.Column="0" />
-                        
-                    </Grid>
-                </TabItem>
-            </TabControl>
-        </TabItem>
-        <TabItem Header="Ingreso">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        </TabItem>
-        <TabItem Header="Consumos">
-            <ContentControl Content="{Binding consumosNavigator.CurrentViewModel}"/>
-        </TabItem>
-        
-        <TabItem Header="Cuentas">
+        <Grid VerticalAlignment="Center" Background="{StaticResource Brush.Window.Upper.Background.Dark}" RenderOptions.EdgeMode="Aliased" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
 
-        </TabItem>
-        <TabItem Header="Cerrar Sesion">
+            <ContentControl IsEnabled="{Binding testIsEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
+                            <Style TargetType="GroupBox" BasedOn="{StaticResource NavGroupBox}"/>
+                            <Style TargetType="Label" BasedOn="{StaticResource NavigationLabel}"/>
+                        </ResourceDictionary>
+                    </Grid.Resources>
 
-        </TabItem>
-    </TabControl>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Test" Click="Button_Click"/>
+                            <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <ctrls:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
+                            <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
+                        <GroupBox Header="Acciones">
+                            <StackPanel Orientation="Horizontal" >
+                                <Button Content="Venta" Command="{Binding comVenta}"/>
+                                <Button Content="Ingreso" Command="{Binding comIngreso}"/>
+                                <Button Content="Consumo" Command="{Binding comConsumir}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
+                    </StackPanel>
+                </Grid>
+            </ContentControl>
+
+            <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}">
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="MaxHeight" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Panel.ZIndex" Value="1000"/>
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding testIsEnabled}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource storyHeightHide}"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <ContentControl  Content="{Binding upperNavigator.CurrentViewModel}" IsEnabled="{Binding testIsEnabled}"/>
+            </Grid>
+        </Grid>
+
+        <TabControl IsEnabled="{Binding testIsEnabled, Converter={StaticResource InvertBoolConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+            <TabItem Header="Opciones">
+
+            </TabItem>
+
+            <TabItem IsSelected="True" Header="Principal">
+                <ContentControl Content="{Binding mainNavigator.CurrentViewModel}"/>
+            </TabItem>
+
+            <TabItem Header="Venta">
+                <TabControl>
+                    <TabItem Header="Venta 1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0" />
+                            </Grid.ColumnDefinitions>
+
+                            <views:VentasView Grid.Column="0" />
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Ingreso">
+
+            </TabItem>
+            <TabItem Header="Consumos">
+                <ContentControl Content="{Binding consumosNavigator.CurrentViewModel}"/>
+            </TabItem>
+
+            <TabItem Header="Cuentas">
+
+            </TabItem>
+            <TabItem Header="Cerrar Sesion">
+
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

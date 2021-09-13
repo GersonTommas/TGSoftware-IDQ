@@ -10,11 +10,12 @@ namespace IDQ.WPF.Controls
     /// </summary>
     public partial class ctrlInfoColors : UserControl, INotifyPropertyChanged
     {
-        public ctrlInfoColors()
-        {
-            InitializeComponent();
-        }
+        #region Initialize
+        public ctrlInfoColors() { InitializeComponent(); }
+        #endregion // Initialize
 
+
+        #region Properties
         public bool hasAgregado { get => (bool)GetValue(hasAgregadoProperty); set { SetValue(hasAgregadoProperty, value); OnPropChanged(); } }
         public bool hasMiddleColors { get => (bool)GetValue(hasMiddleColorsProperty); set { SetValue(hasMiddleColorsProperty, value); OnPropChanged(); } }
         public bool hasActivoInactivo { get => (bool)GetValue(hasActivoInactivoProperty); set { SetValue(hasActivoInactivoProperty, value); OnPropChanged(); } }
@@ -29,11 +30,12 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty hasStockProperty = DependencyProperty.Register("hasStock", typeof(bool), typeof(ctrlInfoColors), new PropertyMetadata(true));
         public static readonly DependencyProperty isActivoFullLineProperty = DependencyProperty.Register("isActivoFullLine", typeof(bool), typeof(ctrlInfoColors), new PropertyMetadata(true));
         public static readonly DependencyProperty hasActiveAndStockProperty = DependencyProperty.Register("hasActiveAndStock", typeof(bool), typeof(ctrlInfoColors), new PropertyMetadata(false));
+        #endregion // Properties
 
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        protected void OnPropChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion // PropertyChanged
     }
 }

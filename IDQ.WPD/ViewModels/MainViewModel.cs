@@ -8,6 +8,7 @@ namespace IDQ.WPF.ViewModels
 {
     public class MainViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public INavigator Navigator { get; set; } = new Navigator();
         public INavigator mainProductosNavigator { get; } = new Navigator();
         public INavigator mainVentasNavigator { get; } = new Navigator();
@@ -16,26 +17,22 @@ namespace IDQ.WPF.ViewModels
 
         public MainViewModel()
         {
-            initilizeClock();
-            Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Productos);
+            Navigator.CurrentViewModel = new mainProductosViewModel();
             mainProductosNavigator.CurrentViewModel = new mainProductosViewModel();
             mainVentasNavigator.CurrentViewModel = new mainVentasViewModel();
             mainIngresosNavigator.CurrentViewModel = new mainIngresosViewModel();
             mainDeudasNavigator.CurrentViewModel = new mainDeudoresViewModel();
         }
+        #endregion // Initialize
 
+
+        #region Variables
         public usuarioModel usuarioActivo => Shared.GlobalVars.usuarioLogueado;
         public cajaModel cajaActual => context.globalCajaActual;
+        #endregion // Variables
 
-        #region Clock
-        readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();
 
-        void initilizeClock() { Timer.Tick += new EventHandler(Timer_Click); Timer.Interval = new TimeSpan(0, 0, 1); Timer.Start(); }
-        void Timer_Click(object sender, EventArgs e) { OnPropertyChanged(nameof(strClock)); }
-
-        public string strClock => DateTime.Now.ToString(format: "HH:mm:ss");
-        #endregion // Clock
-
+        #region Commands
         public Command xComTest => new Command((object parameter) => { xTestWindow wTest = new xTestWindow(); wTest.Show(); });
 
         public static Command comTest => new((object parameter) =>
@@ -44,5 +41,6 @@ namespace IDQ.WPF.ViewModels
             _ = context.globalDb.SaveChanges();
 
         });
+        #endregion // Commands
     }
 }

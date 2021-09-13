@@ -4,19 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
-             x:Name="thisUserControl"
              mc:Ignorable="d"
-             d:Background="AliceBlue">
-    <UserControl.Resources>
-        <converters:BoolToVisibilityConverter x:Key="UCbolToVisConverter" />
-        <converters:InvertBoolToVisibilityConverter x:Key="UCInvbolToVisConverter" />
-    </UserControl.Resources>
+             x:Name="thisUserControl"
+             d:Background="Gray">
     
     <GroupBox Header="Info" VerticalAlignment="Bottom">
         <StackPanel>
-            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasActivoInactivo, Converter={StaticResource UCbolToVisConverter}}" Grid.Row="0">
-                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource UCbolToVisConverter}}">
+            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasActivoInactivo, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource BoolToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Fill="{StaticResource NoStockBackground}" Style="{StaticResource ColourRectangle}" />
                         <Label Content="Inactivo" />
@@ -28,7 +23,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource UCInvbolToVisConverter}}">
+                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                     <StackPanel Orientation="Horizontal">
                         <Border BorderThickness="2" BorderBrush="{StaticResource NoStockBackground}" Height="10" Width="10" Margin="5" />
                         <Label Content="Inactivo" />
@@ -41,15 +36,15 @@
                 </StackPanel>
             </StackPanel>
 
-            <Border BorderBrush="Gray" BorderThickness="0.5" Visibility="{Binding ElementName=thisUserControl, Path=hasActiveAndStock, Converter={StaticResource UCbolToVisConverter}}" />
+            <Border BorderBrush="Gray" BorderThickness="0.5" Visibility="{Binding ElementName=thisUserControl, Path=hasActiveAndStock, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasStock, Converter={StaticResource UCbolToVisConverter}}" Grid.Row="1">
+            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasStock, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Fill="{StaticResource NoStockBackground}" Style="{StaticResource ColourRectangle}" />
                     <Label Content="Sin Stock" />
                 </StackPanel>
 
-                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasMiddleColors, Converter={StaticResource UCbolToVisConverter}}">
+                <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasMiddleColors, Converter={StaticResource BoolToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Fill="{StaticResource LowStockBackground}" Style="{StaticResource ColourRectangle}" />
                         <Label Content="Bajo Stock" />
@@ -67,7 +62,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasAgregado, Converter={StaticResource UCbolToVisConverter}}">
+            <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasAgregado, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Border BorderBrush="Gray" BorderThickness="0.5" />
 
                 <StackPanel Orientation="Horizontal">

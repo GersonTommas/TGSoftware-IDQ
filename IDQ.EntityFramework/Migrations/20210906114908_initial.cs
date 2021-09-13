@@ -235,7 +235,7 @@ namespace IDQ.EntityFramework.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Diferencia = table.Column<double>(type: "REAL", nullable: false),
                     Detalle = table.Column<string>(type: "TEXT", nullable: true),
-                    Salida = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Abierto = table.Column<bool>(type: "INTEGER", nullable: false),
                     CajaID = table.Column<int>(type: "INTEGER", nullable: false),
                     UsuarioID = table.Column<int>(type: "INTEGER", nullable: false)
                 },

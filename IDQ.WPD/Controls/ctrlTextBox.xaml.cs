@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,11 +13,12 @@ namespace IDQ.WPF.Controls
     /// </summary>
     public partial class ctrlTextBox : UserControl
     {
-        public ctrlTextBox()
-        {
-            InitializeComponent();
-        }
+        #region Initialize
+        public ctrlTextBox() { InitializeComponent(); }
+        #endregion // Initialize
 
+
+        #region Properties
         public string labelContent { get => (string)GetValue(labelContentProperty); set { SetValue(labelContentProperty, value); OnPropChanged(); } }
         public string text { get => (string)GetValue(textProperty); set { SetValue(textProperty, value); OnPropChanged(); } }
         public bool isHeaderTop { get => (bool)GetValue(isHeaderTopProperty); set { SetValue(isHeaderTopProperty, value); OnPropChanged(); } }
@@ -45,17 +45,20 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty isReadOnlyProperty = DependencyProperty.Register("isReadOnly", typeof(bool), typeof(ctrlTextBox), new PropertyMetadata(false));
         public static readonly DependencyProperty enterCommandProperty = DependencyProperty.Register("enterCommand", typeof(Command), typeof(ctrlTextBox), new PropertyMetadata(null));
         public static readonly DependencyProperty textWithdProperty = DependencyProperty.Register("textWidth", typeof(int), typeof(ctrlTextBox), new PropertyMetadata(70));
+        #endregion // Properties
 
 
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        #endregion // Property Changed
+
+
+        #region TextBox
         readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();
-
         void initilizeClock() { Timer.Tick += new EventHandler(timer_Click); Timer.Interval = new TimeSpan(0, 0, 0, 0, 100); }
         void timer_Click(object sender, EventArgs e) { textBox.SelectAll(); Timer.Stop(); }
 
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
 
         void textBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -82,5 +85,6 @@ namespace IDQ.WPF.Controls
         {
             if (isMaster) { if (sender != null) { _ = (sender as TextBox).Focus(); (sender as TextBox).SelectAll(); initilizeClock(); Timer.Start(); } }
         }
+        #endregion // TextBox
     }
 }

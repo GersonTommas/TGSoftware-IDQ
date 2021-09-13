@@ -4,19 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
-             xmlns:vm="clr-namespace:IDQ.WPF.ViewModels.Main"
              x:Name="thisControl"
              mc:Ignorable="d"
              VerticalAlignment="Top" Margin="5">
-    <d:UserControl.DataContext>
-        <vm:mainProductosViewModel />
-    </d:UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        </ResourceDictionary>
-    </UserControl.Resources>
     
     <Border Padding="5" Style="{StaticResource CardBorderBackground}" BorderThickness="1" CornerRadius="10">
         <Grid>
@@ -35,6 +25,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                
                 <Label Style="{StaticResource CardPesosLabel}" Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="0"/>
                 <Label Content="{Binding ElementName=thisControl, Path=valueText}" Style="{StaticResource CardLabel}" HorizontalAlignment="Left" Grid.Column="1"/>
             </Grid>

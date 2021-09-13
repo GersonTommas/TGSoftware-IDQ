@@ -59,25 +59,59 @@ namespace IDQ.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CajaCierreID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CajaID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Detalle")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Diferencia")
+                    b.Property<double>("DiferenciaApertura")
                         .HasColumnType("REAL");
 
-                    b.Property<bool>("Salida")
+                    b.Property<double>("DiferenciaCierre")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("EfectivoApertura")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("EfectivoCierre")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("FechaAperturaID")
                         .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FechaCierreID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("HoraApertura")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HoraCierre")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("MercadoPagoApertura")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("MercadoPagoCierre")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CajaCierreID")
+                        .IsUnique();
+
                     b.HasIndex("CajaID")
                         .IsUnique();
+
+                    b.HasIndex("FechaAperturaID");
+
+                    b.HasIndex("FechaCierreID");
 
                     b.HasIndex("UsuarioID");
 
@@ -731,11 +765,25 @@ namespace IDQ.EntityFramework.Migrations
 
             modelBuilder.Entity("IDQ.Domain.Models.cajaConteoModel", b =>
                 {
+                    b.HasOne("IDQ.Domain.Models.cajaModel", "CajaCierre")
+                        .WithOne("CajaConteoCierreForCaja")
+                        .HasForeignKey("IDQ.Domain.Models.cajaConteoModel", "CajaCierreID");
+
                     b.HasOne("IDQ.Domain.Models.cajaModel", "Caja")
                         .WithOne("CajaConteoForCaja")
                         .HasForeignKey("IDQ.Domain.Models.cajaConteoModel", "CajaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("IDQ.Domain.Models.fechaModel", "FechaApertura")
+                        .WithMany("CajaConteosAperturaPerFecha")
+                        .HasForeignKey("FechaAperturaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IDQ.Domain.Models.fechaModel", "FechaCierre")
+                        .WithMany("CajaConteosCierrePerFecha")
+                        .HasForeignKey("FechaCierreID");
 
                     b.HasOne("IDQ.Domain.Models.usuarioModel", "Usuario")
                         .WithMany("CajaConteosPerUsuario")
@@ -744,6 +792,12 @@ namespace IDQ.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Caja");
+
+                    b.Navigation("CajaCierre");
+
+                    b.Navigation("FechaApertura");
+
+                    b.Navigation("FechaCierre");
 
                     b.Navigation("Usuario");
                 });
@@ -1105,6 +1159,8 @@ namespace IDQ.EntityFramework.Migrations
 
             modelBuilder.Entity("IDQ.Domain.Models.cajaModel", b =>
                 {
+                    b.Navigation("CajaConteoCierreForCaja");
+
                     b.Navigation("CajaConteoForCaja");
 
                     b.Navigation("DeudorPagosPerCaja");
@@ -1126,6 +1182,10 @@ namespace IDQ.EntityFramework.Migrations
             modelBuilder.Entity("IDQ.Domain.Models.fechaModel", b =>
                 {
                     b.Navigation("AbiertoProductosPerFecha");
+
+                    b.Navigation("CajaConteosAperturaPerFecha");
+
+                    b.Navigation("CajaConteosCierrePerFecha");
 
                     b.Navigation("CajasPerFecha");
 

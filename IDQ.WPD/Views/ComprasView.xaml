@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <d:UserControl.DataContext>
+        <viewmodel:ComprasViewModel/>
+    </d:UserControl.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,7 +25,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ctrls:ctrlInfoShortcuts hasGuardar="True" hasAgregar="True" hasCancelar="True"/>
+            <ctrls:ctrlInfoShortcuts hasGuardar="True" hasAgregar="True" hasCancelar="True" Grid.Row="0" />
 
         </Grid>
         

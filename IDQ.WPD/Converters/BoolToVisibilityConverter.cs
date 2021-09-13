@@ -10,7 +10,10 @@ namespace IDQ.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            string tempString = (string)parameter;
+            return !string.IsNullOrWhiteSpace(tempString) ?
+                tempString.ToLower() == "true" ? (bool)value ? Visibility.Collapsed : Visibility.Visible : (object)((bool)value ? Visibility.Visible : Visibility.Collapsed)
+                : (bool)value ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) { throw new NotSupportedException(); }

@@ -7,21 +7,33 @@
     <Color x:Key="Color.WindowInner.Background.Soft">#f7d9f0</Color>
     <Color x:Key="Color.WindowInner.Foreground.Soft">#A6A867</Color>
     
+    
     <Color x:Key="Color.Navigation.Background.Normal">#cec3f9</Color>
     <Color x:Key="Color.Navigation.Background.Highlight">#b39eff</Color>
     <Color x:Key="Color.Navigation.Background.Selected">#806ac8</Color>
     <Color x:Key="Color.Navigation.Foreground">#232323</Color>
 
+    
     <Color x:Key="Color.Button.Background.Normal">#6a8c69</Color>
     <Color x:Key="Color.Button.Background.Highlight">#87b686</Color>
     <Color x:Key="Color.Button.Background.Pressed">#4b684b</Color>
     <Color x:Key="Color.Button.Foreground">#b5a1a1</Color>
+
+
+    <Color x:Key="Color.ComboBox.Background.Normal">#181818</Color>
+    <Color x:Key="Color.ComboBox.Background.DropDown">#4b684b</Color>
+    <Color x:Key="Color.ComboBox.Background.ButtonNormal">#8ba2a2</Color>
+    <Color x:Key="Color.ComboBox.Background.ButtonMouseOver">#87b686</Color>
+    <Color x:Key="Color.ComboBox.Background.ButtonIsSelected">#4b684b</Color>
+    <Color x:Key="Color.ComboBox.Foreground">#E3DC95</Color>
+    
 
     <Color x:Key="Color.Grid.Background.Header">#9DB4C0</Color>
     <Color x:Key="Color.Grid.Foregound.Header">#181818</Color>
     <Color x:Key="Color.Grid.Background.Normal">#E0FBFC</Color>
     <Color x:Key="Color.Grid.Foregound">#181818</Color>
 
+    
     <Color x:Key="Color.TextBox.Background.Dark">#A6A867</Color>
     <Color x:Key="Color.TextBox.Foreground.Dark">#A6A867</Color>
     <Color x:Key="Color.TextBox.Background.Light">#A6A867</Color>

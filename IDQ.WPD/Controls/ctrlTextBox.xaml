@@ -4,13 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              x:Name="thisControl"
              mc:Ignorable="d" Margin="3,0" VerticalAlignment="Center">
-    <UserControl.Resources>
-        <converters:BoolToVisibilityConverter x:Key="boltuVis" />
-        <converters:InvertBoolToVisibilityConverter x:Key="InvertBoltuVis" />
-    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="AUTO"/>
@@ -20,23 +16,24 @@
             <RowDefinition Height="AUTO" />
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
-        <Grid Visibility="{Binding Path=isLabelOn, ElementName=thisControl, Converter={StaticResource boltuVis}}" Grid.Row="1">
-            
+        
+        <Grid Visibility="{Binding Path=isLabelOn, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="1">
             <Label VerticalAlignment="Center" Focusable="False" IsTabStop="False" Grid.Row="1"
                    Content="{Binding Path=labelContent, ElementName=thisControl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                   Visibility="{Binding ElementName=thisControl, Path=isHeaderTop, Converter={StaticResource InvertBoltuVis}}"/>
+                   Visibility="{Binding ElementName=thisControl, Path=isHeaderTop, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
         </Grid>
 
-        <Grid Visibility="{Binding Path=isLabelOn, ElementName=thisControl, Converter={StaticResource boltuVis}}" Grid.Column="1">
+        <Grid Visibility="{Binding Path=isLabelOn, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="1">
             <Label HorizontalAlignment="Center" Focusable="False" IsTabStop="False" Grid.Column="1"
                    Content="{Binding Path=labelContent, ElementName=thisControl}"
-                   Visibility="{Binding Path=isHeaderTop, ElementName=thisControl, Converter={StaticResource boltuVis}}"/>
+                   Visibility="{Binding Path=isHeaderTop, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </Grid>
+        
         <TextBox x:Name="textBox" AcceptsReturn="False" VerticalAlignment="Center" GotKeyboardFocus="textBox_GotKeyboardFocus" PreviewTextInput="textBox_PreviewTextInput" Loaded="textBox_Loaded" Margin="0" Grid.Column="1" Grid.Row="1"
                  Text="{Binding Path=text, ElementName=thisControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="{Binding ElementName=thisControl, Path=textWidth}"
                  TextAlignment="{Binding ElementName=thisControl, Path=textAlignment}"
-                 Visibility="{Binding Path=isReadOnly, ElementName=thisControl, Converter={StaticResource InvertBoltuVis}}">
+                 Visibility="{Binding Path=isReadOnly, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
             <TextBox.InputBindings>
                 <KeyBinding Key="Return" Command="{Binding ElementName=thisControl, Path=enterCommand}" CommandParameter="{Binding ElementName=textBox}" />
             </TextBox.InputBindings>
@@ -49,7 +46,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}">
                         <Grid Focusable="False">
                             <TextBlock Text="$" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                       Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource boltuVis}}"/>
+                                       Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" IsTabStop="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Grid>
                     </Border>
@@ -67,20 +64,21 @@
                 </ControlTemplate>
             </TextBox.Template>
         </TextBox>
+        
         <Border Background="{StaticResource Brush.TextBox.Background.Dark}" VerticalAlignment="Center" BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Focusable="False" IsEnabled="False" Grid.Column="1" Grid.Row="1"
-                Visibility="{Binding Path=isReadOnly, ElementName=thisControl, Converter={StaticResource boltuVis}}">
+                Visibility="{Binding Path=isReadOnly, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="AUTO" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="$" Foreground="{StaticResource Brush.TextBox.Foreground.Dark}" Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource boltuVis}}" />
+                <TextBlock Text="$" Foreground="{StaticResource Brush.TextBox.Foreground.Dark}" Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <TextBlock Margin="0" Grid.Column="1"
                            Text="{Binding Path=text, ElementName=thisControl, Mode=OneWay}"
                            MinWidth="{Binding ElementName=thisControl, Path=textWidth}"
                            TextAlignment="{Binding ElementName=thisControl, Path=textAlignment}"
-                           Foreground="{Binding Brush.TextBox.Foreground.Dark}"/>
+                           Foreground="{StaticResource Brush.TextBox.Foreground.Dark}"/>
             </Grid>
         </Border>
     </Grid>

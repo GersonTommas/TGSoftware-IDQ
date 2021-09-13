@@ -29,6 +29,7 @@ namespace IDQ.WPF.States.Navigators
 
         public void Execute(object parameter)
         {
+            /*
             if (parameter is ViewType viewType)
             {
                 switch (viewType)
@@ -78,7 +79,7 @@ namespace IDQ.WPF.States.Navigators
                     case ProductosEnum.Open:
                         break;
                 }
-            }
+            }*/
         }
     }
 }

@@ -1,19 +1,6 @@
 ﻿using IDQ.Domain.Models;
-using IDQ.WPF.ViewModels.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IDQ.WPF.Views.Helpers
 {
@@ -22,11 +9,12 @@ namespace IDQ.WPF.Views.Helpers
     /// </summary>
     public partial class productoNewEditView : UserControl
     {
-        public productoNewEditView()
-        {
-            InitializeComponent();
-        }
+        #region Initialize
+        public productoNewEditView() { InitializeComponent(); }
+        #endregion // Initialize
 
+
+        #region Filters
         void CollectionViewSourceTags_Filter(object sender, FilterEventArgs e)
         {
             if (e.Item is tagModel item)
@@ -42,5 +30,6 @@ namespace IDQ.WPF.Views.Helpers
                 e.Accepted = item.Activo;
             }
         }
+        #endregion // Filters
     }
 }

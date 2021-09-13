@@ -5,84 +5,78 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             xmlns:VM="clr-namespace:IDQ.WPF.ViewModels"
-             xmlns:viewsMain="clr-namespace:IDQ.WPF.Views.Main"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <VM:MainViewModel />
+        <viewmodel:MainViewModel />
     </UserControl.DataContext>
 
-    <Grid>
-        <Grid Background="{StaticResource Brush.Window.Inner.Background.Soft}" Margin="0" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
-            <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}" RenderOptions.EdgeMode="Aliased" Grid.Row="0">
-                <Grid.Resources>
-                    <ResourceDictionary>
-                        <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
-                        <Style TargetType="GroupBox" BasedOn="{StaticResource NavGroupBox}"/>
-                        <Style TargetType="Label" BasedOn="{StaticResource NavigationLabel}"/>
-                    </ResourceDictionary>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+    <Grid Background="{StaticResource Brush.Window.Inner.Background.Soft}" Margin="0" Grid.Column="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}" RenderOptions.EdgeMode="Aliased" Grid.Row="0" Visibility="Collapsed">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource NavGroupBox}"/>
+                    <Style TargetType="Label" BasedOn="{StaticResource NavigationLabel}"/>
+                </ResourceDictionary>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <StackPanel Orientation="Horizontal">
-
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Test" Command="{Binding xComTest}" />
-                        <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
-                    </StackPanel>
-                    <StackPanel VerticalAlignment="Center">
-                        <ctrls:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
-                        <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
-                    </StackPanel>
+                    <Button Content="Test" Command="{Binding xComTest}" />
+                    <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
                 </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
-
-                    <GroupBox Header="Acciones">
-                        <StackPanel Orientation="Horizontal" >
-                            <Button Content="Venta" Command="{Binding comVenta}"/>
-                            <Button Content="Ingreso" Command="{Binding comIngreso}"/>
-                            <Button Content="Consumo" Command="{Binding comConsumir}" />
-                        </StackPanel>
-                    </GroupBox>
-
-                    <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
-                    <GroupBox Visibility="Collapsed">
-                        <Label Content="{Binding strClock}" FontSize="30" />
-                    </GroupBox>
+                
+                <StackPanel VerticalAlignment="Center">
+                    <ctrls:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
+                    <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
                 </StackPanel>
-            </Grid>
+            </StackPanel>
 
-            <Grid Background="{StaticResource Brush.Navigation.Background.Normal}" Grid.Row="1">
-                <TabControl>
-                    <TabItem Header="Productos">
-                        <ContentControl Content="{Binding mainProductosNavigator.CurrentViewModel}"/>
-                    </TabItem>
-                    <TabItem Header="Ventas">
-                        <ContentControl Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
-                    </TabItem>
-                    <TabItem Header="Ingresos">
-                        <ContentControl Content="{Binding mainIngresosNavigator.CurrentViewModel}"/>
-                    </TabItem>
-                    <TabItem Header="Deudas">
-                        <ContentControl Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
-                    </TabItem>
-                </TabControl>
-            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
+                <GroupBox Header="Acciones">
+                    <StackPanel Orientation="Horizontal" >
+                        <Button Content="Venta" Command="{Binding comVenta}"/>
+                        <Button Content="Ingreso" Command="{Binding comIngreso}"/>
+                        <Button Content="Consumo" Command="{Binding comConsumir}" />
+                    </StackPanel>
+                </GroupBox>
 
-            <Button Content="Test" Command="{Binding comTest}" Grid.Row="2"/>
+                <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
+            </StackPanel>
         </Grid>
 
+        <Grid Background="{StaticResource Brush.Navigation.Background.Normal}" Grid.Row="1">
+            <TabControl>
+                <TabItem Header="Productos">
+                    <ContentControl Content="{Binding mainProductosNavigator.CurrentViewModel}"/>
+                </TabItem>
+                <TabItem Header="Ventas">
+                    <ContentControl Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
+                </TabItem>
+                <TabItem Header="Ingresos">
+                    <ContentControl Content="{Binding mainIngresosNavigator.CurrentViewModel}"/>
+                </TabItem>
+                <TabItem Header="Deudas">
+                    <ContentControl Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
+                </TabItem>
+            </TabControl>
+        </Grid>
 
+        <Button Content="Test" Command="{Binding comTest}" Grid.Row="2"/>
     </Grid>
 </UserControl>

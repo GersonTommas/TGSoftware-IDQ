@@ -1,6 +1,7 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
+using IDQ.WPF.ViewModels.Main.Productos;
 using System;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -9,13 +10,14 @@ namespace IDQ.WPF.ViewModels.Main
 {
     public class mainProductosViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public INavigator Navigator { get; set; } = new Navigator();
 
         public mainProductosViewModel()
         {
             try
             {
-                Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.ProductosBasic);
+                Navigator.CurrentViewModel = new productosBasicViewModel();
                 initilizeSearchTimer();
 
                 collectionAllProductos.Filter += delegate (object item)
@@ -40,6 +42,8 @@ namespace IDQ.WPF.ViewModels.Main
             }
             catch { }
         }
+        #endregion // Initialize
+
 
         #region Search
         readonly System.Windows.Threading.DispatcherTimer _searchTimer = new System.Windows.Threading.DispatcherTimer();
@@ -58,6 +62,8 @@ namespace IDQ.WPF.ViewModels.Main
         }
         #endregion // Search
 
+
+        #region Variables
         readonly CollectionViewSource collectionAllProductosSource = new CollectionViewSource() { Source = context.globalAllProductos };
         public ICollectionView collectionAllProductos => collectionAllProductosSource.View;
 
@@ -66,25 +72,10 @@ namespace IDQ.WPF.ViewModels.Main
         public bool buttonBoolVistas { get => _buttonBoolVistas; set { if (SetProperty(ref _buttonBoolVistas, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(buttonStringVistas)); swithchNavigator(); } } }
         public string buttonStringVistas => buttonBoolVistas ? "Basica" : "Avanzada";
 
-        void swithchNavigator()
-        {
-            if (buttonBoolVistas)
-            {
-                Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.ProductosAdvanced);
-            }
-            else
-            {
-                Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.ProductosBasic);
-            }
-        }
-
-        public Command buttonCommandVistas => new Command((object parameter) => { buttonBoolVistas = !buttonBoolVistas; });
-
 
         bool _buttonBoolBusqueda = true;
         public bool buttonBoolBusqueda { get => _buttonBoolBusqueda; set { if (SetProperty(ref _buttonBoolBusqueda, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(buttonStringBusqueda)); textBoxStringBusqueda = ""; searchTimerRestart(); } } }
         public string buttonStringBusqueda => buttonBoolBusqueda ? "Descripción" : "Codigo";
-        public Command buttonCommandBusqueda => new Command((object parameter) => { buttonBoolBusqueda = !buttonBoolBusqueda; });
 
 
         bool? _checkBoxBoolActive;
@@ -94,17 +85,30 @@ namespace IDQ.WPF.ViewModels.Main
 
         string _textBoxStringBusqueda;
         public string textBoxStringBusqueda { get => _textBoxStringBusqueda; set { if (SetProperty(ref _textBoxStringBusqueda, value)) { OnPropertyChanged(); searchTimerRestart(); } } }
+        #endregion // Variables
+
+
+        #region Helpers
+        void swithchNavigator()
+        {
+            Navigator.CurrentViewModel = buttonBoolVistas ? new productosAdvancedViewModel() : new productosBasicViewModel();
+        }
+        #endregion // Helpers
 
 
         #region Commands
-        public Command buttonCommandNewProducto => new Command((object parameter) => { HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.New); _ = hWindow.ShowDialog(); });
+        public Command buttonCommandVistas => new Command((object parameter) => { buttonBoolVistas = !buttonBoolVistas; });
+
+        public Command buttonCommandBusqueda => new Command((object parameter) => { Shared.GlobalVars.UpdateEditorSlider(null); });//buttonBoolBusqueda = !buttonBoolBusqueda; });
+
+        public Command buttonCommandNewProducto => new Command((object parameter) => { Shared.GlobalVars.UpdateEditorSlider(new Helpers.productoNewEditViewModel()); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.New); _ = hWindow.ShowDialog();*/ });
 
         public Command buttonCommandModificarStock => new Command(
             (object parameter) => { HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Stock, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog(); },
             (object parameter) => collectionAllProductos?.CurrentItem != null);
 
         public Command butttonCommandEditProducto => new Command(
-            (object parameter) => { HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Edit, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog(); },
+            (object parameter) => { Shared.GlobalVars.UpdateEditorSlider(new Helpers.productoNewEditViewModel(collectionAllProductos.CurrentItem as productoModel)); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Edit, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog();*/ },
             (object parameter) => collectionAllProductos?.CurrentItem != null);
         #endregion // Commands
     }

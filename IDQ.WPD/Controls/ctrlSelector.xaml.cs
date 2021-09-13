@@ -26,7 +26,7 @@ namespace IDQ.WPF.Controls
     {
         public ctrlSelector()
         {
-            InitializeComponent(); try { (FirstControl.DataContext as VMctrlSelector).setInitialize(this); } catch { }
+            InitializeComponent(); (DataContext as ctrlSelectorViewModel).thisControl = this;
         }
 
         public bool isOnlyOneProducto { get => (bool)GetValue(isOnlyOneProductoProperty); set { SetValue(isOnlyOneProductoProperty, value); OnPropChanged(); } }
@@ -48,14 +48,14 @@ namespace IDQ.WPF.Controls
 
 
 
-    class VMctrlSelector : INotifyPropertyChanged
+    public class ctrlSelectorViewModel : Base.ViewModelBase
     {
         #region Initialize
-        ctrlSelector thisControl;
+        public ctrlSelector thisControl;
 
-        public void setInitialize(ctrlSelector tempControl)
+        public ctrlSelectorViewModel()
         {
-            initilizeSearchTimer(); thisControl = tempControl;
+            initilizeSearchTimer();
             selectorListProductosSource.Source = context.globalAllProductos;
             OnPropChanged(nameof(selectorListProductos));
 

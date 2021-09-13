@@ -5,28 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views.Helpers"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels.Helpers"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Helpers"
              mc:Ignorable="d" 
              d:DesignWidth="800">
     <d:UserControl.DataContext>
-        <viewmodels:tagNewEditViewModel />
+        <viewmodel:tagNewEditViewModel />
     </d:UserControl.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
 
-        <GroupBox Header="{Binding groupBoxTitle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="{Binding groupBoxTitle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-                <ctrls:ctrlTextBox isMaster="True" text="{Binding newTag.Tag}" labelContent="Tag" textAlignment="Left" isHeaderTop="True" isCurrency="False" enterCommand="{Binding bNextControl}" Grid.Column="0" />
-                <ctrls:ctrlTextBox text="{Binding newTag.Minimo}" labelContent="Alarma" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" enterCommand="{Binding guardarTagCommand}" Grid.Column="1" />
-            </Grid>
-        </GroupBox>
-    </Grid>
+            <ctrls:ctrlTextBox isMaster="True" text="{Binding newTag.Tag}" labelContent="Tag" textAlignment="Left" isHeaderTop="True" isCurrency="False" enterCommand="{Binding bNextControl}" Grid.Column="0" />
+            <ctrls:ctrlTextBox text="{Binding newTag.Minimo}" labelContent="Alarma" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" enterCommand="{Binding guardarTagCommand}" Grid.Column="1" />
+        </Grid>
+    </GroupBox>
 </UserControl>

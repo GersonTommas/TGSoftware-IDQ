@@ -12,12 +12,15 @@ namespace IDQ.WPF.ViewModels
 {
     public class ConsumosViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public ConsumosViewModel() { }
+        #endregion // Initialize
 
+
+        #region Variables
         public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalAllFechas;
         public fechaModel fechaActual = Shared.GlobalVars.returnFecha();
 
-        #region Variables
         string _strCodigoFailed;
         int _intCodigoFailedCount;
 

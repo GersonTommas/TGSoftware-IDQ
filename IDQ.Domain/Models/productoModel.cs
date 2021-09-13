@@ -14,7 +14,7 @@ namespace IDQ.Domain.Models
 
         #region Public
         public int StockInicial { get => _StockInicial; set { if (SetProperty(ref _StockInicial, value)) { OnPropertyChanged(); } } }
-        public int Stock { get => _Stock; set { if (SetProperty(ref _Stock, value)) { OnPropertyChanged(); } } }
+        public int Stock { get => _Stock; set { if (SetProperty(ref _Stock, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(stockVsMinimo)); } } }
         public Double PrecioIngreso { get => _PrecioIngreso; set { if (SetProperty(ref _PrecioIngreso, Math.Round(value, 2))) { OnPropertyChanged(); } } }
         public Double PrecioActual { get => _PrecioActual; set { if (SetProperty(ref _PrecioActual, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
@@ -48,13 +48,15 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public int stockVsMinimo => Stock < 1 ? 1 : Stock < Tag.Minimo ? 2 : Stock == Tag.Minimo ? 3 : 4;
+        public int stockVsMinimo => Tag != null ? Stock < 1 ? 1 : Stock < Tag.Minimo ? 2 : Stock == Tag.Minimo ? 3 : 4 : 0;
         [NotMapped]
         public bool Agregado { get => _Agregado; set { if (_Agregado != value) { _Agregado = value; OnPropertyChanged(); } } }
         #endregion // NotMapped
 
         public override void updateModel()
         {
+            OnPropertyChanged(nameof(Tag));
+            OnPropertyChanged(nameof(Medida));
             base.updateModel();
         }
     }

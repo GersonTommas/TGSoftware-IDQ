@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main.Productos"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              xmlns:vmain="clr-namespace:IDQ.WPF.Views.Main"
              mc:Ignorable="d"
              x:Name="thisPage"
              DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type vmain:mainProductosView}}, Path=DataContext}"
              d:DesignHeight="450" d:DesignWidth="800">
     
-    <DataGrid ItemsSource="{Binding collectionAllProductos}" IsSynchronizedWithCurrentItem="True" Background="{StaticResource Brush.Grid.Background.Normal}" RowStyle="{StaticResource fullStockGridRow}" Grid.Column="0">
+    <DataGrid ItemsSource="{Binding collectionAllProductos}" IsSynchronizedWithCurrentItem="True" Background="{StaticResource Brush.Grid.Background.Normal}" RowStyle="{StaticResource fullStockGridRow}">
         <DataGrid.Columns>
             <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}" SortMemberPath="Activo" />
             <DataGridTextColumn MinWidth="100" Width="100" Header="Código" Binding="{Binding Codigo}" />

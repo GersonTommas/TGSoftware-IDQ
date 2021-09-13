@@ -9,40 +9,32 @@
              mc:Ignorable="d" 
              d:DesignWidth="800">
     <d:UserControl.DataContext>
-        <viewmodels:medidaNewEditViewModel />
+        <viewmodels:medidaNewEditViewModel/>
     </d:UserControl.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
 
-        <GroupBox Header="{Binding groupBoxTitle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="{Binding groupBoxTitle}" Grid.Column="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-                <ctrls:ctrlTextBox isMaster="True" text="{Binding newMedida.Medida}" labelContent="Medida" textAlignment="Left" isHeaderTop="True" isCurrency="False" enterCommand="{Binding bNextControl}" Grid.Column="0" />
-                
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <ctrls:ctrlTextBox isMaster="True" text="{Binding newMedida.Medida}" labelContent="Medida" textAlignment="Left" isHeaderTop="True" isCurrency="False" enterCommand="{Binding bNextControl}" Grid.Column="0" />
 
-                    <Label Content="Tipo" HorizontalAlignment="Center" Grid.Row="0"/>
-                    <ComboBox SelectedItem="{Binding newMedida.Tipo}" Margin="2,0" MinWidth="90" Padding="0" Grid.Row="1">
-                        <ComboBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding guardarCommand}"/>
-                        </ComboBox.InputBindings>
-                    </ComboBox>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                </Grid>
+                <Label Content="Tipo" HorizontalAlignment="Center" Grid.Row="0"/>
+                <ComboBox SelectedItem="{Binding newMedida.Tipo}" Margin="2,0" MinWidth="90" Padding="0" Grid.Row="1">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding guardarCommand}"/>
+                    </ComboBox.InputBindings>
+                </ComboBox>
+
             </Grid>
-            
-        </GroupBox>
-            
-    </Grid>
+        </Grid>
+    </GroupBox>
 </UserControl>

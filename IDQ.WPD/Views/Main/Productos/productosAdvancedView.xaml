@@ -16,7 +16,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-
         <DataGrid ItemsSource="{Binding collectionAllProductos}" IsSynchronizedWithCurrentItem="True" Background="{StaticResource Brush.Grid.Background.Normal}" RowStyle="{StaticResource fullStockGridRow}" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}" SortMemberPath="Activo" />
@@ -39,6 +38,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <ctrls:ctrlCardProducto titleText="Código" valueText="{Binding Codigo}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"/>
             <ctrls:ctrlCardProducto titleText="Descripción" valueText="{Binding Descripcion}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"/>
             <ctrls:ctrlCardProducto titleText="Medida" valueText="{Binding Medida.fullMedida}" Grid.Column="0" Grid.Row="3" />

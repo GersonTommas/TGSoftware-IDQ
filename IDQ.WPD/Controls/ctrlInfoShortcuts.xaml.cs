@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IDQ.WPF.Controls
 {
@@ -22,12 +10,12 @@ namespace IDQ.WPF.Controls
     /// </summary>
     public partial class ctrlInfoShortcuts : UserControl, INotifyPropertyChanged
     {
-        public ctrlInfoShortcuts()
-        {
-            InitializeComponent(); this.DataContext = this;
-        }
+        #region Initialize
+        public ctrlInfoShortcuts() { InitializeComponent(); this.DataContext = this; }
+        #endregion // Initialize
 
 
+        #region Properties
         public bool hasGuardar { get => (bool)GetValue(hasGuardarProperty); set { SetValue(hasGuardarProperty, value); OnPropChanged(); } }
         public bool hasTag { get => (bool)GetValue(hasTagProperty); set { SetValue(hasTagProperty, value); OnPropChanged(); } }
         public bool hasMedidas { get => (bool)GetValue(hasMedidasProperty); set { SetValue(hasMedidasProperty, value); OnPropChanged(); } }
@@ -43,11 +31,12 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty hasAgregarProperty = DependencyProperty.Register("hasSeleccionar", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
         public static readonly DependencyProperty hasAbrirProductoProperty = DependencyProperty.Register("hasAbrirProducto", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
         public static readonly DependencyProperty hasCancelarProperty = DependencyProperty.Register(("hasCancelar"), typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
+        #endregion // Properties
 
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        protected void OnPropChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion // PropertyChanged
     }
 }

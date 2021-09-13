@@ -8,7 +8,7 @@
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels.Main"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="AntiqueWhite">
+             d:DesignHeight="450" d:DesignWidth="800">
     <d:UserControl.DataContext>
         <viewmodels:mainIngresosViewModel />
     </d:UserControl.DataContext>
@@ -20,7 +20,6 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <CollectionViewSource x:Key="collectionViewSourceProveedores" Source="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/IngresosPerFecha}"/>
-
     </UserControl.Resources>
     
     
@@ -35,16 +34,16 @@
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
 
-        <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" IsTabStop="True" />
+        <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" IsTabStop="True" Grid.Column="0" Grid.Row="0" />
 
-        <Grid Grid.Row="1" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
 
 
-            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True">
+            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True" Grid.Row="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="Auto" Header="Hora" SortDirection="Descending" SortMemberPath="Hora" Binding="{Binding Hora}" />
                     <DataGridTextColumn Width="*" Header="Proveedor" Binding="{Binding Proveedor.Nombre}" />
@@ -52,7 +51,7 @@
             </DataGrid>
         </Grid>
 
-        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/IngresoProductosPerIngreso, Mode=OneWay}" Grid.Column="1" Grid.RowSpan="2">
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/IngresoProductosPerIngreso, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="70" Header="Código" Binding="{Binding Producto.Codigo}" Visibility="Collapsed"/>
                 <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Producto.Descripcion}"/>
@@ -95,11 +94,9 @@
                 <ColumnDefinition Width="AUTO" />
             </Grid.ColumnDefinitions>
 
-            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/Proveedor.Nombre, Mode=OneWay}" labelContent="Proveedor:" isReadOnly="True" textAlignment="Left" isCurrency="False" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/Proveedor.Nombre, Mode=OneWay}" labelContent="Proveedor:" isReadOnly="True" textAlignment="Left" isCurrency="False" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" />
 
-            <StackPanel HorizontalAlignment="Right" Grid.Column="2">
-                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right"  />
-            </StackPanel>
+            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceProveedores}, Path=/PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right" Grid.Row="2" />
         </Grid>
     </Grid>
 </UserControl>

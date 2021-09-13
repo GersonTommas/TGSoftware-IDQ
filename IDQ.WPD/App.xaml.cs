@@ -29,7 +29,7 @@ namespace IDQ.WPF
             splashScreen.Show();
         }
 
-        internal void InitializeApplication(SplashWindow splashWindow)
+        internal void InitializeApplication()
         {
             context.InitializeDatabase();
             EntityFramework.Updates.xUpdateService.xDoUpdate();
@@ -39,7 +39,7 @@ namespace IDQ.WPF
             // Create the main window, but on the UI thread.
             _ = Dispatcher.BeginInvoke((Action)(() =>
               {
-                  MainWindow = new ContentWindow(); //Views.MainView();
+                  MainWindow = new LogInWindow();
                   MainWindow.Loaded += (sender, e) =>
                   {
                       _ = mainWindowLoaded.Set();

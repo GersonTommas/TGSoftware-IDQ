@@ -1,20 +1,21 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace IDQ.WPF.ViewModels.Helpers
 {
     public class tagNewEditViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public INavigator Navigator { get; set; }
 
         public tagNewEditViewModel() { }
+
+        public tagNewEditViewModel(INavigator sentNavigator)
+        {
+            Navigator = sentNavigator;
+        }
 
         public void setInitialize(tagModel sentTag)
         {
@@ -30,8 +31,10 @@ namespace IDQ.WPF.ViewModels.Helpers
                 isEdit = true;
             }
         }
+        #endregion // Initialize
 
 
+        #region Variables
         bool _isEdit;
         public bool isEdit { get => _isEdit; set { if (SetProperty(ref _isEdit, value)) { OnPropertyChanged(); } } }
 
@@ -41,8 +44,10 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         tagModel _newTag = new tagModel() { Activo = true };
         public tagModel newTag { get => _newTag; set { if (SetProperty(ref _newTag, value)) { OnPropertyChanged(); } } }
+        #endregion // Variables
 
 
+        #region Helpers
         void helperGuardar()
         {
             tagModel compareTag = null;
@@ -79,9 +84,13 @@ namespace IDQ.WPF.ViewModels.Helpers
             try { if (newTag.Minimo >= 0 && !string.IsNullOrWhiteSpace(newTag.Tag) && newTag.Tag.Length > 0) { return true; } } catch { }
             return false;
         }
+        #endregion // Helpers
 
+
+        #region Commands
         public Command guardarTagCommand => new Command(
             (object parameter) => helperGuardar(),
             (object parameter) => checkGuardar());
+        #endregion // Commands
     }
 }

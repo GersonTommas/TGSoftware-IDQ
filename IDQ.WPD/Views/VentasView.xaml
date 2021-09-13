@@ -5,13 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views"
-             xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <viewmodels:VentasViewModel />
+        <viewmodel:VentasViewModel />
     </UserControl.DataContext>
 
     <UserControl.InputBindings>
@@ -32,7 +31,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Grid.Column="0" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -46,7 +45,6 @@
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Precio, Mode=OneWay}" labelContent="Precio Unidad" isReadOnly="True" isHeaderTop="True" Grid.Column="2"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Cantidad}" labelContent="Cantidad" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.PrecioTotal, Mode=OneWay}" labelContent="Precio Total" isReadOnly="True" isHeaderTop="True" Grid.Column="4"/>
-
         </Grid>
 
         <DataGrid ItemsSource="{Binding newVenta.VentaProductosPerVenta}" Grid.Column="0" Grid.Row="1">
@@ -91,7 +89,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
-
         <ctrls:ctrlTextBox text="{Binding newVenta.PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2" />
 
         <ctrls:ctrlClock hasSeconds="False" FontSize="30" Grid.Column="1" Grid.Row="0"/>
@@ -102,7 +99,6 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
             
         </Grid>
         

@@ -31,12 +31,12 @@
             </Grid.ColumnDefinitions>
             
             <ctrls:ctrlTextBox text="{Binding newStockProducto.Producto.Descripcion, Mode=OneWay}" labelContent="Producto" isReadOnly="True" textAlignment="Left" isCurrency="False" isHeaderTop="True" Grid.Column="0"/>
+            
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <ctrls:ctrlTextBox text="{Binding newStockProducto.Producto.Stock, Mode=OneWay}" labelContent="Stock" isReadOnly="True" textAlignment="Center" isCurrency="False" isHeaderTop="True" />
                 <ctrls:ctrlTextBox text="{Binding newStockProducto.Cantidad}" labelContent="+/-" isMaster="True" textAlignment="Center" isCurrency="False" isHeaderTop="True" enterCommand="{Binding bNextControl}" />
                 <ctrls:ctrlTextBox text="{Binding newStockProducto.stockFinal, Mode=OneWay}" labelContent="Stock Final" isReadOnly="True" textAlignment="Center" isCurrency="False" isHeaderTop="True" />
             </StackPanel>
-            
         </Grid>
         
         <Grid>
@@ -46,12 +46,12 @@
             </Grid.ColumnDefinitions>
 
             <ComboBox ItemsSource="{Binding Source={StaticResource collectionViewSourceUsers}, Mode=OneWay}" SelectedItem="{Binding newStockProducto.Usuario}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Usuario" Grid.Column="0"/>
+            
             <PasswordBox x:Name="pass" Margin="5" Grid.Column="1">
                 <PasswordBox.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding controlGuardarCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=PasswordBox}}" />
                 </PasswordBox.InputBindings>
             </PasswordBox>
-            
         </Grid>
     </StackPanel>
 </UserControl>

@@ -7,40 +7,33 @@
              xmlns:local="clr-namespace:IDQ.WPF.Views.Helpers"
              xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels.Helpers"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              mc:Ignorable="d"
-             x:Name="thisHelper" d:Width="800" d:Background="White" Focusable="False" IsTabStop="False">
+             x:Name="thisHelper" d:Width="800" Focusable="False" IsTabStop="False">
     <d:UserControl.DataContext>
-        <viewmodels:productoNewEditViewModel />
+        <viewmodels:productoNewEditViewModel/>
     </d:UserControl.DataContext>
     <UserControl.Resources>
-        <converters:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
-        <converters:NullToTrueComparerConverter x:Key="NullToTrueComparerConverter"/>
+        <CollectionViewSource x:Key="collectionViewSourceTags" Source="{Binding sourceCollectionTags}" Filter="CollectionViewSourceTags_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Tag" Direction="Ascending" />
+                <scm:SortDescription PropertyName="Minimo" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        
+        <CollectionViewSource x:Key="CollectionViewSourceMedidas" Source="{Binding sourceCollectionMedidas}" Filter="CollectionViewSourceMedidas_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="fullMedida" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
     <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding controlGuardarCommand}"/>
         <KeyBinding Key="F2" Command="{Binding controlCommandNewTag}"/>
         <KeyBinding Key="F3" Command="{Binding controlCommandNewMedida}"/>
+        <KeyBinding Key="Esc" Command="{Binding cancelCommand}"/>
     </UserControl.InputBindings>
 
     <Grid>
-        <Grid.Resources>
-            <CollectionViewSource x:Key="collectionViewSourceTags" Source="{Binding sourceCollectionTags}" Filter="CollectionViewSourceTags_Filter">
-                <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="Tag" Direction="Ascending" />
-                    <scm:SortDescription PropertyName="Minimo" Direction="Ascending" />
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-            <CollectionViewSource x:Key="CollectionViewSourceMedidas" Source="{Binding sourceCollectionMedidas}" Filter="CollectionViewSourceMedidas_Filter">
-                <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="fullMedida" Direction="Ascending" />
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-        </Grid.Resources>
-        <Grid.InputBindings>
-            <KeyBinding Key="Esc" Command="{Binding cancelCommand}"/>
-        </Grid.InputBindings>
-        
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -67,7 +60,7 @@
 
                 <ctrls:ctrlTextBox text="{Binding newProducto.PrecioActual}" labelContent="Precio" enterCommand="{Binding bNextControl}" inputType="2" isHeaderTop="True" Grid.Column="2" />
 
-                <ctrls:ctrlTextBox text="{Binding newProducto.StockInicial}" labelContent="Stock Inicial" enterCommand="{Binding bNextControl}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Visibility="{Binding isEdit, Converter={StaticResource InvertBoolToVisibilityConverter}}" Grid.Column="3"/>
+                <ctrls:ctrlTextBox text="{Binding newProducto.StockInicial}" labelContent="Stock Inicial" enterCommand="{Binding bNextControl}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Visibility="{Binding isEdit, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" Grid.Column="3"/>
 
                 <StackPanel VerticalAlignment="Center" Margin="5" Grid.Column="4">
                     <Label Content="Unidad" Style="{StaticResource LabelSobreTextBox}" />

@@ -34,7 +34,7 @@ namespace IDQ.WPF
         {
             await Task.Run(() =>
             {
-                Current.InitializeApplication(this);
+                Current.InitializeApplication();
                 _ = Current.Dispatcher.BeginInvoke((Action)(() =>
                   {
                       Close();

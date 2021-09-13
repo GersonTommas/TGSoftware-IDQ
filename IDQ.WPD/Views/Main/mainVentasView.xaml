@@ -5,25 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main"
-             xmlns:converters="clr-namespace:IDQ.WPF.Converters"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             xmlns:vm="clr-namespace:IDQ.WPF.ViewModels.Main"
+             xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Main"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <d:UserControl.DataContext>
-        <vm:mainVentasViewModel />
+        <viewmodel:mainVentasViewModel />
     </d:UserControl.DataContext>
+    
     <UserControl.Resources>
         <CollectionViewSource x:Key="collectionViewSourceFechas" Source="{Binding sourceCollectionFechas}" Filter="CollectionViewSource_Filter" IsLiveSortingRequested="True">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Fecha" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
         <CollectionViewSource x:Key="collectionViewSourceHoras" Source="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/VentasPerFecha}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Hora" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
         <CollectionViewSource x:Key="collectionViewSourceProductos" Source="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/VentaProductosPerVenta}"/>
     </UserControl.Resources>
     
@@ -38,9 +40,7 @@
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
 
-        
-
-        <Grid Grid.Row="1" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="AUTO" />
                 <RowDefinition Height="*" />
@@ -86,7 +86,7 @@
             </StackPanel>
         </Grid>
 
-        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProductos}, Mode=OneWay}" Grid.Column="1" Grid.RowSpan="2">
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProductos}, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Producto.Descripcion}"/>
                 <DataGridTemplateColumn MinWidth="90" Width="auto" Header="Precio Venta U.">
@@ -128,7 +128,7 @@
                 <ColumnDefinition Width="AUTO" />
             </Grid.ColumnDefinitions>
 
-            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Deudor.Nombre, Mode=OneWay}" labelContent="Cliente:" isReadOnly="True" textAlignment="Left" isCurrency="False" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Deudor.Nombre, Mode=OneWay}" labelContent="Cliente:" isReadOnly="True" textAlignment="Left" isCurrency="False" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" />
 
             <StackPanel HorizontalAlignment="Right" Grid.Column="2">
                 <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right"  />

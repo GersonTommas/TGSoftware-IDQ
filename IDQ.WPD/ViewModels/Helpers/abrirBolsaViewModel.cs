@@ -6,15 +6,21 @@ namespace IDQ.WPF.ViewModels.Helpers
 {
     public class abrirBolsaViewModel : Base.ViewModelBase
     {
+        #region Initialize
         public abrirBolsaViewModel() { }
+
 
         public void setInitilize(productoModel sentProducto, Window sentWindow)
         {
             thisWindow = sentWindow;
             newConversion.ProductoSacado = sentProducto;
         }
+        #endregion // Initialize
 
+
+        #region Variables
         public abiertoProductoModel newConversion { get; } = new abiertoProductoModel() { CantidadSacado = 1, Fecha = Shared.GlobalVars.returnFecha(), Usuario = Shared.GlobalVars.usuarioLogueado };
+        #endregion // Variables
 
 
         #region Helpers
@@ -40,6 +46,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         bool checkGuardar => newConversion.ProductoSacado != null && newConversion.ProductoAgregado != null && newConversion.CantidadAgregado > 0 && newConversion.CantidadSacado > 0;
         #endregion // Helpers
+
 
         #region Commands
         public Command comSeleccionarProducto => new Command((object parameter) => helperSeleccionarProducto());

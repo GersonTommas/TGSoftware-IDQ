@@ -12,6 +12,7 @@ namespace IDQ.EntityFramework.Updates
     {
         public static void xDoUpdate()
         {
+            #region Update ventas 01
             ObservableCollection<ventaModel> ventas = context.globalDb.ventas.Local.ToObservableCollection();
             if (ventas.All(x => x.PrecioTotal == 0))
             {
@@ -21,6 +22,10 @@ namespace IDQ.EntityFramework.Updates
                 }
                 _ = context.globalDb.SaveChangesAsync();
             }
+            #endregion // Update ventas 01
+
+
+            #region Update deudorPagos 01
             ObservableCollection<deudorPagoModel> deudorPagos = context.globalDb.deudorPagos.Local.ToObservableCollection();
             ObservableCollection<cajaModel> cajas = context.globalDb.caja.Local.ToObservableCollection();
             if (deudorPagos.Count == 0)
@@ -55,6 +60,26 @@ namespace IDQ.EntityFramework.Updates
                     }
                 }
             }
+            #endregion // Update deudorPagos 01
+
+            
+            #region Update cajaConteo 01
+            ObservableCollection<cajaConteoModel> cajaConteos = context.globalDb.cajaConteos.Local.ToObservableCollection();
+            if (cajaConteos.All(x => x.EfectivoApertura == 0))
+            {
+                foreach (cajaConteoModel cajaConteo in cajaConteos)
+                {
+                    cajaConteo.EfectivoApertura = cajaConteo.EfectivoCierre = cajaConteo.Caja.MercadoPago;
+                    cajaConteo.FechaApertura = cajaConteo.FechaCierre = cajaConteo.Caja.Fecha;
+                    cajaConteo.HoraApertura = cajaConteo.HoraCierre = cajaConteo.Caja.Hora;
+                    cajaConteo.CajaCierre = cajaConteo.Caja;
+
+                    cajaConteo.Caja.MercadoPago = 0;
+                    cajaConteo.Caja.Vuelto = 0;
+                }
+                context.globalDb.SaveChanges();
+            }
+            #endregion // Update cajaConteo 01
         }
     }
 }
