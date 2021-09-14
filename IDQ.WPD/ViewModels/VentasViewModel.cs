@@ -24,6 +24,9 @@ namespace IDQ.WPF.ViewModels
         ventaProductoModel _newVentaProducto;
         public ventaProductoModel newVentaProducto { get => _newVentaProducto; set { if (SetProperty(ref _newVentaProducto, value)) { OnPropertyChanged(); } } }
 
+        ventaProductoModel _selectedVentaProducto;
+        public ventaProductoModel selectedVentaProducto { get => _selectedVentaProducto; set { if (SetProperty(ref _selectedVentaProducto, value)) { OnPropertyChanged(); } } }
+
         string _inputCodigo;
         public string inputCodigo { get => _inputCodigo; set { if (SetProperty(ref _inputCodigo, value)) { OnPropertyChanged(); helperClearProductoVenta(); } } }
 
@@ -34,101 +37,145 @@ namespace IDQ.WPF.ViewModels
 
         #region Helpers
         void helperResetEverything() { newVenta = new ventaModel(); helperClearProductoVenta(); }
-        void helperClearProductoVenta() { newVentaProducto = new ventaProductoModel() { Cantidad = 1 }; helperClearTries(); }
-        void helperClearTries() { ventaFallo = false; inputCodigo = ""; }
+        void helperClearProductoVenta() { if (newVentaProducto == null || newVentaProducto.Producto != null) { newVentaProducto = new ventaProductoModel() { Cantidad = 1 }; } helperClearTries(); }
+        void helperClearTries() { ventaFallo = false; _failedCodigo = ""; }
 
 
         void helperFindProducto(object sender = null)
         {
+            string _tempInputCodigo = inputCodigo.Trim();
+
+            productoModel tempProd = null;
             try
+            { tempProd = context.globalDb.productos.Local.Single(x => x.Codigo.ToLower() == _tempInputCodigo.ToLower()); } catch { }
+
+
+            if (tempProd != null)
             {
-                productoModel tempProd = context.globalDb.productos.Local.Single(x => x.Codigo.ToLower() == inputCodigo.ToLower());
                 newVentaProducto.Producto = tempProd;
                 newVentaProducto.Precio = tempProd.PrecioActual;
 
                 if (newVentaProducto.Cantidad < 1) { Shared.GlobalVars.nextTarget(sender); }
+                else if (checkAddProductoVenta) { helperAddProductoVenta(sender); }
                 helperClearTries();
-                //OnPropertyChanged(nameof(newVentaProducto));
             }
-            catch
+            else
             {
                 newVentaProducto.Producto = null;
-                if (!string.IsNullOrWhiteSpace(_failedCodigo) && _failedCodigo.ToLower() == inputCodigo.ToLower())
+                if (!string.IsNullOrWhiteSpace(_failedCodigo) && _failedCodigo.ToLower() == _tempInputCodigo.ToLower())
                 {
                     if (Shared.GlobalVars.messageError.NewProduct())
                     {
-                        /*
-                        if (gOpenAddProducto(strCodigo))
-                        {
-                            helperSearchProduct(sender);
-                        }*/
+                        Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel(_tempInputCodigo));
                     }
                 }
                 else
                 {
-                    _failedCodigo = inputCodigo;
+                    _failedCodigo = _tempInputCodigo;
                     try { (sender as TextBox).SelectAll(); } catch { }
                 }
             }
         }
 
-        void helperAddProductoVenta()
+        void helperAddProductoVenta(object sender)
         {
+            ventaProductoModel duplicate = null;
+
             try
+            { duplicate = newVenta.VentaProductosPerVenta.Single(x => x.Producto == newVentaProducto.Producto); } catch { }
+
+            if (duplicate != null)
             {
-                ventaProductoModel duplicate = newVenta.VentaProductosPerVenta.Single(x => x.Producto == newVentaProducto.Producto);
                 duplicate.Cantidad += newVentaProducto.Cantidad;
             }
-            catch
+            else
             {
                 newVenta.VentaProductosPerVenta.Add(newVentaProducto);
             }
 
             newVentaProducto.Producto.Agregado = true;
             newVenta.PrecioTotal += newVentaProducto.PrecioTotal;
+            inputCodigo = "";
             helperClearProductoVenta();
         }
+
         void helperRemoveProductoVenta(object sentParameter)
         {
             if (sentParameter is ventaProductoModel tempVentaProducto)
             {
+                newVenta.PrecioTotal -= tempVentaProducto.PrecioTotal;
+                if (newVenta.PrecioTotal < 0) { newVenta.PrecioTotal = 0; }
                 _ = newVenta.VentaProductosPerVenta.Remove(tempVentaProducto);
             }
         }
 
-        bool checkAddProductoVenta()
+        void helperGuardarVenta()
         {
-            return newVentaProducto.Producto != null && newVentaProducto.Cantidad > 0;
+
         }
 
-        bool helperGuardarVenta()
+        void helperGuardarVentaEfectivoExacto()
         {
-            return true;
+            newVenta.Caja = new cajaModel() { Efectivo = newVenta.PrecioTotal, Fecha = Shared.GlobalVars.returnFecha(), Hora = Shared.GlobalVars.strHora, MercadoPago = 0, Vuelto = 0 };
+            newVenta.Deudor = null;
+
+            internalContabilizarVenta();
+
+            context.globalDb.ventas.Local.Add(newVenta);
+            _ = context.globalDb.SaveChanges();
+            helperResetEverything();
         }
-        bool checkGuardarVenta()
+
+        void internalContabilizarVenta()
         {
-            return true;
+            foreach (ventaProductoModel prod in newVenta.VentaProductosPerVenta)
+            {
+                prod.Producto.Stock -= prod.Cantidad;
+                prod.PrecioPagado = prod.Precio;
+                prod.FechaPagado = newVenta.Fecha;
+            }
+
+            newVenta.Fecha = newVenta.Caja.Fecha;
+            newVenta.Hora = newVenta.Caja.Hora;
+            newVenta.Usuario = Shared.GlobalVars.usuarioLogueado;
+
+            context.globalCajaActual.Efectivo += newVenta.Caja.Efectivo;
         }
+
+        bool checkAddProductoVenta => newVentaProducto.Producto != null && newVentaProducto.Cantidad > 0 && isItSafe;
+
+        bool checkGuardarVenta => newVenta != null && newVenta.VentaProductosPerVenta.Count > 0 && isItSafe;
+
+        bool isItSafe => Shared.Navigators.ContentTopNavigator.CurrentViewModel == null;
         #endregion // Helpers
 
 
         #region Commands
         public Command textBoxCommandFindProducto => new Command(
-            (object parameter) => { },
-            (object parameter) => true);
+            (object parameter) => helperFindProducto(parameter),
+            (object parameter) => !string.IsNullOrWhiteSpace(inputCodigo));
 
 
         public Command textBoxCommandAddProductoVenta => new Command(
-            (object parameter) => helperAddProductoVenta(),
-            (object parameter) => checkAddProductoVenta());
+            (object parameter) => helperAddProductoVenta(parameter),
+            (object parameter) => checkAddProductoVenta);
 
 
         public Command dataGridCommandRemoveProductoVenta => new Command(
-            (object parameter) => { helperRemoveProductoVenta(parameter); },
-            (object parameter) => { return true; });
+            (object parameter) => helperRemoveProductoVenta(parameter),
+            (object parameter) => selectedVentaProducto != null);
 
+        public Command ControlCommandPagarVenta => new Command(
+            (object parameter) => { helperGuardarVenta(); },
+            (object parameter) => checkGuardarVenta);
 
-        public Command resultCommandCancelar => new Command((object parameter) => helperResetEverything());
+        public Command ControlCommandGuardarVentaEfectivoExacto => new Command(
+            (object parameter) => helperGuardarVentaEfectivoExacto(),
+            (object parameter) => checkGuardarVenta);
+
+        public Command resultCommandCancelar => new Command(
+            (object parameter) => helperResetEverything(),
+            (object parameter) => isItSafe);
         #endregion // Commands
     }
 }

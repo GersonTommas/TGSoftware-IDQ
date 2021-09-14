@@ -16,7 +16,7 @@
     <UserControl.InputBindings>
         <KeyBinding Key="F1" Command="{Binding comGuardarVenta}" />
         <KeyBinding Key="F4" Command="{Binding comIngresoManual}" />
-        <KeyBinding Key="F12" Command="{Binding comGuardarPagoExacto}" />
+        <KeyBinding Key="F12" Command="{Binding ControlCommandGuardarVentaEfectivoExacto}" />
         <KeyBinding Key="Esc" Command="{Binding resultCommandCancelar}" />
     </UserControl.InputBindings>
 
@@ -40,14 +40,14 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <ctrls:ctrlTextBox isMaster="True" text="{Binding inputCodigo}" labelContent="Código" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="0"/>
+            <ctrls:ctrlTextBox isMaster="True" text="{Binding inputCodigo}" labelContent="Código" enterCommand="{Binding textBoxCommandFindProducto}" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="0"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Producto.Descripcion, Mode=OneWay}" labelContent="Descripción" isReadOnly="True" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="1"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Precio, Mode=OneWay}" labelContent="Precio Unidad" isReadOnly="True" isHeaderTop="True" Grid.Column="2"/>
-            <ctrls:ctrlTextBox text="{Binding newVentaProducto.Cantidad}" labelContent="Cantidad" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
+            <ctrls:ctrlTextBox text="{Binding newVentaProducto.Cantidad}" labelContent="Cantidad" enterCommand="{Binding textBoxCommandAddProductoVenta}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.PrecioTotal, Mode=OneWay}" labelContent="Precio Total" isReadOnly="True" isHeaderTop="True" Grid.Column="4"/>
         </Grid>
 
-        <DataGrid ItemsSource="{Binding newVenta.VentaProductosPerVenta}" Grid.Column="0" Grid.Row="1">
+        <DataGrid ItemsSource="{Binding newVenta.VentaProductosPerVenta}" SelectedItem="{Binding selectedVentaProducto}" Grid.Column="0" Grid.Row="1">
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding dataGridCommandRemoveProductoVenta}" />
                 <KeyBinding Key="Backspace" Command="{Binding dataGridCommandRemoveProductoVenta}" />
@@ -90,9 +90,7 @@
         </DataGrid>
 
         <ctrls:ctrlTextBox text="{Binding newVenta.PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2" />
-
-        <ctrls:ctrlClock hasSeconds="False" FontSize="30" Grid.Column="1" Grid.Row="0"/>
-
+        
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

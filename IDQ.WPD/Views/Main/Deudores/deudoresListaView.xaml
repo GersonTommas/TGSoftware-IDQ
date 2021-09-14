@@ -108,7 +108,7 @@
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding Fecha.Fecha}" />
-                <DataGridTextColumn Width="*" Header="Efectivo" Binding="{Binding Caja.CajaActual}" />
+                <DataGridTextColumn Width="*" Header="Efectivo" Binding="{Binding Caja.Efectivo}" />
                 <DataGridTextColumn Width="*" Header="MercadoPago" Binding="{Binding Caja.MercadoPago}" />
                 <DataGridTextColumn Width="*" Header="Vuelto" Binding="{Binding Caja.Vuelto}" />
                 <DataGridTextColumn Width="*" Header="Total" Binding="{Binding Caja.doubleTotalTotal}" />

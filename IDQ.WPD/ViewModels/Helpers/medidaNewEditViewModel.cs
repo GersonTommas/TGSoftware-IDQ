@@ -8,15 +8,9 @@ namespace IDQ.WPF.ViewModels.Helpers
     public class medidaNewEditViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public INavigator Navigator { get; set; }
-
         public medidaNewEditViewModel() { }
-        public medidaNewEditViewModel(INavigator sentNavigator)
-        {
-            Navigator = sentNavigator;
-        }
 
-        public void setInitialize(medidaModel sentMedida)
+        public medidaNewEditViewModel(medidaModel sentMedida)
         {
             if (sentMedida != null)
             {
@@ -39,10 +33,9 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public string groupBoxTitle => isEdit ? "ID: " + _editMedida.Id : "Nueva Medida";
 
-        medidaModel _editMedida;
+        readonly medidaModel _editMedida;
 
-        medidaModel _newMedida = new medidaModel() { Activo = true };
-        public medidaModel newMedida { get => _newMedida; set { if (SetProperty(ref _newMedida, value)) { OnPropertyChanged(); } } }
+        public medidaModel newMedida { get; } = new medidaModel() { Activo = true };
         #endregion // Variables
 
 
@@ -62,6 +55,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                     _ = context.globalDb.SaveChanges();
                     Shared.GlobalVars.messageError.Guardado();
 
+                    Shared.Navigators.UpdateProductoSlider(null);
                     //thisWindow.DialogResult = true;
                 }
                 else { Shared.GlobalVars.messageError.Existencia(); }
@@ -72,8 +66,9 @@ namespace IDQ.WPF.ViewModels.Helpers
                 _ = context.globalDb.SaveChanges();
                 Shared.GlobalVars.messageError.Guardado();
 
+                Shared.Navigators.UpdateProductoSlider(null);
                 //thisWindow.DialogResult = true;
-                if (Navigator != null) { Navigator.CurrentViewModel = null; }
+                //if (Navigator != null) { Navigator.CurrentViewModel = null; }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
@@ -83,6 +78,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Commands
+        public Command ControlCommandCancelar => new Command((object parameter) => Shared.Navigators.UpdateProductoSlider(null));
+
         public Command guardarCommand => new Command(
             (object parameter) => helperGuardar(),
             (object parameter) => checkGuardar);

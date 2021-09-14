@@ -11,6 +11,9 @@
     <d:UserControl.DataContext>
         <viewmodels:medidaNewEditViewModel/>
     </d:UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding ControlCommandCancelar}"/>
+    </UserControl.InputBindings>
 
     <GroupBox Header="{Binding groupBoxTitle}" Grid.Column="0">
         <Grid>

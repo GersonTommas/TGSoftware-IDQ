@@ -13,12 +13,6 @@
     
 
     <!--#region Brushes With Skin-->
-    <SolidColorBrush x:Key="Brush.Window.Upper.Background.Dark" Color="{StaticResource Color.WindowUpper.Background.Dark}"/>
-    <SolidColorBrush x:Key="Brush.Window.Upper.Foreground.Dark" Color="{StaticResource Color.WindowUpper.Foreground.Dark}"/>
-    <SolidColorBrush x:Key="Brush.Window.Inner.Background.Soft" Color="{StaticResource Color.WindowInner.Background.Soft}"/>
-    <SolidColorBrush x:Key="Brush.Window.Inner.Foreground.Soft" Color="{StaticResource Color.WindowInner.Foreground.Soft}"/>
-
-    
     <SolidColorBrush x:Key="Brush.Button.Background.Normal" Color="{StaticResource Color.Button.Background.Normal}"/>
     <SolidColorBrush x:Key="Brush.Button.Background.Highlight" Color="{StaticResource Color.Button.Background.Highlight}"/>
     <SolidColorBrush x:Key="Brush.Button.Background.Pressed" Color="{StaticResource Color.Button.Background.Pressed}"/>
@@ -38,16 +32,29 @@
     <SolidColorBrush x:Key="Brush.Grid.Foreground" Color="{StaticResource Color.Grid.Foregound}"/>
     <SolidColorBrush x:Key="Brush.Grid.Foreground.Header" Color="{StaticResource Color.Grid.Foregound.Header}"/>
 
-    
+
+    <SolidColorBrush x:Key="Brush.TabControl.Background.Normal" Color="{StaticResource Color.TabControl.Background.Normal}"/>
+    <SolidColorBrush x:Key="Brush.TabControl.Background.MouseOver" Color="{StaticResource Color.TabControl.Background.MouseOver}"/>
+    <SolidColorBrush x:Key="Brush.TabControl.Background.IsSelected" Color="{StaticResource Color.TabControl.Background.IsSelected}"/>
+
+
     <SolidColorBrush x:Key="Brush.TextBox.Background.Dark" Color="{StaticResource Color.TextBox.Background.Dark}"/>
     <SolidColorBrush x:Key="Brush.TextBox.Foreground.Dark" Color="{StaticResource Color.TextBox.Foreground.Dark}"/>
     <SolidColorBrush x:Key="Brush.TextBox.Background.Light" Color="{StaticResource Color.TextBox.Background.Light}"/>
     <SolidColorBrush x:Key="Brush.TextBox.Foreground.Light" Color="{StaticResource Color.TextBox.Foreground.Light}"/>
 
+
+    <SolidColorBrush x:Key="Brush.Window.Upper.Background.Dark" Color="{StaticResource Color.WindowUpper.Background.Dark}"/>
+    <SolidColorBrush x:Key="Brush.Window.Upper.Foreground.Dark" Color="{StaticResource Color.WindowUpper.Foreground.Dark}"/>
+    <SolidColorBrush x:Key="Brush.Window.Inner.Background.Soft" Color="{StaticResource Color.WindowInner.Background.Soft}"/>
+    <SolidColorBrush x:Key="Brush.Window.Inner.Foreground.Soft" Color="{StaticResource Color.WindowInner.Foreground.Soft}"/>
     
-    <SolidColorBrush x:Key="Brush.TabControl.Background.Normal" Color="{StaticResource Color.TabControl.Background.Normal}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Background.MouseOver" Color="{StaticResource Color.TabControl.Background.MouseOver}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Background.IsSelected" Color="{StaticResource Color.TabControl.Background.IsSelected}"/>
+
+    <!--Card Brushes-->
+    <SolidColorBrush x:Key="Brush.Card.Background" Color="{StaticResource Color.Card.Background}"/>
+    <SolidColorBrush x:Key="Brush.Card.Title" Color="{StaticResource Color.Card.Title}"/>
+    <SolidColorBrush x:Key="Brush.Card.Separator" Color="{StaticResource Color.Card.Separator}"/>
+    <SolidColorBrush x:Key="Brush.Card.Value" Color="{StaticResource Color.Card.Value}"/>
 
 
     <!--Navigation Brushes-->
@@ -56,12 +63,15 @@
     <SolidColorBrush x:Key="Brush.Navigation.Background.Selected" Color="{StaticResource Color.Navigation.Background.Selected}"/>
     <SolidColorBrush x:Key="Brush.Navigation.Foreground" Color="{StaticResource Color.Navigation.Foreground}"/>
     
-
-    <!--Card Brushes-->
-    <SolidColorBrush x:Key="Brush.Card.Background" Color="{StaticResource Color.Card.Background}"/>
-    <SolidColorBrush x:Key="Brush.Card.Title" Color="{StaticResource Color.Card.Title}"/>
-    <SolidColorBrush x:Key="Brush.Card.Separator" Color="{StaticResource Color.Card.Separator}"/>
-    <SolidColorBrush x:Key="Brush.Card.Value" Color="{StaticResource Color.Card.Value}"/>
+    
+    <!--Primary EditBar Brushes-->
+    <SolidColorBrush x:Key="Brush.EditBar.Control.Background" Color="{StaticResource Color.EditBar.Control.Background}"/>
+    <SolidColorBrush x:Key="Brush.EditBar.Control.Foreground" Color="{StaticResource Color.EditBar.Control.Foreground}"/>
+    
+    
+    <!--Secondary EditBar-->
+    <SolidColorBrush x:Key="Brush.SEditBar.Control.Background" Color="{StaticResource Color.SEditBar.Control.Background}"/>
+    <SolidColorBrush x:Key="Brush.SEditBar.Control.Foreground" Color="{StaticResource Color.SEditBar.Control.Foreground}"/>
     <!--#endregion Brushes With Skin-->
     
     
@@ -124,22 +134,26 @@
         <Setter Property="Foreground" Value="{StaticResource Brush.Window.Inner.Foreground.Soft}"/>
     </Style>
     <!--#endregion Default CheckBox-->
-
     
     
     <!--#region Default ComboBox-->
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Margin" Value="5" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Focusable" Value="False" />
         <Setter Property="IsEditable" Value="False" />
         <Setter Property="Background" Value="{StaticResource Brush.ComboBox.Background.Normal}"/>
         <Setter Property="Foreground" Value="{StaticResource Brush.ComboBox.Foreground}"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" >
+                        <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Template>
                                 <ControlTemplate>
                                     <Grid>
@@ -161,13 +175,13 @@
                                 </ControlTemplate>
                             </ToggleButton.Template>
                         </ToggleButton>
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"/>
                         <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
                             <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border x:Name="DropDownBorder" CornerRadius="0,0,10,10" Background="{StaticResource Brush.ComboBox.Background.DropDown}" />
-                                <ScrollViewer SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True" />
+                                <ScrollViewer SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                                    <StackPanel IsItemsHost="True" HorizontalAlignment="Stretch" />
                                 </ScrollViewer>
                             </Grid>
                         </Popup>
@@ -382,6 +396,9 @@
         <Setter Property="CellStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="IsTabStop" Value="False"/>
+                    <Setter Property="KeyboardNavigation.ControlTabNavigation" Value="None"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="BorderThickness" Value="0" />
@@ -424,6 +441,8 @@
         <Setter Property="Foreground" Value="{StaticResource Brush.Window.Upper.Foreground.Dark}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="Margin" Value="2"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
     </Style>
     <!--#endregion Default GroupBox-->
 
@@ -460,6 +479,8 @@
     <!--#region Default Label-->
     <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
         <Setter Property="Foreground" Value="{StaticResource Brush.Window.Inner.Foreground.Soft}"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
     </Style>
     <!--#endregion Default Label-->
 
@@ -632,6 +653,8 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type TabItem}">
@@ -640,13 +663,14 @@
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="Background" Value="{StaticResource Brush.Navigation.Background.Normal}"/>
                     <Setter Property="Foreground" Value="{StaticResource Brush.Navigation.Foreground}"/>
+                    <Setter Property="IsTabStop" Value="False"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Border Margin="1,0">
                                     <Grid>
                                         <Border x:Name="border" CornerRadius="3,3,0,0" Background="{TemplateBinding Background}" BorderBrush="Gray" BorderThickness="0.2"/>
-                                        <ContentPresenter ContentSource="Header" Margin="4,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        <ContentPresenter Focusable="False" ContentSource="Header" Margin="4,2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>

@@ -1,4 +1,5 @@
 ﻿using IDQ.Domain.Models;
+using IDQ.WPF.ViewModels.Helpers;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -10,7 +11,11 @@ namespace IDQ.WPF.Views.Helpers
     public partial class productoNewEditView : UserControl
     {
         #region Initialize
-        public productoNewEditView() { InitializeComponent(); }
+        static productoNewEditView thisWindow;
+
+        public productoNewEditView() { InitializeComponent(); thisWindow = this; }
+
+        public static async void updateProductoSlider(Base.ViewModelBase sentViewModel) { (thisWindow.DataContext as productoNewEditViewModel).updateEditorSlider(sentViewModel); }
         #endregion // Initialize
 
 

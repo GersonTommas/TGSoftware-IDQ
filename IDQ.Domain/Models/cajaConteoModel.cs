@@ -41,14 +41,14 @@ namespace IDQ.Domain.Models
         #endregion // Public
 
         [NotMapped]
-        public Double difEfectivoApertura => Caja.CajaActual - EfectivoApertura;
+        public Double difEfectivoApertura => Caja.Efectivo - EfectivoApertura;
         [NotMapped]
         public Double difMercadoPagoApertura => Caja.MercadoPago - MercadoPagoApertura;
         [NotMapped]
         public Double difTotalApertura => difEfectivoApertura + difMercadoPagoApertura + DiferenciaApertura;
 
         [NotMapped]
-        public Double difEfectivoCierre => CajaCierre.CajaActual - EfectivoCierre;
+        public Double difEfectivoCierre => CajaCierre.Efectivo - EfectivoCierre;
         [NotMapped]
         public Double difMercadoPagoCierre => CajaCierre.MercadoPago - MercadoPagoCierre;
         [NotMapped]

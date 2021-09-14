@@ -11,20 +11,6 @@
     <Window.DataContext>
         <local:ContentViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <Storyboard x:Key="storyHeightShow">
-            <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="100" Duration="0:0:2" AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="storyHeightHide">
-            <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="100" To="0" Duration="0:0:2" AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="storyWidthShow">
-            <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="0" To="100" Duration="0:0:2" AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="storyWithHide">
-            <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="100" To="0" Duration="0:0:2" AutoReverse="False"/>
-        </Storyboard>
-    </Window.Resources>
     
 
     <Grid>
@@ -38,7 +24,7 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <ContentControl IsEnabled="{Binding testIsEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center">
+            <ContentControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False">
                 <Grid>
                     <Grid.Resources>
                         <ResourceDictionary>
@@ -61,7 +47,7 @@
                         </StackPanel>
 
                         <StackPanel VerticalAlignment="Center">
-                            <ctrls:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
+                            <ctrls:ctrlTextBox text="{Binding cajaActual.Efectivo, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
                             <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
                         </StackPanel>
                     </StackPanel>
@@ -80,7 +66,7 @@
                 </Grid>
             </ContentControl>
 
-            <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}">
+            <Grid Background="{StaticResource Brush.EditBar.Control.Background}">
                 <Grid.Style>
                     <Style TargetType="{x:Type Grid}">
                         <Setter Property="MaxHeight" Value="0"/>
@@ -88,7 +74,7 @@
                         <Setter Property="Panel.ZIndex" Value="1000"/>
                         <Setter Property="VerticalAlignment" Value="Top"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding testIsEnabled}" Value="True">
+                            <DataTrigger Binding="{Binding startAnimation}" Value="True">
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
                                 </DataTrigger.EnterActions>
@@ -99,17 +85,17 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <ContentControl  Content="{Binding upperNavigator.CurrentViewModel}" IsEnabled="{Binding testIsEnabled}"/>
+                <ContentControl  Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding isEditBarEnabled}"/>
             </Grid>
         </Grid>
 
-        <TabControl IsEnabled="{Binding testIsEnabled, Converter={StaticResource InvertBoolConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+        <TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
             <TabItem Header="Opciones">
 
             </TabItem>
 
             <TabItem IsSelected="True" Header="Principal">
-                <ContentControl Content="{Binding mainNavigator.CurrentViewModel}"/>
+                <ContentControl IsTabStop="False" Focusable="False" Content="{Binding mainNavigator.CurrentViewModel}"/>
             </TabItem>
 
             <TabItem Header="Venta">

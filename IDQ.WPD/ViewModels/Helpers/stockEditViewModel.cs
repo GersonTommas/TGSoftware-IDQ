@@ -1,5 +1,7 @@
 ﻿using IDQ.Domain.Models;
+using IDQ.Domain.Services;
 using IDQ.EntityFramework;
+using IDQ.EntityFramework.Services;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,19 +11,11 @@ namespace IDQ.WPF.ViewModels.Helpers
     public class stockEditViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public stockEditViewModel()
-        {
-            _newStockProducto = new modificadoProductoModel() { Fecha = Shared.GlobalVars.returnFecha() };
-        }
+        public stockEditViewModel() { }
 
         public stockEditViewModel(productoModel sentProducto)
         {
             newStockProducto.Producto = sentProducto;
-        }
-
-        public void setInitialize(productoModel sentProducto, Window sentWindow = null)
-        {
-            newStockProducto.Producto = sentProducto; thisWindow = sentWindow;
         }
         #endregion // Initialize
 
@@ -29,8 +23,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         #region Variables
         public ObservableCollection<usuarioModel> listUsersSource => context.globalAllUsuarios;
 
-        modificadoProductoModel _newStockProducto;
-        public modificadoProductoModel newStockProducto { get => _newStockProducto; set { if (SetProperty(ref _newStockProducto, value)) { OnPropertyChanged(); } } }
+        public modificadoProductoModel newStockProducto { get; } = new modificadoProductoModel() { Fecha = Shared.GlobalVars.returnFecha() };
         #endregion // Variables
 
 
@@ -41,14 +34,17 @@ namespace IDQ.WPF.ViewModels.Helpers
             {
                 if (passBox.Password != null)
                 {
-                    string pass = passBox.Password;
-                    if (newStockProducto.Usuario.Contraseña == pass)
+                    //string pass = passBox.Password;
+                    if (newStockProducto.Usuario.Contraseña == passBox.Password)
                     {
-                        _ = context.globalDb.modificadoProductos.Add(newStockProducto);
+                        IDataService<modificadoProductoModel> dataService = new GenericDataService<modificadoProductoModel>();
                         newStockProducto.Producto.Stock += newStockProducto.Cantidad;
-                        _ = context.globalDb.SaveChanges();
+                        _ = dataService.Create(newStockProducto);
+                        //_ = context.globalDb.modificadoProductos.Add(newStockProducto);
+                        
+                        //_ = context.globalDb.SaveChanges();
 
-                        if (thisWindow != null) { thisWindow.DialogResult = true; }
+                        Shared.Navigators.UpdateEditorSlider(null);
                     }
                     else { Shared.GlobalVars.messageError.LogIn(); }
                 }
@@ -61,7 +57,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Commands
-        public Command controlCancelar => new Command((object parameter) => thisWindow.DialogResult = false);
+        public Command controlCancelar => new Command((object parameter) => Shared.Navigators.UpdateEditorSlider(null));
 
         public Command controlGuardarCommand => new Command(
             (object parameter) => helperGuardar(parameter),

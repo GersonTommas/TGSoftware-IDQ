@@ -1,4 +1,6 @@
-﻿using IDQ.WPF.States.Navigators;
+﻿using IDQ.Domain.Models;
+using IDQ.EntityFramework;
+using IDQ.WPF.States.Navigators;
 using IDQ.WPF.ViewModels;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -26,22 +28,7 @@ namespace IDQ.WPF
         }
         #endregion // OnClosing
 
-        public static async void updateEditorSlider(Base.ViewModelBase sentObject)
-        {
-            bool tempBool = sentObject is not null;
-
-            if (tempBool) { Shared.GlobalVars.upperNavigator.CurrentViewModel = sentObject; }
-            (thisWindow.DataContext as ContentViewModel).testIsEnabled = tempBool;
-            if (tempBool == false)
-            {
-                PutTaskDelay(sentObject);
-            }
-        }
-        static async Task PutTaskDelay(Base.ViewModelBase sentObject)
-        {
-            await Task.Delay(2000);
-            Shared.GlobalVars.upperNavigator.CurrentViewModel = sentObject;
-        }
+        public static async void updateEditorSlider(Base.ViewModelBase sentObject) { (thisWindow.DataContext as ContentViewModel).updateEditorSlider(sentObject); }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -53,12 +40,43 @@ namespace IDQ.WPF
     public class ContentViewModel : Base.ViewModelBase
     {
         #region Initialize
-        bool _testIsEnabled;
-        public bool testIsEnabled { get => _testIsEnabled; set { if (SetProperty(ref _testIsEnabled, value)) { OnPropertyChanged(); } } }
+        bool _isAnimationLoading;
+
+        bool _startAnimation;
+        public bool startAnimation { get => _startAnimation; set { if (SetProperty(ref _startAnimation, value)) { OnPropertyChanged(); } } }
+
+        bool _isEditBarEnabled;
+        public bool isEditBarEnabled { get => _isEditBarEnabled; set { if (SetProperty(ref _isEditBarEnabled, value)) { OnPropertyChanged(); } } }
 
         public INavigator mainNavigator { get; } = new Navigator();
         public INavigator consumosNavigator { get; } = new Navigator();
-        public INavigator upperNavigator => Shared.GlobalVars.upperNavigator;
+        public INavigator ContentTopNavigator => Shared.Navigators.ContentTopNavigator;
+
+
+        public cajaModel cajaActual => context.globalCajaActual;
+
+
+        public async void updateEditorSlider(Base.ViewModelBase sentViewModel)
+        {
+            if (_isAnimationLoading == false)
+            {
+                _isAnimationLoading = true;
+
+                await PutTaskDelay(sentViewModel, sentViewModel is not null);
+            }
+        }
+        async Task PutTaskDelay(Base.ViewModelBase sentObject, bool sentBool)
+        {
+            startAnimation = sentBool;
+
+            if (!sentBool) { await Task.Delay(900); isEditBarEnabled = sentBool; }
+
+            Shared.Navigators.ContentTopNavigator.CurrentViewModel = sentObject;
+
+            if (sentBool) { isEditBarEnabled = sentBool; await Task.Delay(900); }
+
+            _isAnimationLoading = false;
+        }
 
         public ContentViewModel()
         {

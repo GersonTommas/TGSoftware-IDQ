@@ -44,47 +44,81 @@
         </Grid.RowDefinitions>
 
         <GroupBox VerticalAlignment="Center" Header="{Binding groupBoxTitle}" IsEnabled="{Binding Navigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" Grid.Column="0" Grid.Row="0" >
-            <Grid VerticalAlignment="Center">
+            <Grid> 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <Grid IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <ctrls:ctrlTextBox isMaster="{Binding Navigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" text="{Binding newProducto.Codigo}" labelContent="Código" enterCommand="{Binding textBoxCommandCodigoDuplicado}" isHeaderTop="True" textAlignment="Left" isCurrency="False" isReadOnly="{Binding isForceNewCode}" Grid.Column="0"/>
+                    
 
-                <ctrls:ctrlTextBox text="{Binding newProducto.Descripcion}" labelContent="Descripción" enterCommand="{Binding bNextControl}" isHeaderTop="True" textAlignment="Left" isCurrency="False" Grid.Column="1"/>
+                    <ctrls:ctrlTextBox x:Name="texter" isMaster="{Binding ProductoTagMedidaNavigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" text="{Binding newProducto.Codigo}" labelContent="Código" enterCommand="{Binding textBoxCommandCodigoDuplicado}" isHeaderTop="True" textAlignment="Left" isCurrency="False" isReadOnly="{Binding isForceNewCode}"  Grid.Column="0"/>
 
-                <ctrls:ctrlTextBox text="{Binding newProducto.PrecioActual}" labelContent="Precio" enterCommand="{Binding bNextControl}" inputType="2" isHeaderTop="True" Grid.Column="2" />
+                    <ctrls:ctrlTextBox text="{Binding newProducto.Descripcion}" labelContent="Descripción" enterCommand="{Binding bNextControl}" isHeaderTop="True" textAlignment="Left" isCurrency="False" Grid.Column="1"/>
 
-                <ctrls:ctrlTextBox text="{Binding newProducto.StockInicial}" labelContent="Stock Inicial" enterCommand="{Binding bNextControl}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Visibility="{Binding isEdit, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" Grid.Column="3"/>
+                    <ctrls:ctrlTextBox text="{Binding newProducto.PrecioActual}" labelContent="Precio" enterCommand="{Binding bNextControl}" inputType="2" isHeaderTop="True" Grid.Column="2" />
 
-                <StackPanel VerticalAlignment="Center" Margin="5" Grid.Column="4">
-                    <Label Content="Unidad" Style="{StaticResource LabelSobreTextBox}" />
-                    <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" SelectedItem="{Binding newProducto.Medida}" Margin="0" Padding="0" DisplayMemberPath="fullMedida" MinWidth="50" IsTabStop="True" Focusable="True" >
-                        <ComboBox.InputBindings>
-                            <KeyBinding Command="{Binding bNextControl}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ComboBox}}" Key="Enter" />
-                        </ComboBox.InputBindings>
-                    </ComboBox>
-                </StackPanel>
+                    <ctrls:ctrlTextBox text="{Binding newProducto.StockInicial}" labelContent="Stock Inicial" enterCommand="{Binding bNextControl}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
+                </Grid>
 
-                <StackPanel VerticalAlignment="Center" Margin="5" Grid.Column="5">
-                    <Label Content="Tag" Style="{StaticResource LabelSobreTextBox}" />
-                    <ComboBox ItemsSource="{Binding Source={StaticResource collectionViewSourceTags}}" SelectedItem="{Binding newProducto.Tag}" DisplayMemberPath="fullTag" Margin="0" Padding="0" Width="120" IsTabStop="True" Focusable="True">
-                        <ComboBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding controlGuardarCommand}" />
-                        </ComboBox.InputBindings>
-                    </ComboBox>
-                </StackPanel>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel VerticalAlignment="Center" Margin="5" IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Grid.Column="0">
+                        <Label Content="Unidad" Style="{StaticResource LabelSobreTextBox}" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" SelectedItem="{Binding newProducto.Medida}" Margin="0" Padding="0" DisplayMemberPath="fullMedida" MinWidth="80" IsTabStop="True" Focusable="True" >
+                            <ComboBox.InputBindings>
+                                <KeyBinding Command="{Binding bNextControl}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ComboBox}}" Key="Enter" />
+                            </ComboBox.InputBindings>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Grid Background="{StaticResource Brush.SEditBar.Control.Background}" IsEnabled="{Binding isEditBarEnabled}" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="MaxHeight" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Panel.ZIndex" Value="1000"/>
+                                <Setter Property="VerticalAlignment" Value="Top"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding startAnimation}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard Storyboard="{StaticResource storyHeightHide}"/>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <ContentPresenter Content="{Binding ProductoTagMedidaNavigator.CurrentViewModel}" />
+                    </Grid>
+
+                    <StackPanel VerticalAlignment="Center" Margin="5" Grid.Column="2">
+                        <Label Content="Tag" Style="{StaticResource LabelSobreTextBox}" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource collectionViewSourceTags}}" SelectedItem="{Binding newProducto.Tag}" DisplayMemberPath="fullTag" Margin="0" Padding="0" Width="140" IsTabStop="True" Focusable="True">
+                            <ComboBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding controlGuardarCommand}" />
+                            </ComboBox.InputBindings>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </GroupBox>
 
         <ctrls:ctrlInfoShortcuts hasGuardar="True" hasTag="True" hasMedidas="True" hasCancelar="True" Grid.Column="1" Grid.Row="0" />
-
-        <ContentControl Content="{Binding Navigator.CurrentViewModel}" Focusable="False" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" />
 
     </Grid>
 </UserControl>

@@ -11,13 +11,8 @@ namespace IDQ.WPF.ViewModels.Helpers
         public INavigator Navigator { get; set; }
 
         public tagNewEditViewModel() { }
-
-        public tagNewEditViewModel(INavigator sentNavigator)
-        {
-            Navigator = sentNavigator;
-        }
-
-        public void setInitialize(tagModel sentTag)
+        
+        public tagNewEditViewModel(tagModel sentTag)
         {
             if (sentTag != null)
             {
@@ -40,10 +35,9 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public string groupBoxTitle => isEdit ? "ID: " + _editTag.Id : "Nuevo Tag";
 
-        tagModel _editTag;
+        readonly tagModel _editTag;
 
-        tagModel _newTag = new tagModel() { Activo = true };
-        public tagModel newTag { get => _newTag; set { if (SetProperty(ref _newTag, value)) { OnPropertyChanged(); } } }
+        public tagModel newTag { get; } = new tagModel() { Activo = true };
         #endregion // Variables
 
 
@@ -65,7 +59,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
                     _ = context.globalDb.SaveChanges();
 
-                    //thisWindow.DialogResult = true;
+                    Shared.Navigators.UpdateProductoSlider(null);
                 }
                 else { Shared.GlobalVars.messageError.Existencia(); }
             }
@@ -88,6 +82,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Commands
+        public Command ControlCommandCancelar => new Command((object parameter) => { Shared.Navigators.UpdateProductoSlider(null); });
+
         public Command guardarTagCommand => new Command(
             (object parameter) => helperGuardar(),
             (object parameter) => checkGuardar());

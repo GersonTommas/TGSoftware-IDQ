@@ -60,15 +60,15 @@ namespace IDQ.WPF.Controls
         {
             if (inputType == 1)
             {
-                //Variables.regexNumbers(sender, e);
+                Shared.RegexService.regexNumbers(sender, e);
             }
             else if (inputType == 2)
             {
-                //Variables.regexDouble(sender, e);
+                Shared.RegexService.regexDouble(sender, e);
             }
             else if (inputType == 3)
             {
-                //Variables.regexNegativeNumbers(sender, e);
+                Shared.RegexService.regexNegativeNumbers(sender, e);
             }
         }
 

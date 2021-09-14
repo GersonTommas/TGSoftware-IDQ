@@ -52,7 +52,7 @@
                         </Grid.ColumnDefinitions>
 
                         <ctrls:ctrlTextBox text="{Binding newCajaConteo.EfectivoApertura, Mode=OneWay}" labelContent="Caja:" isReadOnly="True" textWidth="60" Grid.Column="0"/>
-                        <ctrls:ctrlTextBox text="{Binding newCajaConteo.Caja.CajaActual}" labelContent="Sistema:" isReadOnly="True" textWidth="60" Grid.Column="1"/>
+                        <ctrls:ctrlTextBox text="{Binding newCajaConteo.Caja.Efectivo}" labelContent="Sistema:" isReadOnly="True" textWidth="60" Grid.Column="1"/>
                         <ctrls:ctrlTextBox text="{Binding newCajaConteo.difEfectivoApertura, Mode=OneWay}" labelContent="Diferencia:" isReadOnly="True" textWidth="60" Grid.Column="2"/>
                     </Grid>
                 </Grid>
@@ -67,7 +67,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <ctrls:ctrlTextBox text="{Binding newCajaConteo.MercadoPagoApertura}" labelContent="MercadoPago:" textWidth="60" Grid.Column="0"/>
+                <ctrls:ctrlTextBox text="{Binding newCajaConteo.MercadoPagoApertura}" labelContent="MercadoPago:" inputType="2" textWidth="60" Grid.Column="0"/>
                 <ctrls:ctrlTextBox text="{Binding newCajaConteo.Caja.MercadoPago, Mode=OneWay}" labelContent="Sistema:" textWidth="60"  isReadOnly="True" Grid.Column="1"/>
                 <ctrls:ctrlTextBox text="{Binding newCajaConteo.difMercadoPagoApertura, Mode=OneWay}" labelContent="Diferencia:" textWidth="60" isReadOnly="True" Grid.Column="2"/>
             </Grid>

@@ -11,5 +11,5 @@
         <local:LogInWindowViewModel/>
     </Window.DataContext>
 
-    <ContentControl Content="{Binding Navigator.CurrentViewModel}" />
+    <ContentControl IsTabStop="False" Focusable="False" Content="{Binding Navigator.CurrentViewModel}" />
 </Window>

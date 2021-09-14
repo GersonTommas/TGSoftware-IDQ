@@ -1,22 +1,19 @@
 ﻿using IDQ.Domain.Models;
+using IDQ.Domain.Services;
 using IDQ.EntityFramework;
+using IDQ.EntityFramework.Services;
 using IDQ.WPF.States.Navigators;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
+using System.Threading.Tasks;
 
 namespace IDQ.WPF.ViewModels.Helpers
 {
     public class productoNewEditViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public INavigator Navigator { get; } = new Navigator();
+        public productoNewEditViewModel() { }
 
-        public productoNewEditViewModel()
-        {
-            newProducto.Activo = true;
-        }
         public productoNewEditViewModel(productoModel sentProducto)
         {
             if (sentProducto != null)
@@ -37,7 +34,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                 newProducto.StockInicial = sentProducto.StockInicial;
                 newProducto.Tag = sentProducto.Tag;
                 newProducto.TagID = sentProducto.TagID;
-
+                
                 isEdit = true;
             }
         }
@@ -50,41 +47,42 @@ namespace IDQ.WPF.ViewModels.Helpers
                 isForceNewCode = true;
             }
         }
-
-        public void setInitialize(productoModel sentProducto, Window sentWindow)
-        {
-            if (sentWindow != null) { thisWindow = sentWindow; }
-            if (sentProducto != null)
-            {
-                _editProducto = sentProducto;
-
-                newProducto.Activo = sentProducto.Activo;
-                newProducto.Agregado = sentProducto.Agregado;
-                newProducto.Codigo = sentProducto.Codigo;
-                newProducto.Descripcion = sentProducto.Descripcion;
-                newProducto.FechaModificado = sentProducto.FechaModificado;
-                newProducto.FechaModificadoID = sentProducto.FechaModificadoID;
-                newProducto.Medida = sentProducto.Medida;
-                newProducto.MedidaID = sentProducto.MedidaID;
-                newProducto.PrecioActual = sentProducto.PrecioActual;
-                newProducto.PrecioIngreso = sentProducto.PrecioIngreso;
-                newProducto.Stock = sentProducto.Stock;
-                newProducto.StockInicial = sentProducto.StockInicial;
-                newProducto.Tag = sentProducto.Tag;
-                newProducto.TagID = sentProducto.TagID;
-
-                isEdit = true;
-            }
-        }
-        public void setInitialize(string sentCodigo)
-        {
-            if (!string.IsNullOrWhiteSpace(sentCodigo))
-            {
-                isForceNewCode = true;
-                newProducto.Codigo = sentCodigo;
-            }
-        }
         #endregion // Initialize
+
+
+        #region Animation
+        public INavigator ProductoTagMedidaNavigator => Shared.Navigators.ProductoTagMedidaNavigator;
+
+        bool _isAnimationLoading;
+
+        bool _startAnimation;
+        public bool startAnimation { get => _startAnimation; set { if (SetProperty(ref _startAnimation, value)) { OnPropertyChanged(); } } }
+
+        bool _isEditBarEnabled;
+        public bool isEditBarEnabled { get => _isEditBarEnabled; set { if (SetProperty(ref _isEditBarEnabled, value)) { OnPropertyChanged(); } } }
+
+        public async void updateEditorSlider(Base.ViewModelBase sentViewModel)
+        {
+            if (_isAnimationLoading == false)
+            {
+                _isAnimationLoading = true;
+
+                await PutTaskDelay(sentViewModel, sentViewModel is not null);
+            }
+        }
+        async Task PutTaskDelay(Base.ViewModelBase sentObject, bool sentBool)
+        {
+            startAnimation = sentBool;
+
+            if (!sentBool) { await Task.Delay(900); isEditBarEnabled = sentBool; }
+
+            Shared.Navigators.ProductoTagMedidaNavigator.CurrentViewModel = sentObject;
+
+            if (sentBool) { isEditBarEnabled = sentBool; await Task.Delay(900); }
+
+            _isAnimationLoading = false;
+        }
+        #endregion // Animation
 
 
         #region Variables
@@ -102,7 +100,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         productoModel _editProducto;
 
-        productoModel _newProducto = new productoModel();
+        productoModel _newProducto = new productoModel() { Activo = true };
         public productoModel newProducto { get => _newProducto; set { if (SetProperty(ref _newProducto, value)) { OnPropertyChanged(); } } }
 
         string _strNewCode;
@@ -113,6 +111,9 @@ namespace IDQ.WPF.ViewModels.Helpers
         #region Helpers
         void helperGuardar()
         {
+
+            IDataService<productoModel> dataService = new GenericDataService<productoModel>();
+
             productoModel compareProductCodigo = null;
             productoModel compareProductDescripcion = null;
 
@@ -139,8 +140,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                     _ = context.globalDb.SaveChanges();
                     Shared.GlobalVars.messageError.Guardado();
 
-                    Shared.GlobalVars.UpdateEditorSlider(null);
-                    //thisWindow.DialogResult = true;
+                    Shared.Navigators.UpdateEditorSlider(null);
                 }
                 else { Shared.GlobalVars.messageError.Existencia(); }
             }
@@ -152,28 +152,9 @@ namespace IDQ.WPF.ViewModels.Helpers
                     newProducto.Stock = newProducto.StockInicial;
                     newProducto.TagID = newProducto.Tag.Id;
                     newProducto.MedidaID = newProducto.Medida.Id;
-                    
-                    productoModel tempProducto = context.globalDb.productos.CreateProxy();
-                    tempProducto.Activo = newProducto.Activo;
-                    tempProducto.Agregado = newProducto.Agregado;
-                    tempProducto.Codigo = newProducto.Codigo;
-                    tempProducto.Descripcion = newProducto.Descripcion;
-                    tempProducto.FechaModificado = newProducto.FechaModificado;
-                    tempProducto.FechaModificadoID = newProducto.FechaModificadoID;
-                    tempProducto.Medida = newProducto.Medida;
-                    tempProducto.MedidaID = newProducto.MedidaID;
-                    tempProducto.PrecioActual = newProducto.PrecioActual;
-                    tempProducto.PrecioIngreso = newProducto.PrecioIngreso;
-                    tempProducto.Stock = newProducto.Stock;
-                    tempProducto.StockInicial = newProducto.StockInicial;
-                    tempProducto.Tag = newProducto.Tag;
-                    tempProducto.TagID = newProducto.TagID;
-                    
-                    context.globalDb.productos.Local.Add(tempProducto);
-                    _ = context.globalDb.SaveChanges();
+                    _ = dataService.Create(newProducto);
 
-                    Shared.GlobalVars.UpdateEditorSlider(null);
-                    //thisWindow.DialogResult = true;
+                    Shared.Navigators.UpdateEditorSlider(null);
                 }
             }
         }
@@ -182,7 +163,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(newProducto.Codigo) && !string.IsNullOrWhiteSpace(newProducto.Descripcion) && newProducto.Tag != null && newProducto.Medida != null)
+                if (ProductoTagMedidaNavigator.CurrentViewModel == null && !string.IsNullOrWhiteSpace(newProducto.Codigo) && !string.IsNullOrWhiteSpace(newProducto.Descripcion) && newProducto.Tag != null && newProducto.Medida != null)
                 {
                     if (newProducto.Codigo.Length > 0 && newProducto.Descripcion.Length > 0 && newProducto.Medida.Id > 0 && newProducto.PrecioActual > 0)
                     { return true; }
@@ -216,15 +197,16 @@ namespace IDQ.WPF.ViewModels.Helpers
             (object parameter) => checkGuardar());
 
         public Command controlCommandNewTag => new Command(
-            (object parameter) => { Navigator.CurrentViewModel = new tagNewEditViewModel(Navigator); },
-            (object parameter) => Navigator.CurrentViewModel == null);
+            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new tagNewEditViewModel()); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
 
         public Command controlCommandNewMedida => new Command(
-            (object parameter) => { Navigator.CurrentViewModel = new medidaNewEditViewModel(Navigator); },
-            (object parameter) => Navigator.CurrentViewModel == null);
+            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new medidaNewEditViewModel()); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
 
         public Command cancelCommand => new Command(
-            (object parameter) => { Shared.GlobalVars.UpdateEditorSlider(null); /*if (Navigator.CurrentViewModel != null) { Navigator.CurrentViewModel = null; } else { thisWindow.DialogResult = false; }*/ });
+            (object parameter) => { Shared.Navigators.UpdateEditorSlider(null); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
         #endregion // Commands
     }
 }

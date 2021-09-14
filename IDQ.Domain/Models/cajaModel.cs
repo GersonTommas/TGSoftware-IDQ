@@ -8,11 +8,11 @@ namespace IDQ.Domain.Models
     public class cajaModel : Base.ModelBase
     {
         #region Private
-        Double _CajaActual, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja, _CajaConteoCierreForCaja; ventaModel _VentaForCaja;
+        Double _Efectivo, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja, _CajaConteoCierreForCaja; ventaModel _VentaForCaja;
         #endregion // Private
 
         #region Public
-        public Double CajaActual { get => _CajaActual; set { if (SetProperty(ref _CajaActual, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
+        public Double Efectivo { get => _Efectivo; set { if (SetProperty(ref _Efectivo, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
         public Double MercadoPago { get => _MercadoPago; set { if (SetProperty(ref _MercadoPago, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
         public Double Vuelto { get => _Vuelto; set { if (SetProperty(ref _Vuelto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
@@ -41,20 +41,17 @@ namespace IDQ.Domain.Models
         {
             if (VentaForCaja != null)
             {
-                /*
-                OnPropertyChanged(nameof(VentaForCaja.TotalPagado));
-                OnPropertyChanged(nameof(VentaForCaja.Vuelto));
-                */
                 OnPropertyChanged(nameof(doubleEfectivoTotal));
+                OnPropertyChanged(nameof(doubleTotalTotal));
             }
         }
         #endregion // Helpers
 
         #region NotMapped
         [NotMapped]
-        public Double doubleEfectivoTotal => CajaActual - Vuelto;
+        public Double doubleEfectivoTotal => Efectivo - Vuelto;
         [NotMapped]
-        public Double doubleTotalTotal => CajaActual + MercadoPago - Vuelto;
+        public Double doubleTotalTotal => Efectivo + MercadoPago - Vuelto;
         #endregion // NotMapped
 
         public override void updateModel()

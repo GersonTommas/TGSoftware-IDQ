@@ -42,7 +42,7 @@
                 </StackPanel>
                 
                 <StackPanel VerticalAlignment="Center">
-                    <ctrls:ctrlTextBox text="{Binding cajaActual.CajaActual, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
+                    <ctrls:ctrlTextBox text="{Binding cajaActual.Efectivo, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
                     <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
                 </StackPanel>
             </StackPanel>
@@ -63,16 +63,16 @@
         <Grid Background="{StaticResource Brush.Navigation.Background.Normal}" Grid.Row="1">
             <TabControl>
                 <TabItem Header="Productos">
-                    <ContentControl Content="{Binding mainProductosNavigator.CurrentViewModel}"/>
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainProductosNavigator.CurrentViewModel}"/>
                 </TabItem>
                 <TabItem Header="Ventas">
-                    <ContentControl Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
                 </TabItem>
                 <TabItem Header="Ingresos">
-                    <ContentControl Content="{Binding mainIngresosNavigator.CurrentViewModel}"/>
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainIngresosNavigator.CurrentViewModel}"/>
                 </TabItem>
                 <TabItem Header="Deudas">
-                    <ContentControl Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
                 </TabItem>
             </TabControl>
         </Grid>

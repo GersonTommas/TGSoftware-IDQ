@@ -1,21 +1,10 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IDQ.WPF
 {
@@ -61,12 +50,13 @@ namespace IDQ.WPF
                     {
                         fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _hora = Shared.GlobalVars.strHora;
 
-                        tempCajaConteo.CajaCierre = new cajaModel();
-
-                        tempCajaConteo.CajaCierre.CajaActual = context.globalCajaActual.CajaActual;
-                        tempCajaConteo.CajaCierre.Fecha = _fecha;
-                        tempCajaConteo.CajaCierre.Hora = _hora;
-                        tempCajaConteo.CajaCierre.MercadoPago = context.globalCajaActual.MercadoPago;
+                        tempCajaConteo.CajaCierre = new cajaModel
+                        {
+                            Efectivo = context.globalCajaActual.Efectivo,
+                            Fecha = _fecha,
+                            Hora = _hora,
+                            MercadoPago = context.globalCajaActual.MercadoPago
+                        };
 
                         tempCajaConteo.Detalle += "AUTOMATICO - Se cierra caja sin conteo.";
                         tempCajaConteo.FechaCierre = _fecha; tempCajaConteo.HoraCierre = _hora;
@@ -87,18 +77,21 @@ namespace IDQ.WPF
                     {
                         fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _hora = Shared.GlobalVars.strHora;
 
-                        _cierreCajaConteo = new cajaConteoModel();
+                        _cierreCajaConteo = new cajaConteoModel
+                        {
+                            Caja = new cajaModel
+                            {
+                                Efectivo = context.globalCajaActual.Efectivo,
+                                Fecha = _fecha,
+                                Hora = _hora,
+                                MercadoPago = context.globalCajaActual.MercadoPago
+                            },
 
-                        _cierreCajaConteo.Caja = new cajaModel();
-                        _cierreCajaConteo.Caja.CajaActual = context.globalCajaActual.CajaActual;
-                        _cierreCajaConteo.Caja.Fecha = _fecha;
-                        _cierreCajaConteo.Caja.Hora = _hora;
-                        _cierreCajaConteo.Caja.MercadoPago = context.globalCajaActual.MercadoPago;
-
-                        _cierreCajaConteo.Detalle = "AUTOMATICO - Se abre una caja SOLO para realizar CIERRE.";
-                        _cierreCajaConteo.FechaApertura = _fecha;
-                        _cierreCajaConteo.HoraApertura = _hora;
-                        _cierreCajaConteo.Usuario = Shared.GlobalVars.usuarioLogueado;
+                            Detalle = "AUTOMATICO - Se abre una caja SOLO para realizar CIERRE.",
+                            FechaApertura = _fecha,
+                            HoraApertura = _hora,
+                            Usuario = Shared.GlobalVars.usuarioLogueado
+                        };
 
                         isCajaCierre = true;
                     }
@@ -112,9 +105,11 @@ namespace IDQ.WPF
 
         void helperLogIn()
         {
-            newCajaConteo.Caja = new cajaModel();
-            newCajaConteo.Caja.CajaActual = context.globalCajaActual.CajaActual;
-            newCajaConteo.Caja.MercadoPago = context.globalCajaActual.MercadoPago;
+            newCajaConteo.Caja = new cajaModel()
+            {
+                Efectivo = context.globalCajaActual.Efectivo,
+                MercadoPago = context.globalCajaActual.MercadoPago
+            };
             newCajaConteo.Usuario = Shared.GlobalVars.usuarioLogueado;
         }
         #endregion // Initialize
@@ -182,12 +177,13 @@ namespace IDQ.WPF
             {
                 if (_cierreCajaConteo != null)
                 {
-                    _cierreCajaConteo.CajaCierre = new cajaModel();
-
-                    _cierreCajaConteo.CajaCierre.CajaActual = context.globalCajaActual.CajaActual;
-                    _cierreCajaConteo.CajaCierre.MercadoPago = context.globalCajaActual.MercadoPago;
-                    _cierreCajaConteo.CajaCierre.Fecha = _fechaActual;
-                    _cierreCajaConteo.CajaCierre.Hora = _HoraActual;
+                    _cierreCajaConteo.CajaCierre = new cajaModel
+                    {
+                        Efectivo = context.globalCajaActual.Efectivo,
+                        MercadoPago = context.globalCajaActual.MercadoPago,
+                        Fecha = _fechaActual,
+                        Hora = _HoraActual
+                    };
 
                     _cierreCajaConteo.FechaCierre = _fechaActual;
                     _cierreCajaConteo.HoraCierre = _HoraActual;

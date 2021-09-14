@@ -25,7 +25,19 @@
                 <ResourceDictionary Source="/Styles/GenericStyles.xaml" />
                 <ResourceDictionary Source="/Styles/NavigationBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+            <Storyboard x:Key="storyHeightShow">
+                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="100" Duration="0:0:1" AutoReverse="False"/>
+            </Storyboard>
+            <Storyboard x:Key="storyHeightHide">
+                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="100" To="0" Duration="0:0:1" AutoReverse="False"/>
+            </Storyboard>
+            <Storyboard x:Key="storyWidthShow">
+                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="0" To="100" Duration="0:0:1" AutoReverse="False"/>
+            </Storyboard>
+            <Storyboard x:Key="storyWithHide">
+                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="100" To="0" Duration="0:0:1" AutoReverse="False"/>
+            </Storyboard>
+
             <!--#region Converters-->
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:NullToTrueComparerConverter x:Key="NullToTrueComparerConverter"/>

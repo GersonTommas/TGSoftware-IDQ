@@ -55,11 +55,11 @@ namespace IDQ.WPF
             Navigator.UpdateCurrentViewModelCommand.Execute(sentEnum);
             if (sentEnum == ProductosEnum.Stock)
             {
-                (Navigator.CurrentViewModel as stockEditViewModel).setInitialize(sentProducto, thisWindow);
+                //(Navigator.CurrentViewModel as stockEditViewModel).setInitialize(sentProducto, thisWindow);
             }
             else if (sentEnum == ProductosEnum.Edit)
             {
-                (Navigator.CurrentViewModel as productoNewEditViewModel).setInitialize(sentProducto, thisWindow);
+                //(Navigator.CurrentViewModel as productoNewEditViewModel).setInitialize(sentProducto, thisWindow);
             }
         }
         #endregion // Initialize

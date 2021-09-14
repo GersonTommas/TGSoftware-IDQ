@@ -99,16 +99,16 @@ namespace IDQ.WPF.ViewModels.Main
         #region Commands
         public Command buttonCommandVistas => new Command((object parameter) => { buttonBoolVistas = !buttonBoolVistas; });
 
-        public Command buttonCommandBusqueda => new Command((object parameter) => { Shared.GlobalVars.UpdateEditorSlider(null); });//buttonBoolBusqueda = !buttonBoolBusqueda; });
+        public Command buttonCommandBusqueda => new Command((object parameter) => { Shared.Navigators.UpdateEditorSlider(null); });//buttonBoolBusqueda = !buttonBoolBusqueda; });
 
-        public Command buttonCommandNewProducto => new Command((object parameter) => { Shared.GlobalVars.UpdateEditorSlider(new Helpers.productoNewEditViewModel()); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.New); _ = hWindow.ShowDialog();*/ });
+        public Command buttonCommandNewProducto => new Command((object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel()); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.New); _ = hWindow.ShowDialog();*/ });
 
         public Command buttonCommandModificarStock => new Command(
-            (object parameter) => { HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Stock, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog(); },
+            (object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.stockEditViewModel(collectionAllProductos.CurrentItem as productoModel)); },//HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Stock, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog(); },
             (object parameter) => collectionAllProductos?.CurrentItem != null);
 
         public Command butttonCommandEditProducto => new Command(
-            (object parameter) => { Shared.GlobalVars.UpdateEditorSlider(new Helpers.productoNewEditViewModel(collectionAllProductos.CurrentItem as productoModel)); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Edit, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog();*/ },
+            (object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel(collectionAllProductos.CurrentItem as productoModel)); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Edit, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog();*/ },
             (object parameter) => collectionAllProductos?.CurrentItem != null);
         #endregion // Commands
     }

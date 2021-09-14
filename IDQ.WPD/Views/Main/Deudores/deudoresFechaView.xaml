@@ -62,7 +62,7 @@
             <DataGrid Grid.Column="1" Grid.Row="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding Fecha.Fecha}" />
-                    <DataGridTextColumn Width="*" Header="Efectivo" Binding="{Binding CajaActual}" />
+                    <DataGridTextColumn Width="*" Header="Efectivo" Binding="{Binding Efectivo}" />
                     <DataGridTextColumn Width="*" Header="MercadoPago" Binding="{Binding MercadoPago}" />
                     <DataGridTextColumn Width="*" Header="Vuelto" Binding="{Binding Vuelto}" />
                 </DataGrid.Columns>

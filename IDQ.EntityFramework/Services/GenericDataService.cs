@@ -12,7 +12,10 @@ namespace IDQ.EntityFramework.Services
 
         public async Task<T> Create(T entity)
         {
-            EntityEntry<T> createdResult = await context.globalDb.Set<T>().AddAsync(entity);
+            T newEntity = context.globalDb.Set<T>().CreateProxy();
+            context.globalDb.Entry(newEntity).CurrentValues.SetValues(entity);
+
+            EntityEntry<T> createdResult = await context.globalDb.Set<T>().AddAsync(newEntity);
             _ = await context.globalDb.SaveChangesAsync();
 
             return createdResult.Entity;
@@ -48,7 +51,30 @@ namespace IDQ.EntityFramework.Services
             _ = await context.globalDb.SaveChangesAsync();
 
             return entity;
-        }
+        }/*
+
+        async Task<productoModel> saveMe(ModelBase sentModelBase)
+        {
+            productoModel procesedModelBase = sentModelBase as productoModel;
+
+            productoModel clone = context.globalDb.productos.CreateProxy();
+
+            clone.Activo = procesedModelBase.Activo;
+            clone.Codigo = procesedModelBase.Codigo;
+            clone.Descripcion = procesedModelBase.Descripcion;
+            clone.FechaModificado = procesedModelBase.FechaModificado;
+            clone.FechaModificadoID = procesedModelBase.FechaModificadoID;
+            clone.Medida = procesedModelBase.Medida;
+            clone.MedidaID = procesedModelBase.MedidaID;
+            clone.PrecioActual = procesedModelBase.PrecioActual;
+            clone.PrecioIngreso = procesedModelBase.PrecioIngreso;
+            clone.Stock = procesedModelBase.Stock;
+            clone.StockInicial = procesedModelBase.StockInicial;
+            clone.Tag = procesedModelBase.Tag;
+            clone.TagID = procesedModelBase.TagID;
+
+            return clone;
+        }*/
     }
 }
         /*
