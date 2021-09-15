@@ -9,7 +9,7 @@ namespace IDQ.Domain.Models
     {
         #region Private
         int _StockInicial, _Stock; Double _PrecioActual, _PrecioIngreso; string _Codigo, _Descripcion; fechaModel _FechaModificado; bool _Activo; tagModel _Tag; medidaModel _Medida;
-        bool _Agregado = false;
+        bool _Agregado; int _CantidadIngresado;
         #endregion // Private
 
         #region Public
@@ -51,6 +51,8 @@ namespace IDQ.Domain.Models
         public int stockVsMinimo => Tag != null ? Stock < 1 ? 1 : Stock < Tag.Minimo ? 2 : Stock == Tag.Minimo ? 3 : 4 : 0;
         [NotMapped]
         public bool Agregado { get => _Agregado; set { if (_Agregado != value) { _Agregado = value; OnPropertyChanged(); } } }
+        [NotMapped]
+        public int CantidadIngresado { get => _CantidadIngresado; set { if (SetProperty(ref _CantidadIngresado, value)) { OnPropertyChanged(); } } }
         #endregion // NotMapped
 
         public override void updateModel()

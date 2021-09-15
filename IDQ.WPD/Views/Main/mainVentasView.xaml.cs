@@ -20,12 +20,7 @@ namespace IDQ.WPF.Views.Main
         {
             if (e.Item is fechaModel item)
             {
-                if (item.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd") | item.VentasPerFecha.Count > 0)
-                { e.Accepted = true; }
-                else
-                {
-                    e.Accepted = false;
-                }
+                e.Accepted = item.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd") | item.VentasPerFecha.Count > 0;
             }
         }
         #endregion // Filters

@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 
 namespace IDQ.WPF.ViewModels.Main
 {
-    public class mainIngresosViewModel : Base.ViewModelBase
+    public class mainComprasViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public mainIngresosViewModel() { }
+        public mainComprasViewModel() { }
         #endregion // Initialize
 
 

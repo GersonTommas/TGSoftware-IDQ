@@ -4,14 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IDQ.WPF"
+        xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
         mc:Ignorable="d"
         x:Name="thisWindow"
-        Title="HelperWindow" Background="{StaticResource Brush.Window.Upper.Background.Dark}" ResizeMode="NoResize" SizeToContent="Height" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Normal" BorderThickness="0">
+        Title="HelperWindow" Background="{StaticResource Brush.Window.Upper.Background.Dark}" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Normal" BorderThickness="0">
     <Window.DataContext>
         <local:HelperWindowViewModel />
     </Window.DataContext>
-    
-    <Border BorderThickness="1" BorderBrush="Gray">
-        <ContentControl Content="{Binding Navigator.CurrentViewModel}" Focusable="False" />
-    </Border>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Grid.Row="0">
+            <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
+        </Border>
+        <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <UniformGrid Columns="3" Rows="1" Grid.Column="0">
+                    <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding bNextControl}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
+                    <ctrls:ctrlTextBox text="{Binding PrecioCompra}" labelContent="Precio Pagado" enterCommand="{Binding bNextControl}" inputType="2" isHeaderTop="True" />
+                    <ctrls:ctrlTextBox text="{Binding PrecioVenta}" labelContent="Precio Venta" enterCommand="{Binding resultCommandPrecioVenta}" inputType="2" isHeaderTop="True" />
+                </UniformGrid>
+                
+                
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ctrls:ctrlTextBox text="{Binding PagadoTotal, Mode=OneWay}" labelContent="Pagado" isReadOnly="True" Grid.Row="0"/>
+                    <ctrls:ctrlTextBox text="{Binding PrecioSugerido, Mode=OneWay}" labelContent="Sugerido" isReadOnly="True" Grid.Row="1"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </Window>

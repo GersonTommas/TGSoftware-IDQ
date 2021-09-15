@@ -1,37 +1,30 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IDQ.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for ctrlSelector.xaml
     /// </summary>
-    public partial class ctrlSelector : UserControl, INotifyPropertyChanged
+    public partial class ctrlBuscador : UserControl, INotifyPropertyChanged
     {
-        public ctrlSelector()
+        public ctrlBuscador()
         {
-            InitializeComponent(); (DataContext as ctrlSelectorViewModel).thisControl = this;
+            InitializeComponent(); (DataContext as ctrlBuscadorViewModel).thisControl = this;
         }
 
         public bool isOnlyOneProducto { get => (bool)GetValue(isOnlyOneProductoProperty); set { SetValue(isOnlyOneProductoProperty, value); OnPropChanged(); } }
+        public object selectedItem { get => GetValue(selectedItemProperty); set { SetValue(selectedItemProperty, value); OnPropChanged(); } }
 
-        public static readonly DependencyProperty isOnlyOneProductoProperty = DependencyProperty.Register("isOnlyOneProducto", typeof(bool), typeof(ctrlSelector), new PropertyMetadata(false));
+        public static readonly DependencyProperty isOnlyOneProductoProperty = DependencyProperty.Register("isOnlyOneProducto", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
+        public static readonly DependencyProperty selectedItemProperty = DependencyProperty.Register("selectedItem", typeof(object), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
 
 
 
@@ -48,33 +41,37 @@ namespace IDQ.WPF.Controls
 
 
 
-    public class ctrlSelectorViewModel : Base.ViewModelBase
+    public class ctrlBuscadorViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public ctrlSelector thisControl;
+        public ctrlBuscador thisControl;
 
-        public ctrlSelectorViewModel()
+        public ctrlBuscadorViewModel()
         {
-            initilizeSearchTimer();
-            selectorListProductosSource.Source = context.globalAllProductos;
-            OnPropChanged(nameof(selectorListProductos));
-
-
-            selectorListProductos.SortDescriptions.Clear(); selectorListProductos.SortDescriptions.Add(new SortDescription("Descripcion", ListSortDirection.Ascending));
-
-            selectorListProductos.Filter = delegate (object item)
+            try
             {
-                if (item == null) { return false; }
-                else
+                initilizeSearchTimer();
+                selectorListProductosSource.Source = context.globalAllProductos;
+                OnPropChanged(nameof(selectorListProductos));
+
+
+                selectorListProductos.SortDescriptions.Clear(); selectorListProductos.SortDescriptions.Add(new SortDescription("Descripcion", ListSortDirection.Ascending));
+
+                selectorListProductos.Filter = delegate (object item)
                 {
-                    productoModel tempItem = item as productoModel;
-                    return !string.IsNullOrWhiteSpace(strSearchProducto)
-                        ? bolSelectorSoloStock
-                            ? bolSearchDescripcionCodigo ? tempItem.stockVsMinimo != 1 && tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.stockVsMinimo != 1 && tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
-                            : bolSearchDescripcionCodigo ? tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
-                        : !bolSelectorSoloStock || tempItem.stockVsMinimo != 1;
-                }
-            };
+                    if (item == null) { return false; }
+                    else
+                    {
+                        productoModel tempItem = item as productoModel;
+                        return !string.IsNullOrWhiteSpace(strSearchProducto)
+                            ? bolSelectorSoloStock
+                                ? bolSearchDescripcionCodigo ? tempItem.stockVsMinimo != 1 && tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.stockVsMinimo != 1 && tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
+                                : bolSearchDescripcionCodigo ? tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
+                            : !bolSelectorSoloStock || tempItem.stockVsMinimo != 1;
+                    }
+                };
+            }
+            catch { }
         }
         #endregion // Initialize
 

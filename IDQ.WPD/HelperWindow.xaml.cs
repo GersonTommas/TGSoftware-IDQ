@@ -2,6 +2,7 @@
 using IDQ.WPF.Enumerators;
 using IDQ.WPF.States.Navigators;
 using IDQ.WPF.ViewModels.Helpers;
+using System;
 using System.Windows;
 
 namespace IDQ.WPF
@@ -11,23 +12,18 @@ namespace IDQ.WPF
     /// </summary>
     public partial class HelperWindow : Window
     {
-        #region Initialize
-        public HelperWindow(ProductosEnum sentEnum, productoModel sentProducto = null)
-        {
-            InitializeComponent(); HelperWindowViewModel dtContext = DataContext as HelperWindowViewModel; dtContext.setInitialize(this);
+        public int cantidad;
+        public double precioCompra;
+        public double precioVenta;
 
-            if (sentEnum == ProductosEnum.New)
-            {
-                dtContext.initializeHelperNewProducto(sentEnum);
-            }
-            else
-            {
-                if (sentProducto == null) { Close(); }
-                else
-                {
-                    dtContext.initializeHelperProducto(sentEnum, sentProducto);
-                }
-            }
+        #region Initialize
+        public HelperWindow(int sentCantidad)
+        {
+            InitializeComponent(); DataContext = new HelperWindowViewModel(this, sentCantidad);
+        }
+        public HelperWindow(int sentCantidad, double sentPrecioCompra, double sentPrecioVenta)
+        {
+            InitializeComponent(); DataContext = new HelperWindowViewModel(this, sentCantidad, sentPrecioCompra, sentPrecioVenta);
         }
         #endregion // Initialize
     }
@@ -37,35 +33,49 @@ namespace IDQ.WPF
     class HelperWindowViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public INavigator Navigator { get; set; } = new Navigator();
-
         public HelperWindowViewModel() { }
-
-        public void initializeHelperNewProducto(ProductosEnum sentEnum)
+        public HelperWindowViewModel(HelperWindow sentWindow, int sentCantidad)
         {
-            Navigator.UpdateCurrentViewModelCommand.Execute(sentEnum);
-            productoNewEditViewModel dtContext = Navigator.CurrentViewModel as productoNewEditViewModel;
-            if (sentEnum == ProductosEnum.New)
-            {
-                dtContext.setInitialize(thisWindow);
-            }
+            thisWindow = sentWindow; cantidadVisibility = Visibility.Visible;
+            Cantidad = sentCantidad;
         }
-        public void initializeHelperProducto(ProductosEnum sentEnum, productoModel sentProducto)
+
+        public HelperWindowViewModel(HelperWindow sentWindow, int sentCantidad, double sentPrecioCompra, double sentPrecioVenta)
         {
-            Navigator.UpdateCurrentViewModelCommand.Execute(sentEnum);
-            if (sentEnum == ProductosEnum.Stock)
-            {
-                //(Navigator.CurrentViewModel as stockEditViewModel).setInitialize(sentProducto, thisWindow);
-            }
-            else if (sentEnum == ProductosEnum.Edit)
-            {
-                //(Navigator.CurrentViewModel as productoNewEditViewModel).setInitialize(sentProducto, thisWindow);
-            }
+            thisWindow = sentWindow; ingresoVisibility = Visibility.Visible;
+            Cantidad = sentCantidad; PrecioCompra = sentPrecioCompra; PrecioVenta = sentPrecioVenta;
         }
         #endregion // Initialize
 
 
+        #region Variables
+        int _Cantidad;
+        public int Cantidad { get => _Cantidad; set { if (SetProperty(ref _Cantidad, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(PagadoTotal)); } } }
+
+        double _PrecioCompra;
+        public double PrecioCompra { get => _PrecioCompra; set { if (SetProperty(ref _PrecioCompra, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PagadoTotal)); OnPropertyChanged(nameof(PrecioSugerido)); } } }
+
+        double _PrecioVenta;
+        public double PrecioVenta { get => _PrecioVenta; set { if (SetProperty(ref _PrecioVenta, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+
+        public double PagadoTotal => Cantidad * PrecioCompra;
+        public double PrecioSugerido => Math.Round(PrecioCompra * 1.3, 2);
+
+
+        public Visibility cantidadVisibility { get; } = Visibility.Collapsed;
+        public Visibility ingresoVisibility { get; } = Visibility.Collapsed;
+        #endregion // Variables
+
+
         #region Commands
+        public Command resultCommandCantidad => new Command(
+            (object parameter) => { },
+            (object parameter) => Cantidad > 0);
+
+        public Command resultCommandPrecioVenta => new Command(
+            (object parameter) => { },
+            (object parameter) => Cantidad > 0 && PrecioCompra >= 0 && PrecioVenta > 0);
+
         public Command cancelCommand => new Command((object parameter) => thisWindow.DialogResult = false);
         #endregion // Commands
     }

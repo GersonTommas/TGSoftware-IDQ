@@ -12,13 +12,22 @@
         <viewmodel:ComprasViewModel/>
     </d:UserControl.DataContext>
     
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <Grid Grid.Column="1">
+        <ctrls:ctrlBuscador Grid.Column="0" Grid.Row="0"/>
+
+        <ctrls:ctrlTextBox text="{Binding newIngreso.PrecioTotal}" labelContent="Gastado:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>

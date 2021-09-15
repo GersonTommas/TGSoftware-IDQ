@@ -47,7 +47,7 @@ namespace IDQ.WPF.Controls
 
 
         #region TextBox
-        System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();
+        readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();
         void initilizeClock() { Timer.Tick += new EventHandler(Timer_Click); Timer.Interval = new TimeSpan(0, 0, 0, 0, 100); }
         void Timer_Click(object sender, EventArgs e) { textBox.SelectAll(); Timer.Stop(); }
 

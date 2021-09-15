@@ -81,12 +81,12 @@
             
             <!--#region Main-->
             <!--Main-Base-->
+            <DataTemplate DataType="{x:Type viewmodelsmain:mainComprasViewModel}">
+                <viewsmain:mainComprasView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewmodelsmain:mainDeudoresViewModel}">
                 <viewsmain:mainDeudoresView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainIngresosViewModel}">
-                <viewsmain:mainIngresosView/>
             </DataTemplate>
             
             <DataTemplate DataType="{x:Type viewmodelsmain:mainProductosViewModel}">

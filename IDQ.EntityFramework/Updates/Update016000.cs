@@ -59,6 +59,7 @@ namespace IDQ.EntityFramework.Updates
                         }
                     }
                 }
+                _ = context.globalDb.SaveChanges();
             }
             #endregion // Update deudorPagos 01
 
@@ -77,9 +78,22 @@ namespace IDQ.EntityFramework.Updates
                     cajaConteo.Caja.MercadoPago = 0;
                     cajaConteo.Caja.Vuelto = 0;
                 }
-                context.globalDb.SaveChanges();
+                _ = context.globalDb.SaveChanges();
             }
             #endregion // Update cajaConteo 01
+
+
+            #region // Update Add-Ingreso-PrecioTotal
+            ObservableCollection<ingresoModel> ingresos = context.globalDb.ingresos.Local.ToObservableCollection();
+            if (ingresos.All(x => x.PrecioTotal == 0))
+            {
+                foreach (ingresoModel ingreso in ingresos)
+                {
+                    ingreso.PrecioTotal = Math.Round(ingreso.IngresoProductosPerIngreso.Sum(x => x.PrecioTotal), 2);
+                }
+                _ = context.globalDb.SaveChanges();
+            }
+            #endregion // Update Add-Ingreso-PrecioTotal
         }
     }
 }
