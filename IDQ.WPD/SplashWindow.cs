@@ -42,7 +42,7 @@ namespace IDQ.WPF
             });
         }
 
-        public void SetProgress(double progress)
+        public void SetProgress(Double progress)
         {
             _ = Dispatcher.BeginInvoke((Action)(() => progBar.Value = progress));
         }

@@ -41,7 +41,10 @@
             <!--#region Converters-->
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:NullToTrueComparerConverter x:Key="NullToTrueComparerConverter"/>
+            <converters:NullToVisibleConverter x:Key="NullToVisibleConverter"/>
             <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
+            <converters:CeroIsNothingConverter x:Key="CeroIsNothingConverter"/>
+            <converters:RevertDateConverter x:Key="RevertDateConverter"/>
             <!--#endregion Converters-->
             
             
@@ -69,6 +72,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:ConsumosViewModel}">
                 <views:ConsumosView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:LogCajaViewModel}">
+                <views:LogCajaView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:MainViewModel}">
                 <views:MainView/>

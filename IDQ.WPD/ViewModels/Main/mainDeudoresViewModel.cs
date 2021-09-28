@@ -25,7 +25,7 @@ namespace IDQ.WPF.ViewModels.Main
         bool _isLista = true;
         public string buttonStringListaFecha => _isLista ? "Fecha" : "Lista";
 
-        ObservableCollection<fechaModel> collectionSourceFechas => context.globalAllFechas;
+        //ObservableCollection<fechaModel> collectionSourceFechas => context.globalAllFechas;
 
         deudorModel _passDeudor;
         public deudorModel passDeudor { get => _passDeudor; set { if (SetProperty(ref _passDeudor, value)) { OnPropertyChanged(); } } }

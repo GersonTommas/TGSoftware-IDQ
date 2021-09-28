@@ -30,12 +30,15 @@ namespace IDQ.EntityFramework.Updates
             ObservableCollection<cajaModel> cajas = context.globalDb.caja.Local.ToObservableCollection();
             if (deudorPagos.Count == 0)
             {
-                 foreach (cajaModel caja in cajas)
+                foreach (cajaModel caja in cajas)
                 {
                     if (caja.VentaProductosPerCaja.Count > 0)
                     {
-                        deudorPagoModel deudaPago = new deudorPagoModel();
-                        deudaPago.Caja = caja; deudaPago.Fecha = caja.Fecha;
+                        deudorPagoModel deudaPago = new deudorPagoModel
+                        {
+                            Caja = caja,
+                            Fecha = caja.Fecha
+                        };
 
                         foreach (ventaProductoModel ventaProducto in caja.VentaProductosPerCaja)
                         {
@@ -63,7 +66,7 @@ namespace IDQ.EntityFramework.Updates
             }
             #endregion // Update deudorPagos 01
 
-            
+
             #region Update cajaConteo 01
             ObservableCollection<cajaConteoModel> cajaConteos = context.globalDb.cajaConteos.Local.ToObservableCollection();
             if (cajaConteos.All(x => x.EfectivoApertura == 0))
@@ -94,6 +97,83 @@ namespace IDQ.EntityFramework.Updates
                 _ = context.globalDb.SaveChanges();
             }
             #endregion // Update Add-Ingreso-PrecioTotal
+
+
+            #region Update Add-DeudorForCaja
+            ObservableCollection<deudorModel> deudores = context.globalAllDeudores;
+            if (deudores.All(x => x.cajasPerDeudor.Count == 0))
+            {
+                foreach (deudorModel deudor in deudores)
+                {
+                    if (deudor.DeudorPagosPerDeudor.Count > 0)
+                    {
+                        foreach (deudorPagoModel deudorPago in deudor.DeudorPagosPerDeudor)
+                        {
+                            if (!deudor.cajasPerDeudor.Contains(deudorPago.Caja)) { deudor.cajasPerDeudor.Add(deudorPago.Caja); }
+                        }
+                    }
+                }
+                _ = context.globalDb.SaveChanges();
+            }
+            #endregion // Update Add-DeudorForCaja
+
+
+            #region Update Separated-Deudas
+            ObservableCollection<deudaModel> deudas = context.globalDb.deudas.Local.ToObservableCollection();
+            if (deudas.Count == 0)
+            {
+                foreach (ventaModel venta in ventas)
+                {
+                    if (venta.Deudor != null)
+                    {
+                        deudaModel tempDeuda = new deudaModel
+                        {
+                            Deudor = venta.Deudor,
+                            FechaSacado = venta.Fecha,
+                            Hora = venta.Hora,
+                            Venta = venta
+                        };
+                        bool tempIsPagado = true;
+                        fechaModel tempFechaPagado = null;
+
+                        foreach (ventaProductoModel ventaProducto in venta.VentaProductosPerVenta)
+                        {
+                            deudaProductoModel tempDeudaProducto = new deudaProductoModel
+                            {
+                                CantidadAdeudada = ventaProducto.CantidadDeuda,
+                                CantidadFaltante = ventaProducto.CantidadFaltante,
+                                Precio = ventaProducto.Precio,
+                                PrecioPagado = ventaProducto.PrecioPagado,
+                                Producto = ventaProducto.Producto
+                            };
+                            if (ventaProducto.CantidadFaltante > 0) { tempIsPagado = false; }
+                            else
+                            {
+                                if (tempFechaPagado != null && ventaProducto.FechaPagado != null)
+                                {
+                                    tempFechaPagado = ventaProducto.FechaPagado;
+                                }
+                            }
+
+                            tempDeuda.deudaProductosPerDeuda.Add(tempDeudaProducto);
+                        }
+                        if (tempIsPagado)
+                        {
+                            if (tempFechaPagado == null)
+                            {
+                                try { tempFechaPagado = venta.Deudor.cajasPerDeudor.Last().Fecha; } catch { }
+                            }
+                            
+                            tempDeuda.FechaPagado = tempFechaPagado;
+                        }
+                        tempDeuda.TotalPagado = tempDeuda.deudaProductosPerDeuda.Sum(x => x.PrecioPagado * (x.CantidadAdeudada - x.CantidadFaltante));
+
+                        venta.Deudor.deudasPerDeudor.Add(tempDeuda);
+                    }
+                }
+                _ = context.globalDb.SaveChanges();
+            }
+            #endregion // Update Separated-Deudas
         }
     }
 }

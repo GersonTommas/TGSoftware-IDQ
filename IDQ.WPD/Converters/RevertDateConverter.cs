@@ -4,11 +4,12 @@ using System.Windows.Data;
 
 namespace IDQ.WPF.Converters
 {
-    class NullToTrueComparerConverter : IValueConverter
+    [ValueConversion(typeof(string), typeof(string))]
+    class RevertDateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return parameter?.ToString().ToLower() == "true" ? value != null : (object)(value == null);
+            return DateTime.Parse((string)value).ToString("dd/MM/yy");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) { throw new NotSupportedException(); }

@@ -6,12 +6,12 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF"
              mc:Ignorable="d" >
-    <d:UserControl.DataContext>
+    <UserControl.DataContext>
         <local:LogInViewModel/>
-    </d:UserControl.DataContext>
+    </UserControl.DataContext>
     
     <UserControl.Resources>
-        <CollectionViewSource x:Key="collectionViewSourceUsuarios" Source="{Binding collectionSourceUsuarios}">
+        <CollectionViewSource x:Key="collectionViewSourceUsuarios" Source="{Binding collectionSourceUsuarios}" Filter="collectionViewSourceUsuarios_Filter">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Usuario" />
             </CollectionViewSource.SortDescriptions>

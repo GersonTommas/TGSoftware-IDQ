@@ -8,12 +8,12 @@ namespace IDQ.Domain.Models
     public class usuarioModel : Base.ModelBase
     {
         #region Private
-        int _Nivel; Double _Resto; string _Nombre, _Apellido, _Detalle, _Contraseña, _Usuario; String _Fecha, _FechaSalida; bool _Activo;
+        int _Nivel; Decimal _Resto; string _Nombre, _Apellido, _Detalle, _Contraseña, _Usuario; String _Fecha, _FechaSalida; bool _Activo;
         #endregion // Private
 
         #region Public
         public int Nivel { get => _Nivel; set { if (SetProperty(ref _Nivel, value)) { OnPropertyChanged(); } } }
-        public Double Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
         public string Nombre { get => _Nombre; set { if (SetProperty(ref _Nombre, value)) { OnPropertyChanged(); } } }
         public string Apellido { get => _Apellido; set { if (SetProperty(ref _Apellido, value)) { OnPropertyChanged(); } } }

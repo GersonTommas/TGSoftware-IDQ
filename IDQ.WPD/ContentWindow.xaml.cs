@@ -50,11 +50,15 @@ namespace IDQ.WPF
 
         public INavigator mainNavigator { get; } = new Navigator();
         public INavigator consumosNavigator { get; } = new Navigator();
+        public INavigator logOutNavigator { get; } = new Navigator();
+        public INavigator logInNavigator { get; } = new Navigator();
         public INavigator ContentTopNavigator => Shared.Navigators.ContentTopNavigator;
+
+        public usuarioModel UsuarioLogueado { get => Shared.GlobalVars.usuarioLogueado; set { if (SetProperty(ref Shared.GlobalVars.usuarioLogueado, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(isLogged)); } } }
+        public bool isLogged => Shared.GlobalVars.usuarioLogueado != null;
 
 
         public cajaModel cajaActual => context.globalCajaActual;
-
 
         public async void updateEditorSlider(Base.ViewModelBase sentViewModel)
         {
@@ -82,6 +86,7 @@ namespace IDQ.WPF
         {
             mainNavigator.CurrentViewModel = new MainViewModel();
             consumosNavigator.CurrentViewModel = new ConsumosViewModel();
+            logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator);
         }
         #endregion // Initialize
     }

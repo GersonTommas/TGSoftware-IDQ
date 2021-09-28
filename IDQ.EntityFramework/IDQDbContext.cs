@@ -19,6 +19,8 @@ namespace IDQ.EntityFramework
         public DbSet<cajaConteoModel> cajaConteos { get; set; }
         public DbSet<cajaModel> caja { get; set; }
         public DbSet<consumoProductoModel> consumosProductos { get; set; }
+        public DbSet<deudaModel> deudas { get; set; }
+        public DbSet<deudaProductoModel> deudaProductos { get; set; }
         public DbSet<deudorModel> deudores { get; set; }
         public DbSet<deudorPagoModel> deudorPagos { get; set; }
         public DbSet<fechaModel> fechas { get; set; }
@@ -40,6 +42,10 @@ namespace IDQ.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Set default precision to decimal property
+            foreach (Microsoft.EntityFrameworkCore.Metadata.IMutableProperty property in modelBuilder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            { property.SetColumnType("decimal(14, 2)"); }
+
             base.OnModelCreating(modelBuilder);
         }
     }
@@ -104,6 +110,8 @@ namespace IDQ.EntityFramework
             globalDb.caja.LoadAsync();
             globalDb.cajaConteos.LoadAsync();
             globalDb.consumosProductos.LoadAsync();
+            globalDb.deudas.LoadAsync();
+            globalDb.deudaProductos.LoadAsync();
             globalDb.deudores.LoadAsync();
             globalDb.deudorPagos.LoadAsync();
             globalDb.fechas.LoadAsync();

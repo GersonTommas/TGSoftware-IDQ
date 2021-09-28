@@ -16,6 +16,6 @@ namespace IDQ.WPF.States.Navigators
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
+        //public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
     }
 }

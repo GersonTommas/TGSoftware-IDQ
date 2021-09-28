@@ -6,7 +6,7 @@ namespace IDQ.Domain.Models
     public class cajaConteoModel : Base.ModelBase
     {
         #region Private
-        Double _DiferenciaApertura, _EfectivoApertura, _MercadoPagoApertura, _DiferenciaCierre, _EfectivoCierre, _MercadoPagoCierre; string _Detalle; bool _Salida; cajaModel _Caja, _CajaCierre; usuarioModel _Usuario; fechaModel _FechaApertura, _FechaCierre; String _HoraApertura;
+        Decimal _DiferenciaApertura, _EfectivoApertura, _MercadoPagoApertura, _DiferenciaCierre, _EfectivoCierre, _MercadoPagoCierre; string _Detalle; bool _Salida; cajaModel _Caja, _CajaCierre; usuarioModel _Usuario; fechaModel _FechaApertura, _FechaCierre; String _HoraApertura;
         String _HoraCierre;
         #endregion // Private
 
@@ -20,13 +20,13 @@ namespace IDQ.Domain.Models
         public String HoraApertura { get => _HoraApertura; set { if (SetProperty(ref _HoraApertura, value)) { OnPropertyChanged(); } } }
         public String HoraCierre { get => _HoraCierre; set { if (SetProperty(ref _HoraCierre, value)) { OnPropertyChanged(); } } }
 
-        public Double EfectivoApertura { get => _EfectivoApertura; set { if (SetProperty(ref _EfectivoApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difEfectivoApertura)); OnPropertyChanged(nameof(difTotalApertura)); } } }
-        public Double MercadoPagoApertura { get => _MercadoPagoApertura; set { if (SetProperty(ref _MercadoPagoApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difMercadoPagoApertura)); OnPropertyChanged(nameof(difTotalApertura)); } } }
-        public Double DiferenciaApertura { get => _DiferenciaApertura; set { if (SetProperty(ref _DiferenciaApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difTotalApertura)); } } }
+        public Decimal EfectivoApertura { get => _EfectivoApertura; set { if (SetProperty(ref _EfectivoApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difEfectivoApertura)); OnPropertyChanged(nameof(difTotalApertura)); } } }
+        public Decimal MercadoPagoApertura { get => _MercadoPagoApertura; set { if (SetProperty(ref _MercadoPagoApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difMercadoPagoApertura)); OnPropertyChanged(nameof(difTotalApertura)); } } }
+        public Decimal DiferenciaApertura { get => _DiferenciaApertura; set { if (SetProperty(ref _DiferenciaApertura, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difTotalApertura)); } } }
 
-        public Double EfectivoCierre { get => _EfectivoCierre; set { if (SetProperty(ref _EfectivoCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difEfectivoCierre)); OnPropertyChanged(nameof(difTotalCierre)); } } }
-        public Double MercadoPagoCierre { get => _MercadoPagoCierre; set { if (SetProperty(ref _MercadoPagoCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difMercadoPagoCierre)); OnPropertyChanged(nameof(difTotalCierre)); } } }
-        public Double DiferenciaCierre { get => _DiferenciaCierre; set { if (SetProperty(ref _DiferenciaCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difTotalCierre)); } } }
+        public Decimal EfectivoCierre { get => _EfectivoCierre; set { if (SetProperty(ref _EfectivoCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difEfectivoCierre)); OnPropertyChanged(nameof(difTotalCierre)); } } }
+        public Decimal MercadoPagoCierre { get => _MercadoPagoCierre; set { if (SetProperty(ref _MercadoPagoCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difMercadoPagoCierre)); OnPropertyChanged(nameof(difTotalCierre)); } } }
+        public Decimal DiferenciaCierre { get => _DiferenciaCierre; set { if (SetProperty(ref _DiferenciaCierre, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(difTotalCierre)); } } }
 
         public string Detalle { get => _Detalle; set { if (SetProperty(ref _Detalle, value)) { OnPropertyChanged(); } } }
 
@@ -41,18 +41,18 @@ namespace IDQ.Domain.Models
         #endregion // Public
 
         [NotMapped]
-        public Double difEfectivoApertura => Caja.Efectivo - EfectivoApertura;
+        public Decimal? difEfectivoApertura => Caja?.Efectivo - EfectivoApertura;
         [NotMapped]
-        public Double difMercadoPagoApertura => Caja.MercadoPago - MercadoPagoApertura;
+        public Decimal? difMercadoPagoApertura => Caja?.MercadoPago - MercadoPagoApertura;
         [NotMapped]
-        public Double difTotalApertura => difEfectivoApertura + difMercadoPagoApertura + DiferenciaApertura;
+        public Decimal? difTotalApertura => difEfectivoApertura + difMercadoPagoApertura + DiferenciaApertura;
 
         [NotMapped]
-        public Double difEfectivoCierre => CajaCierre.Efectivo - EfectivoCierre;
+        public Decimal difEfectivoCierre => CajaCierre.Efectivo - EfectivoCierre;
         [NotMapped]
-        public Double difMercadoPagoCierre => CajaCierre.MercadoPago - MercadoPagoCierre;
+        public Decimal difMercadoPagoCierre => CajaCierre.MercadoPago - MercadoPagoCierre;
         [NotMapped]
-        public Double difTotalCierre => difEfectivoCierre + difMercadoPagoCierre + DiferenciaCierre;
+        public Decimal difTotalCierre => difEfectivoCierre + difMercadoPagoCierre + DiferenciaCierre;
 
         [NotMapped]
 

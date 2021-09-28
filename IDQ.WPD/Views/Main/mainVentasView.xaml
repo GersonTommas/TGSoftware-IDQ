@@ -92,13 +92,13 @@
                 <DataGridTemplateColumn MinWidth="90" Width="auto" Header="Precio Venta U.">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="$" />
-                                <TextBlock Text="{Binding Precio}" TextAlignment="Right" Grid.Column="1" />
+                                <TextBlock Text="$"/>
+                                <TextBlock Text="{Binding Precio}" TextAlignment="Right" Grid.Column="1"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -107,12 +107,12 @@
                 <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Total" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="$" />
+                                <TextBlock Text="$"/>
                                 <TextBlock Text="{Binding PrecioTotal}" TextAlignment="Right" Grid.Column="1" />
                             </Grid>
                         </DataTemplate>

@@ -1,4 +1,5 @@
-﻿using IDQ.Domain.Models;
+﻿using IDQ.Domain.Base;
+using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.EntityFramework.Services;
 using IDQ.WPF.States.Navigators;
@@ -23,7 +24,10 @@ namespace IDQ.WPF.Shared
         public static string colorWindowBackkgroundNO => "Red";
         public static string strFecha => DateTime.Today.ToString(@"yyyy/MM/dd");
         public static string strHora => DateTime.Now.ToString(@"HH:mm:ss");
+
+
         public static usuarioModel usuarioLogueado;
+
 
         public static void nextTarget(object sender, bool reverse = false)
         {

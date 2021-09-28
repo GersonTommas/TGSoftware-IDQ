@@ -10,6 +10,8 @@ namespace IDQ.WPF.ViewModels.Helpers
         #region Initialize
         public medidaNewEditViewModel() { }
 
+        public medidaNewEditViewModel(productoModel sentProducto) { _newEditProducto = sentProducto; }
+
         public medidaNewEditViewModel(medidaModel sentMedida)
         {
             if (sentMedida != null)
@@ -33,6 +35,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public string groupBoxTitle => isEdit ? "ID: " + _editMedida.Id : "Nueva Medida";
 
+        readonly productoModel _newEditProducto;
         readonly medidaModel _editMedida;
 
         public medidaModel newMedida { get; } = new medidaModel() { Activo = true };
@@ -65,6 +68,8 @@ namespace IDQ.WPF.ViewModels.Helpers
                 _ = context.globalDb.medidas.Add(newMedida);
                 _ = context.globalDb.SaveChanges();
                 Shared.GlobalVars.messageError.Guardado();
+
+                if (_newEditProducto != null) { _newEditProducto.Medida = newMedida; }
 
                 Shared.Navigators.UpdateProductoSlider(null);
                 //thisWindow.DialogResult = true;

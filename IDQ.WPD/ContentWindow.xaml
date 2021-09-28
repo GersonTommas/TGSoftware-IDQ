@@ -89,16 +89,20 @@
             </Grid>
         </Grid>
 
-        <TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
-            <TabItem Header="Opciones">
+
+        <TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+            <TabItem Header="Opciones" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
 
             </TabItem>
 
-            <TabItem IsSelected="True" Header="Principal">
-                <ContentControl IsTabStop="False" Focusable="False" Content="{Binding mainNavigator.CurrentViewModel}"/>
+            <TabItem Header="Principal" IsSelected="True" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
+                <Grid>
+                    <ctrls:ctrlBuscador/>
+                    <ContentControl IsTabStop="False" Focusable="False" Content="{Binding mainNavigator.CurrentViewModel}" Visibility="Visible"/>
+                </Grid>
             </TabItem>
 
-            <TabItem Header="Venta">
+            <TabItem Header="Venta" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
                 <TabControl>
                     <TabItem Header="Venta 1">
                         <Grid>
@@ -113,18 +117,43 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Ingreso">
+            <TabItem Header="Ingreso" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
+                <ctrls:ctrlBuscador soloStockVisibility="Collapsed"/>
 
             </TabItem>
-            <TabItem Header="Consumos">
+            <TabItem Header="Consumos" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
                 <ContentControl Content="{Binding consumosNavigator.CurrentViewModel}"/>
             </TabItem>
 
-            <TabItem Header="Cuentas">
-
+            <TabItem Header="Cuentas" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
+                <views:CuentasView />
             </TabItem>
-            <TabItem Header="Cerrar Sesion">
 
+            <TabItem Header="Cerrar Sesion">
+                <ContentControl Content="{Binding logOutNavigator.CurrentViewModel}"/>
+            </TabItem>
+            <!-- Iniciar Sesion OLD
+            <TabItem Header="Iniciar Sesion">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <local:LogInView HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="True" Margin="20" Grid.Column="0" Visibility="{Binding isLogged, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
+
+                    <local:LogInCajaView HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            
+            -->
+        </TabControl>
+        
+        <TabControl IsEnabled="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}, ConverterParameter=true}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+            <TabItem Header="Iniciar Sesion" IsSelected="True">
+                
+                <ContentControl Content="{Binding logInNavigator.CurrentViewModel}" />
+                
             </TabItem>
         </TabControl>
     </Grid>

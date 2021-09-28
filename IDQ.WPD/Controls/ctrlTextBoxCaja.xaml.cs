@@ -21,7 +21,7 @@ namespace IDQ.WPF.Controls
         #region Properties
         public string labelContent { get => (string)GetValue(labelContentProperty); set { SetValue(labelContentProperty, value); OnPropChanged(); } }
         public int text { get => (int)GetValue(textProperty); set { SetValue(textProperty, value); OnPropChanged(); } }
-        public Double textPesos { get => (Double)GetValue(textPesosProperty); set { SetValue(textPesosProperty, value); OnPropChanged(); } }
+        public Decimal textPesos { get => (Decimal)GetValue(textPesosProperty); set { SetValue(textPesosProperty, value); OnPropChanged(); } }
         public int intCount { get => (int)GetValue(intCountProperty); set { SetValue(intCountProperty, value); OnPropChanged(); } }
         public int inputType { get => (int)GetValue(inputTypeProperty); set { SetValue(inputTypeProperty, value); OnPropChanged(); } }
         public bool isMaster { get => (bool)GetValue(isMasterProperty); set { SetValue(isMasterProperty, value); OnPropChanged(); } }
@@ -31,7 +31,7 @@ namespace IDQ.WPF.Controls
 
         public static readonly DependencyProperty labelContentProperty = DependencyProperty.Register("labelContent", typeof(string), typeof(ctrlTextBoxCaja), new PropertyMetadata(""));
         public static readonly DependencyProperty textProperty = DependencyProperty.Register("text", typeof(int), typeof(ctrlTextBoxCaja), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
-        public static readonly DependencyProperty textPesosProperty = DependencyProperty.Register("textPesos", typeof(Double), typeof(ctrlTextBoxCaja), new PropertyMetadata(0.00));
+        public static readonly DependencyProperty textPesosProperty = DependencyProperty.Register("textPesos", typeof(Decimal), typeof(ctrlTextBoxCaja), new PropertyMetadata(0.00m));
         public static readonly DependencyProperty intCountProperty = DependencyProperty.Register("intCount", typeof(int), typeof(ctrlTextBoxCaja), new PropertyMetadata(0));
         public static readonly DependencyProperty inputTypeProperty = DependencyProperty.Register("inputType", typeof(int), typeof(ctrlTextBoxCaja), new PropertyMetadata(0));
         public static readonly DependencyProperty isMasterProperty = DependencyProperty.Register("isMaster", typeof(bool), typeof(ctrlTextBoxCaja), new PropertyMetadata(false));

@@ -6,13 +6,13 @@ namespace IDQ.Domain.Models
     public class sacadoProductoModel : Base.ModelBase
     {
         #region Private
-        int _Cantidad; Double _Precio; productoModel _Producto; fechaModel _FechaSacado, _FechaPagado; usuarioModel _Usuario;
+        int _Cantidad; Decimal _Precio; productoModel _Producto; fechaModel _FechaSacado, _FechaPagado; usuarioModel _Usuario;
         #endregion // Private
 
 
         #region Public
         public int Cantidad { get => _Cantidad; set { if (SetProperty(ref _Cantidad, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); } } }
-        public Double Precio { get => _Precio; set { if (SetProperty(ref _Precio, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); } } }
+        public Decimal Precio { get => _Precio; set { if (SetProperty(ref _Precio, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); } } }
 
         public int ProductoID { get; set; }
         public virtual productoModel Producto { get => _Producto; set { if (SetProperty(ref _Producto, value)) { OnPropertyChanged(); } } }
@@ -30,7 +30,7 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public Double PrecioTotal => Math.Round(Cantidad * Precio, 2);
+        public Decimal PrecioTotal => Math.Round(Cantidad * Precio, 2);
         [NotMapped]
         public bool BolPagado => FechaPagado != null;
         #endregion // NotMapped

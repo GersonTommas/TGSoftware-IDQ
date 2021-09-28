@@ -37,7 +37,7 @@ namespace IDQ.WPF.Shared
                 //var testBol = Regex.Matches(e.Text, @"\.").Count > 1;
                 e.Handled = regex.IsMatch(e.Text);
             }
-            //e.Handled = double.TryParse(e.Text, out _);
+            //e.Handled = Decimal.TryParse(e.Text, out _);
             */
             Regex regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
             e.Handled = !(regex.IsMatch(e.Text) && !(e.Text == "." && ((TextBox)sender).Text.Contains(e.Text)) && !(e.Text.IndexOf(".") > 0 || e.Text.IndexOf(".") != e.Text.IndexOf(".")));

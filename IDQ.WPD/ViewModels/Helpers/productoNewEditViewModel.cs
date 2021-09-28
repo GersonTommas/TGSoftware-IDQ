@@ -98,7 +98,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         bool _isMaster;
         public bool isMaster { get => _isMaster; set { if (SetProperty(ref _isMaster, value)) { OnPropertyChanged(); } } }
 
-        productoModel _editProducto;
+        readonly productoModel _editProducto;
 
         productoModel _newProducto = new productoModel() { Activo = true };
         public productoModel newProducto { get => _newProducto; set { if (SetProperty(ref _newProducto, value)) { OnPropertyChanged(); } } }
@@ -197,11 +197,11 @@ namespace IDQ.WPF.ViewModels.Helpers
             (object parameter) => checkGuardar());
 
         public Command controlCommandNewTag => new Command(
-            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new tagNewEditViewModel()); },
+            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new tagNewEditViewModel(newProducto)); },
             (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
 
         public Command controlCommandNewMedida => new Command(
-            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new medidaNewEditViewModel()); },
+            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new medidaNewEditViewModel(newProducto)); },
             (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
 
         public Command cancelCommand => new Command(

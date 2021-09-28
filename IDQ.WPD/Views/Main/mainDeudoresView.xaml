@@ -58,10 +58,10 @@
             <ContentControl Content="{Binding Navigator.CurrentViewModel}" />
         </Grid>
 
-        <GroupBox Header="Comandos" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1">
+        <GroupBox Header="Comandos" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Visibility="Collapsed">
             <StackPanel>
                 <Button Content="Nuevo Cliente" HorizontalAlignment="Center" />
-                <Button Content=" Editar Cliente" HorizontalAlignment="Center" />
+                <Button Content="Editar Cliente" HorizontalAlignment="Center" />
                 <Button Content="Pagar Deuda" HorizontalAlignment="Center" />
             </StackPanel>
         </GroupBox>

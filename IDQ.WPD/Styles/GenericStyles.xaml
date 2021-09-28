@@ -20,11 +20,13 @@
 
 
     <SolidColorBrush x:Key="Brush.ComboBox.Background.Normal" Color="{StaticResource Color.ComboBox.Background.Normal}"/>
+    <SolidColorBrush x:Key="Brush.ComboBox.Background.DISABLED" Color="{StaticResource Color.ComboBox.Background.DISABLED}"/>
     <SolidColorBrush x:Key="Brush.ComboBox.Background.ButtonNormal" Color="{StaticResource Color.ComboBox.Background.ButtonNormal}"/>
     <SolidColorBrush x:Key="Brush.ComboBox.Background.ButtonMouseOver" Color="{StaticResource Color.ComboBox.Background.ButtonMouseOver}"/>
     <SolidColorBrush x:Key="Brush.ComboBox.Background.ButtonIsSelected" Color="{StaticResource Color.ComboBox.Background.ButtonIsSelected}"/>
     <SolidColorBrush x:Key="Brush.ComboBox.Background.DropDown" Color="{StaticResource Color.ComboBox.Background.DropDown}"/>
     <SolidColorBrush x:Key="Brush.ComboBox.Foreground" Color="{StaticResource Color.ComboBox.Foreground}"/>
+    <SolidColorBrush x:Key="Brush.ComboBox.Foreground.DISABLED" Color="{StaticResource Color.ComboBox.Foreground.DISABLED}"/>
 
 
     <SolidColorBrush x:Key="Brush.Grid.Background.Normal" Color="{StaticResource Color.Grid.Background.Normal}"/>
@@ -165,6 +167,9 @@
                                         <Border Grid.Column="0" CornerRadius="5,0,0,5" Background="{StaticResource Brush.ComboBox.Background.Normal}" />
                                     </Grid>
                                     <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Brush.ComboBox.Background.DISABLED}"/>
+                                        </Trigger>
                                         <Trigger Property="ToggleButton.IsMouseOver" Value="true">
                                             <Setter TargetName="Border" Property="Background" Value="{StaticResource Brush.ComboBox.Background.ButtonMouseOver}" />
                                         </Trigger>
@@ -190,6 +195,10 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource Brush.ComboBox.BackGround.DISABLED}"/>
+                <Setter Property="Foreground" Value="{StaticResource Brush.ComboBox.Foreground.DISABLED}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
@@ -434,6 +443,19 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
     <!--#endregion Default DataGrid-->
+    
+    <!--#region Custom DataGrid.CellTemplate-->
+    <DataTemplate x:Key="DataGridColumnTemplatePesos">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="$" Margin="15,0,0,0" Padding="0,0"/>
+            <TextBlock Text="{Binding}" HorizontalAlignment="Right" Margin="10,0" Grid.Column="1" />
+        </Grid>
+    </DataTemplate>
+    <!--#endregion Custom DataGrid.CellTemplate-->
 
     
     <!--#region Default GroupBox-->
@@ -445,6 +467,20 @@
         <Setter Property="IsTabStop" Value="False"/>
     </Style>
     <!--#endregion Default GroupBox-->
+
+
+
+
+    <!--#region Default Image-->
+    <Style TargetType="{x:Type Image}">
+        <Setter Property="Opacity" Value="1"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.3"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--#endregion Default Image-->
 
 
     <!--#region Default TextBox-->

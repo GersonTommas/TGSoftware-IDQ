@@ -9,10 +9,8 @@ namespace IDQ.WPF.ViewModels.Helpers
         #region Initialize
         public abrirBolsaViewModel() { }
 
-
-        public void setInitilize(productoModel sentProducto, Window sentWindow)
+        public abrirBolsaViewModel(productoModel sentProducto)
         {
-            thisWindow = sentWindow;
             newConversion.ProductoSacado = sentProducto;
         }
         #endregion // Initialize
@@ -41,7 +39,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
             _ = context.globalDb.SaveChanges();
 
-            thisWindow.DialogResult = true;
+            Shared.Navigators.UpdateEditorSlider(null);
         }
 
         bool checkGuardar => newConversion.ProductoSacado != null && newConversion.ProductoAgregado != null && newConversion.CantidadAgregado > 0 && newConversion.CantidadSacado > 0;
@@ -49,7 +47,9 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Commands
-        public Command comSeleccionarProducto => new Command((object parameter) => helperSeleccionarProducto());
+        public Command controlCommandCancelar => new Command((object parameter) => Shared.Navigators.UpdateEditorSlider(null));
+
+        public Command controlCommandBuscador => new Command((object parameter) => helperSeleccionarProducto());
 
         public Command controlCommandGuardar => new Command(
             (object parameter) => helperGuardar(),

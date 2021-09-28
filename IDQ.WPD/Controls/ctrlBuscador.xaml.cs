@@ -15,17 +15,26 @@ namespace IDQ.WPF.Controls
     /// </summary>
     public partial class ctrlBuscador : UserControl, INotifyPropertyChanged
     {
+        #region Initialize
+        readonly ctrlBuscadorViewModel thisDataContext;
+
         public ctrlBuscador()
         {
-            InitializeComponent(); (DataContext as ctrlBuscadorViewModel).thisControl = this;
+            InitializeComponent(); thisDataContext = DataContext as ctrlBuscadorViewModel; thisDataContext.thisControl = this;
         }
+        #endregion // Initialize
 
+
+        #region Variables
         public bool isOnlyOneProducto { get => (bool)GetValue(isOnlyOneProductoProperty); set { SetValue(isOnlyOneProductoProperty, value); OnPropChanged(); } }
         public object selectedItem { get => GetValue(selectedItemProperty); set { SetValue(selectedItemProperty, value); OnPropChanged(); } }
+        public Visibility soloStockVisibility { get => (Visibility)GetValue(soloStockVisibilityProperty); set { SetValue(soloStockVisibilityProperty, value); OnPropChanged(); } }
+
 
         public static readonly DependencyProperty isOnlyOneProductoProperty = DependencyProperty.Register("isOnlyOneProducto", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
         public static readonly DependencyProperty selectedItemProperty = DependencyProperty.Register("selectedItem", typeof(object), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
-
+        public static readonly DependencyProperty soloStockVisibilityProperty = DependencyProperty.Register("soloStockVisibility", typeof(Visibility), typeof(ctrlBuscador), new PropertyMetadata(Visibility.Visible));
+        #endregion // Variables
 
 
         #region PropertyChanged
@@ -33,10 +42,13 @@ namespace IDQ.WPF.Controls
         protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
         #endregion // PropertyChanged
 
+
+        #region TextBox
         void FirstTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             _ = (sender as TextBox).Focus();
         }
+        #endregion // TextBox
     }
 
 
@@ -48,15 +60,12 @@ namespace IDQ.WPF.Controls
 
         public ctrlBuscadorViewModel()
         {
+            initilizeSearchTimer();
+            selectorListProductosSource.Source = context.globalAllProductos;
+
             try
             {
-                initilizeSearchTimer();
-                selectorListProductosSource.Source = context.globalAllProductos;
-                OnPropChanged(nameof(selectorListProductos));
-
-
                 selectorListProductos.SortDescriptions.Clear(); selectorListProductos.SortDescriptions.Add(new SortDescription("Descripcion", ListSortDirection.Ascending));
-
                 selectorListProductos.Filter = delegate (object item)
                 {
                     if (item == null) { return false; }
@@ -77,7 +86,7 @@ namespace IDQ.WPF.Controls
 
 
 
-        #region Variables
+        #region Timer
         readonly System.Windows.Threading.DispatcherTimer _searchTimer = new System.Windows.Threading.DispatcherTimer();
         void initilizeSearchTimer() { _searchTimer.Tick += new EventHandler(searchTimer_Click); _searchTimer.Interval = new TimeSpan(0, 0, 0, 0, 150); }
         void searchTimer_Click(object sender, EventArgs e) { searchTimerClick(); _searchTimer.Stop(); }
@@ -92,24 +101,28 @@ namespace IDQ.WPF.Controls
             _searchTimer.Stop();
             _searchTimer.Start();
         }
+        #endregion // Timer
 
+
+
+        #region Variables
         string _strSearchProducto = "";
-        public string strSearchProducto { get => _strSearchProducto; set { if (_strSearchProducto != value) { _strSearchProducto = value; OnPropChanged(); searchTimerRestart(); } } }
+        public string strSearchProducto { get => _strSearchProducto; set { if (SetProperty(ref _strSearchProducto, value)) { OnPropertyChanged(); searchTimerRestart(); } } }
 
-        bool _bolMantenerVentanaAbierta = false;
-        public bool bolMantenerVentanaAbierta { get => _bolMantenerVentanaAbierta; set { if (_bolMantenerVentanaAbierta != value) { _bolMantenerVentanaAbierta = value; OnPropChanged(); } } }
+        bool _bolMantenerVentanaAbierta;
+        public bool bolMantenerVentanaAbierta { get => _bolMantenerVentanaAbierta; set { if (SetProperty(ref _bolMantenerVentanaAbierta, value)) { OnPropertyChanged(); } } }
 
-        bool _ventaFallo = false;
-        public bool ventaFallo { get => _ventaFallo; set { if (_ventaFallo != value) { _ventaFallo = value; OnPropChanged(); OnPropChanged(nameof(windowBackground)); } } }
+        bool _ventaFallo;
+        public bool ventaFallo { get => _ventaFallo; set { if (SetProperty(ref _ventaFallo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(windowBackground)); } } }
 
-        bool _bolSelectorSoloStock = false;
-        public bool bolSelectorSoloStock { get => _bolSelectorSoloStock; set { if (_bolSelectorSoloStock != value) { _bolSelectorSoloStock = value; OnPropChanged(); selectorListProductos.Refresh(); } } }
+        bool _bolSelectorSoloStock;
+        public bool bolSelectorSoloStock { get => _bolSelectorSoloStock; set { if (SetProperty(ref _bolSelectorSoloStock, value)) { OnPropertyChanged(); selectorListProductos.Refresh(); } } }
 
         bool _bolSearchDescripcionCodigo = true;
-        public bool bolSearchDescripcionCodigo { get => _bolSearchDescripcionCodigo; set { if (_bolSearchDescripcionCodigo != value) { _bolSearchDescripcionCodigo = value; OnPropChanged(); OnPropChanged(nameof(strSearchDescripcionCodigo)); } } }
+        public bool bolSearchDescripcionCodigo { get => _bolSearchDescripcionCodigo; set { if (SetProperty(ref _bolSearchDescripcionCodigo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(strSearchDescripcionCodigo)); strSearchProducto = ""; } } }
 
         productoModel _selectedSelectorProducto;
-        public productoModel selectedSelectorProducto { get => _selectedSelectorProducto; set { if (_selectedSelectorProducto != value) { _selectedSelectorProducto = value; OnPropChanged(); } } }
+        public productoModel selectedSelectorProducto { get => _selectedSelectorProducto; set { if (SetProperty(ref _selectedSelectorProducto, value)) { OnPropertyChanged(); } } }
 
 
         public string windowBackground => !ventaFallo ? Shared.GlobalVars.colorWindowBackgroundOK : Shared.GlobalVars.colorWindowBackkgroundNO;
@@ -125,17 +138,11 @@ namespace IDQ.WPF.Controls
         #region Commands
         public Command comAbrirProducto => new Command((object parameter) => { if (parameter != null) { /*Views.addConversionView vTemp = new Views.addConversionView(parameter as productosModel); _ = vTemp.ShowDialog(); */} });
 
-        public Command comSearchDescripcionCodigo => new Command((object parameter) => { bolSearchDescripcionCodigo = !bolSearchDescripcionCodigo; OnPropChanged(nameof(strSearchDescripcionCodigo)); strSearchProducto = ""; });
+        public Command comSearchDescripcionCodigo => new Command((object parameter) => bolSearchDescripcionCodigo = !bolSearchDescripcionCodigo);
 
         public Command comLimpiar => new Command(
             (object parameter) => strSearchProducto = "",
             (object parameter) => !string.IsNullOrWhiteSpace(strSearchProducto));
         #endregion // Commands
-
-
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
-        #endregion // PropertyChanged
     }
 }

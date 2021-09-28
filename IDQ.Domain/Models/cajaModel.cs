@@ -8,13 +8,13 @@ namespace IDQ.Domain.Models
     public class cajaModel : Base.ModelBase
     {
         #region Private
-        Double _Efectivo, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja, _CajaConteoCierreForCaja; ventaModel _VentaForCaja;
+        Decimal _Efectivo, _MercadoPago, _Vuelto; String _Hora; fechaModel _Fecha; cajaConteoModel _CajaConteoForCaja, _CajaConteoCierreForCaja; ventaModel _VentaForCaja; deudorModel _DeudorForCaja;
         #endregion // Private
 
         #region Public
-        public Double Efectivo { get => _Efectivo; set { if (SetProperty(ref _Efectivo, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
-        public Double MercadoPago { get => _MercadoPago; set { if (SetProperty(ref _MercadoPago, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
-        public Double Vuelto { get => _Vuelto; set { if (SetProperty(ref _Vuelto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal Efectivo { get => _Efectivo; set { if (SetProperty(ref _Efectivo, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
+        public Decimal MercadoPago { get => _MercadoPago; set { if (SetProperty(ref _MercadoPago, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
+        public Decimal Vuelto { get => _Vuelto; set { if (SetProperty(ref _Vuelto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
         public String Hora { get => _Hora; set { if (SetProperty(ref _Hora, Convert.ToDateTime(value).ToString("HH:mm:ss"))) { OnPropertyChanged(); } } }
 
@@ -22,6 +22,7 @@ namespace IDQ.Domain.Models
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
         public virtual ventaModel VentaForCaja { get => _VentaForCaja; set { if (SetProperty(ref _VentaForCaja, value)) { OnPropertyChanged(); } } }
+        public virtual deudorModel DeudorForCaja { get => _DeudorForCaja; set { if (SetProperty(ref _DeudorForCaja, value)) { OnPropertyChanged(); } } }
 
 
         [InverseProperty(nameof(cajaConteoModel.Caja))]
@@ -49,9 +50,9 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public Double doubleEfectivoTotal => Efectivo - Vuelto;
+        public Decimal doubleEfectivoTotal => Efectivo - Vuelto;
         [NotMapped]
-        public Double doubleTotalTotal => Efectivo + MercadoPago - Vuelto;
+        public Decimal doubleTotalTotal => Efectivo + MercadoPago - Vuelto;
         #endregion // NotMapped
 
         public override void updateModel()

@@ -20,13 +20,13 @@
             <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Precio" SortMemberPath="PrecioActual" >
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Margin="15,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="$" />
-                            <TextBlock Text="{Binding PrecioActual}" HorizontalAlignment="Right" Grid.Column="1" />
+                            <TextBlock Text="$"/>
+                            <TextBlock Text="{Binding PrecioActual}" HorizontalAlignment="Right" Grid.Column="1"/>
                         </Grid>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

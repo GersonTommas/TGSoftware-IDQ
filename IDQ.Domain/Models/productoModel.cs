@@ -8,15 +8,15 @@ namespace IDQ.Domain.Models
     public class productoModel : Base.ModelBase
     {
         #region Private
-        int _StockInicial, _Stock; Double _PrecioActual, _PrecioIngreso; string _Codigo, _Descripcion; fechaModel _FechaModificado; bool _Activo; tagModel _Tag; medidaModel _Medida;
+        int _StockInicial, _Stock; Decimal _PrecioActual, _PrecioIngreso; string _Codigo, _Descripcion; fechaModel _FechaModificado; bool _Activo; tagModel _Tag; medidaModel _Medida;
         bool _Agregado; int _CantidadIngresado;
         #endregion // Private
 
         #region Public
         public int StockInicial { get => _StockInicial; set { if (SetProperty(ref _StockInicial, value)) { OnPropertyChanged(); } } }
         public int Stock { get => _Stock; set { if (SetProperty(ref _Stock, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(stockVsMinimo)); } } }
-        public Double PrecioIngreso { get => _PrecioIngreso; set { if (SetProperty(ref _PrecioIngreso, Math.Round(value, 2))) { OnPropertyChanged(); } } }
-        public Double PrecioActual { get => _PrecioActual; set { if (SetProperty(ref _PrecioActual, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PrecioIngreso { get => _PrecioIngreso; set { if (SetProperty(ref _PrecioIngreso, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PrecioActual { get => _PrecioActual; set { if (SetProperty(ref _PrecioActual, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
         public string Codigo { get => _Codigo; set { if (SetProperty(ref _Codigo, value)) { OnPropertyChanged(); } } }
         public string Descripcion { get => _Descripcion; set { if (SetProperty(ref _Descripcion, value)) { OnPropertyChanged(); } } }
@@ -34,6 +34,7 @@ namespace IDQ.Domain.Models
         #endregion // Public
 
         #region Navigation
+        public virtual ICollection<deudaProductoModel> DeudaProductoPerProducto { get; private set; } = new ObservableCollection<deudaProductoModel>();
         public virtual ICollection<sacadoProductoModel> SacadoProductosPerProducto { get; private set; } = new ObservableCollection<sacadoProductoModel>();
         public virtual ICollection<ingresoProductoModel> IngresoProductosPerProducto { get; private set; } = new ObservableCollection<ingresoProductoModel>();
         public virtual ICollection<ventaProductoModel> VentaProductosPerProducto { get; private set; } = new ObservableCollection<ventaProductoModel>();

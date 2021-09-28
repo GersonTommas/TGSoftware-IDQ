@@ -58,7 +58,7 @@
                 <DataGridTemplateColumn MinWidth="90" Width="auto" Header="Precio Venta U.">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
@@ -73,7 +73,7 @@
                 <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Total" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />

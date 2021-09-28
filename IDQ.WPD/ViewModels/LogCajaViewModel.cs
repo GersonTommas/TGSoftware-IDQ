@@ -2,76 +2,43 @@
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace IDQ.WPF
+namespace IDQ.WPF.ViewModels
 {
-    /// <summary>
-    /// Interaction logic for LogInCajaView.xaml
-    /// </summary>
-    public partial class LogInCajaView : UserControl
+    public class LogCajaViewModel : Base.ViewModelBase
     {
+        #region LogIn
         #region Initialize
-        public LogInCajaView() { InitializeComponent(); }
-        #endregion // Initialize
-    }
+        readonly INavigator thisNavigator;
 
-
-    public class LogInCajaViewModel : Base.ViewModelBase
-    {
-        #region Initialize
-        readonly INavigator Navigator = new Navigator();
-
-        public LogInCajaViewModel() { newCajaConteo = new cajaConteoModel(); helperLogIn(); }
-
-        public LogInCajaViewModel(INavigator sentNavigator, Window sentWindow, bool cierre = false)
+        public LogCajaViewModel() { }
+        public LogCajaViewModel(INavigator sentNavigator)
         {
-            Navigator = sentNavigator; thisWindow = sentWindow;
+            thisNavigator = sentNavigator;
+        }
+
+        void cleanUpForms(bool cierre = false)
+        {
+            if (isLoginIn) { newCajaConteo = null; return; }
+
+
+            cajaConteoModel tempCajaConteo = null;
+            _cierreCajaConteo = null;
+            isCajaCierre = false;
+
             newCajaConteo = new cajaConteoModel();
-            helperLogIn();
 
-            try
+            try { tempCajaConteo = context.globalDb.cajaConteos.Local.Single(x => x.conteoAbierto && x.Usuario == selectedUser); } catch { }
+
+
+            if (cierre)
             {
-                cajaConteoModel tempCajaConteo = context.globalDb.cajaConteos.Local.Single(x => x.conteoAbierto && x.Usuario == Shared.GlobalVars.usuarioLogueado);
-
-                if (cierre)
-                {
-                    if (tempCajaConteo != null)
-                    {
-                        _cierreCajaConteo = tempCajaConteo;
-                        isCajaCierre = true;
-                    }
-                }
+                if (tempCajaConteo != null) { _cierreCajaConteo = tempCajaConteo; isCajaCierre = true; }
                 else
-                {
-                    if (MessageBox.Show("Hay una caja abierta para el usuario " + Shared.GlobalVars.usuarioLogueado.Usuario + ". Desea cerrarla y abrir una nueva?", "Caja Abierta", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
-                        fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _hora = Shared.GlobalVars.strHora;
-
-                        tempCajaConteo.CajaCierre = new cajaModel
-                        {
-                            Efectivo = context.globalCajaActual.Efectivo,
-                            Fecha = _fecha,
-                            Hora = _hora,
-                            MercadoPago = context.globalCajaActual.MercadoPago
-                        };
-
-                        tempCajaConteo.Detalle += "AUTOMATICO - Se cierra caja sin conteo.";
-                        tempCajaConteo.FechaCierre = _fecha; tempCajaConteo.HoraCierre = _hora;
-
-                        _ = context.globalDb.SaveChanges();
-                    }
-                    else
-                    {
-                        helperSaltear();
-                    }
-                }
-            }
-            catch
-            {
-                if (cierre)
                 {
                     if (MessageBox.Show("No existe una Caja Abierta para el usuario " + Shared.GlobalVars.usuarioLogueado.Usuario + ". Desea crear una caja solo de cierre?", "Caja Cerrada", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
@@ -95,14 +62,87 @@ namespace IDQ.WPF
 
                         isCajaCierre = true;
                     }
-                    else
+                    else { helperSaltear(); }
+                }
+            }
+            else
+            {
+                if (tempCajaConteo != null)
+                {
+                    if (MessageBox.Show("Hay una caja abierta para el usuario " + selectedUser.Usuario + ". Desea cerrarla y abrir una nueva?", "Caja Abierta", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        helperSaltear();
+                        fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _Hora = Shared.GlobalVars.strHora;
+
+                        tempCajaConteo.CajaCierre = new cajaModel
+                        {
+                            Efectivo = context.globalCajaActual.Efectivo,
+                            Fecha = _fecha,
+                            Hora = _Hora,
+                            MercadoPago = context.globalCajaActual.MercadoPago
+                        };
+
+                        tempCajaConteo.Detalle += "AUTOMATICO - Se cierra caja sin conteo.";
+                        tempCajaConteo.FechaCierre = _fecha; tempCajaConteo.HoraCierre = _Hora;
+
+                        _ = context.globalDb.SaveChanges();
                     }
+                    else { helperSaltear(); }
                 }
             }
         }
+        #endregion Initialize
 
+
+
+        #region Variables
+        bool _isLoginIn = true;
+        public bool isLoginIn { get => _isLoginIn; set { if (SetProperty(ref _isLoginIn, value)) { OnPropertyChanged(); /*cleanUpForms();*/ } } }
+
+        bool _isCierre;
+        public bool isCierre { get => _isCierre; set { if (SetProperty(ref _isCierre, value)) { OnPropertyChanged(); } } }
+
+        public ObservableCollection<usuarioModel> collectionSourceUsuarios => context.globalAllUsuarios;
+
+        usuarioModel _selectedUser;
+        public usuarioModel selectedUser { get => _selectedUser; set { if (SetProperty(ref _selectedUser, value)) { OnPropertyChanged(); } } }
+
+        string _enteredPassword;
+        public string enteredPassword { get => _enteredPassword; set { if (SetProperty(ref _enteredPassword, value)) { OnPropertyChanged(); } } }
+        #endregion Private
+
+
+
+        #region Helpers
+        void logIn(object sender)
+        {
+            if (!string.IsNullOrWhiteSpace(((PasswordBox)sender).Password) && ((PasswordBox)sender).Password == selectedUser.Contraseña)
+            {
+                Shared.GlobalVars.usuarioLogueado = selectedUser;
+
+                isLoginIn = false;
+                //Navigator.CurrentViewModel = new LogInCajaViewModel(Navigator, thisWindow);
+            }
+            else { Shared.GlobalVars.messageError.LogIn(); if (sender != null) { ((PasswordBox)sender).SelectAll(); } }
+        }
+
+        bool checkLogIn => selectedUser != null;
+        #endregion // Helpers
+
+
+
+        #region Commands
+        public Command buttonCommandLogIn => new Command(
+              (object parameter) => logIn(parameter),
+              (object parameter) => checkLogIn);
+        #endregion // Commands
+
+
+
+        public Command comTest => new Command((object parameter) => { xTestWindow tWin = new xTestWindow(); _ = tWin.ShowDialog(); });
+        #endregion // LogIn
+
+        #region Caja
+        #region Initialize
         void helperLogIn()
         {
             newCajaConteo.Caja = new cajaModel()
@@ -110,15 +150,15 @@ namespace IDQ.WPF
                 Efectivo = context.globalCajaActual.Efectivo,
                 MercadoPago = context.globalCajaActual.MercadoPago
             };
-            newCajaConteo.Usuario = Shared.GlobalVars.usuarioLogueado;
+            newCajaConteo.Usuario = selectedUser;
         }
         #endregion // Initialize
 
 
 
         #region Variables
-        readonly cajaConteoModel _cierreCajaConteo;
-        readonly bool isCajaCierre;
+        cajaConteoModel _cierreCajaConteo;
+        bool isCajaCierre;
 
         int _BillUno, _BillDos, _BillCinco, _BillDiez, _BillVeinte, _BillCincuenta, _BillCien, _BillDoscientos, _BillQuinientos, _BillMil, _BillDosMil, _BillCincoMil, _BillDiezMil;
 
@@ -149,7 +189,9 @@ namespace IDQ.WPF
         public int BillDiezMil { get => _BillDiezMil; set { if (SetProperty(ref _BillDiezMil, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(PesosDiezMil)); helperUpdatePesos(); } } }
         public Decimal PesosDiezMil => BillDiezMil * 10000;
 
-        public cajaConteoModel newCajaConteo { get; } = new cajaConteoModel();
+
+        cajaConteoModel _newCajaConteo = new cajaConteoModel() { Caja = context.globalCajaActual };
+        public cajaConteoModel newCajaConteo { get => _newCajaConteo; set { if (SetProperty(ref _newCajaConteo, value)) { OnPropertyChanged(); } } }
 
         void helperUpdatePesos()
         {
@@ -164,7 +206,7 @@ namespace IDQ.WPF
         {
             //if(newCajaConteo.Abierto) { Navigator.CurrentViewModel = new LogInViewModel(); }
             //else {
-            ContentWindow cWindow = new ContentWindow(); cWindow.Show(); thisWindow.Close();
+            thisNavigator.CurrentViewModel = null;
             //}
 
         }
@@ -218,5 +260,6 @@ namespace IDQ.WPF
 
         public Command buttonCommandGuardar => new Command((object parameter) => helperGuardar(), (object parameter) => checkGuardar);
         #endregion // Commands
+        #endregion // Caja
     }
 }

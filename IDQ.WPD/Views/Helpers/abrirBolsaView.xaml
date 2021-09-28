@@ -12,9 +12,9 @@
         <viewmodel:abrirBolsaViewModel/>
     </d:UserControl.DataContext>
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding bComCancelar}" />
-        <KeyBinding Key="F1" Command="{Binding comGuardar}" />
-        <KeyBinding Key="F4" Command="{Binding comSeleccionarProducto}" />
+        <KeyBinding Key="Esc" Command="{Binding controlCommandCancelar}" />
+        <KeyBinding Key="F1" Command="{Binding controlCommandGuardar}" />
+        <KeyBinding Key="F4" Command="{Binding controlCommandBuscador}" />
     </UserControl.InputBindings>
     
     <Grid>
@@ -57,7 +57,7 @@
 
         <StackPanel Grid.Column="0" Grid.Row="2">
             <Label Content="Hacia:" HorizontalAlignment="Center" />
-            <Button Content="Producto" Command="{Binding comSeleccionarProducto}" VerticalAlignment="Bottom" />
+            <Button Content="Producto" Command="{Binding controlCommandBuscador}" VerticalAlignment="Bottom" />
         </StackPanel>
 
 

@@ -83,7 +83,7 @@
 
                     <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding Fecha}" />
+                            <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding Fecha, Converter={StaticResource RevertDateConverter}}" />
                         </DataGrid.Columns>
                     </DataGrid>
 

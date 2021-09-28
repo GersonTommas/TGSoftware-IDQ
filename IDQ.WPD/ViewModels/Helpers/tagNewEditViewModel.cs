@@ -11,6 +11,8 @@ namespace IDQ.WPF.ViewModels.Helpers
         public INavigator Navigator { get; set; }
 
         public tagNewEditViewModel() { }
+
+        public tagNewEditViewModel(productoModel sentProducto) { _newProducto = sentProducto; }
         
         public tagNewEditViewModel(tagModel sentTag)
         {
@@ -35,6 +37,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public string groupBoxTitle => isEdit ? "ID: " + _editTag.Id : "Nuevo Tag";
 
+        readonly productoModel _newProducto;
         readonly tagModel _editTag;
 
         public tagModel newTag { get; } = new tagModel() { Activo = true };
@@ -68,7 +71,10 @@ namespace IDQ.WPF.ViewModels.Helpers
                 context.globalDb.tags.Local.Add(newTag);
                 _ = context.globalDb.SaveChanges();
 
+                if (_newProducto != null) { _newProducto.Tag = newTag; }
+
                 if (Navigator != null) { Navigator.CurrentViewModel = null; }
+                else { Shared.Navigators.UpdateProductoSlider(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }

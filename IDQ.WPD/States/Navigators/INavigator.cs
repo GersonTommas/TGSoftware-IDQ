@@ -7,6 +7,6 @@ namespace IDQ.WPF.States.Navigators
     {
         ViewModelBase CurrentViewModel { get; set; }
 
-        ICommand UpdateCurrentViewModelCommand { get; }
+        //ICommand UpdateCurrentViewModelCommand { get; }
     }
 }

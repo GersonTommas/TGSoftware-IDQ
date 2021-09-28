@@ -14,6 +14,14 @@ namespace IDQ.WPF
         #region Initialize
         public LogInView() { InitializeComponent(); }
         #endregion // Initialize
+
+
+        #region Filtros
+        void collectionViewSourceUsuarios_Filter(object sender, System.Windows.Data.FilterEventArgs e)
+        {
+            e.Accepted = (e.Item as usuarioModel).Activo;
+        }
+        #endregion // Filtros
     }
 
 
@@ -36,10 +44,10 @@ namespace IDQ.WPF
         public ObservableCollection<usuarioModel> collectionSourceUsuarios => context.globalAllUsuarios;
 
         usuarioModel _selectedUser;
-        public usuarioModel selectedUser { get { return _selectedUser; } set { if (_selectedUser != value) { _selectedUser = value; OnPropertyChanged(); } } }
+        public usuarioModel selectedUser { get => _selectedUser; set { if (SetProperty(ref _selectedUser, value)) { OnPropertyChanged(); } } }
 
         string _enteredPassword;
-        public string enteredPassword { get { return _enteredPassword; } set { if (_enteredPassword != value) { _enteredPassword = value; OnPropertyChanged(); } } }
+        public string enteredPassword { get => _enteredPassword; set { if (SetProperty(ref _enteredPassword, value)) { OnPropertyChanged(); } } }
         #endregion Private
 
 
@@ -50,10 +58,12 @@ namespace IDQ.WPF
             if (!string.IsNullOrWhiteSpace(((PasswordBox)sender).Password) && ((PasswordBox)sender).Password == selectedUser.Contraseña)
             {
                 Shared.GlobalVars.usuarioLogueado = selectedUser;
-                Navigator.CurrentViewModel = new LogInCajaViewModel(Navigator, thisWindow);
+
+                //Navigator.CurrentViewModel = new LogInCajaViewModel(Navigator, thisWindow);
             }
             else { Shared.GlobalVars.messageError.LogIn(); if (sender != null) { ((PasswordBox)sender).SelectAll(); } }
         }
+
         bool checkFormulario => selectedUser != null;
         #endregion // Helpers
 
@@ -67,6 +77,6 @@ namespace IDQ.WPF
 
 
 
-        public Command comTest => new Command((object parameter) => { xTestWindow tWin = new xTestWindow(); tWin.ShowDialog(); });
+        public Command comTest => new Command((object parameter) => { xTestWindow tWin = new xTestWindow(); _ = tWin.ShowDialog(); });
     }
 }

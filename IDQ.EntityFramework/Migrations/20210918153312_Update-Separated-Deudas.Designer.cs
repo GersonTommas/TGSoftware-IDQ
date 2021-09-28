@@ -3,14 +3,16 @@ using System;
 using IDQ.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IDQ.EntityFramework.Migrations
 {
     [DbContext(typeof(IDQDbContext))]
-    partial class IDQDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210918153312_Update-Separated-Deudas")]
+    partial class UpdateSeparatedDeudas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,17 +70,17 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Detalle")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("DiferenciaApertura")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("DiferenciaApertura")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("DiferenciaCierre")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("DiferenciaCierre")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("EfectivoApertura")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("EfectivoApertura")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("EfectivoCierre")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("EfectivoCierre")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("FechaAperturaID")
                         .HasColumnType("INTEGER");
@@ -92,11 +94,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("HoraCierre")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("MercadoPagoApertura")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("MercadoPagoApertura")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("MercadoPagoCierre")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("MercadoPagoCierre")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("INTEGER");
@@ -127,8 +129,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int?>("DeudorForCajaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Efectivo")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Efectivo")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("FechaID")
                         .HasColumnType("INTEGER");
@@ -136,11 +138,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Hora")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("MercadoPago")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("MercadoPago")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("Vuelto")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Vuelto")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -163,8 +165,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int>("FechaID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductoID")
                         .HasColumnType("INTEGER");
@@ -196,8 +198,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Hora")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalPagado")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("TotalPagado")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("VentaID")
                         .HasColumnType("INTEGER");
@@ -231,11 +233,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int>("DeudaID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PrecioPagado")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioPagado")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductoID")
                         .HasColumnType("INTEGER");
@@ -264,8 +266,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Resto")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Resto")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("INTEGER");
@@ -332,14 +334,14 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Hora")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("PagadoMP")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PagadoMP")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PagadoPesos")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PagadoPesos")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PrecioTotal")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioTotal")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProveedorID")
                         .HasColumnType("INTEGER");
@@ -370,11 +372,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int>("IngresoID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("PrecioActual")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioActual")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PrecioPagado")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioPagado")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductoID")
                         .HasColumnType("INTEGER");
@@ -472,11 +474,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int>("MedidaID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("PrecioActual")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioActual")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PrecioIngreso")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioIngreso")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
@@ -595,8 +597,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int>("FechaSacadoID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductoID")
                         .HasColumnType("INTEGER");
@@ -667,8 +669,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Resto")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Resto")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Usuario")
                         .HasColumnType("TEXT");
@@ -696,8 +698,8 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<string>("Hora")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("PrecioTotal")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioTotal")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("INTEGER");
@@ -737,11 +739,11 @@ namespace IDQ.EntityFramework.Migrations
                     b.Property<int?>("FechaPagadoID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("PrecioPagado")
-                        .HasColumnType("decimal(14, 2)");
+                    b.Property<double>("PrecioPagado")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductoID")
                         .HasColumnType("INTEGER");

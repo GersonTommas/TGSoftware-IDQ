@@ -9,12 +9,12 @@ namespace IDQ.Domain.Models
     public class deudorModel : Base.ModelBase
     {
         #region Private
-        int _Nivel; Double _Resto, _DeudaTotal; string _Nombre, _Detalles; usuarioModel _Usuario;
+        int _Nivel; Decimal _Resto; string _Nombre, _Detalles; usuarioModel _Usuario;
         #endregion // Private
 
         #region Public
         public int Nivel { get => _Nivel; set { if (SetProperty(ref _Nivel, value)) { OnPropertyChanged(); } } }
-        public Double Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(doubleFaltanteTotal)); } } }
+        public Decimal Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(doubleFaltanteTotal)); } } }
 
         public string Nombre { get => _Nombre; set { if (SetProperty(ref _Nombre, value)) { OnPropertyChanged(); } } }
 
@@ -25,16 +25,19 @@ namespace IDQ.Domain.Models
         #endregion // Public
 
         #region Navigation
+        public virtual ICollection<cajaModel> cajasPerDeudor { get; private set; } = new ObservableCollection<cajaModel>();
+        public virtual ICollection<deudaModel> deudasPerDeudor { get; private set; } = new ObservableCollection<deudaModel>();
         public virtual ICollection<ventaModel> VentasPerDeudor { get; private set; } = new ObservableCollection<ventaModel>();
-        public virtual ICollection<ventaProductoModel> VentaProductosPerDeudor { get; private set; } = new ObservableCollection<ventaProductoModel>();
-        public virtual ICollection<deudorPagoModel> DeudorPagosPerDeudor { get; private set; } = new ObservableCollection<deudorPagoModel>();
+        
+        public virtual ICollection<ventaProductoModel> VentaProductosPerDeudor { get; private set; } = new ObservableCollection<ventaProductoModel>(); // Deprecated
+        public virtual ICollection<deudorPagoModel> DeudorPagosPerDeudor { get; private set; } = new ObservableCollection<deudorPagoModel>(); // Deprecated
         #endregion // Navigation
 
         #region NotMapped
         [NotMapped]
-        public Double doubleDeudaTotal => Math.Round(VentasPerDeudor.Sum(x => x.DeudaTotalVenta), 2);
+        public Decimal doubleDeudaTotal => Math.Round(VentasPerDeudor.Sum(x => x.DeudaTotalVenta), 2);
         [NotMapped]
-        public Double doubleFaltanteTotal => Math.Round(doubleDeudaTotal - Resto, 2);
+        public Decimal doubleFaltanteTotal => Math.Round(doubleDeudaTotal - Resto, 2);
 
         public override void updateModel()
         {

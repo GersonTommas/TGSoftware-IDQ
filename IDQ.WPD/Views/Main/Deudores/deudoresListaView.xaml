@@ -11,19 +11,20 @@
              DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type vmain:mainDeudoresView}}, Path=DataContext}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="collectionViewSourcePagosDeudor" Source="{Binding passDeudor.DeudorPagosPerDeudor}">
+        <CollectionViewSource x:Key="collectionViewSourcePagosDeudor" Source="{Binding passDeudor.cajasPerDeudor}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Fecha.Fecha" Direction="Descending"/>
+                <scm:SortDescription PropertyName="Fecha.Id" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="Fecha.Fecha"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        
-        <CollectionViewSource x:Key="collectionViewSourceListDeuda" Source="{Binding passDeudor.VentaProductosPerDeudor}" Filter="CollectionViewSourceListDeuda_Filter">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Venta.Fecha.Fecha"/>
-            </CollectionViewSource.GroupDescriptions>
+
+        <CollectionViewSource x:Key="collectionViewSourceListDeuda" Source="{Binding passDeudor.deudasPerDeudor}" Filter="CollectionViewSourceListDeuda_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="FechaSacadoID" Direction="Descending"/>
+                <scm:SortDescription PropertyName="Hora" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
     
@@ -34,8 +35,9 @@
         </d:Grid.DataContext>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -43,10 +45,28 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Label Content="Fechas" FontSize="15" FontWeight="Bold" Grid.Column="0" Grid.Row="0" />
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceListDeuda}}" Grid.Column="0" Grid.Row="1">
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Background="Gray" DataContext="{Binding Items}" Text="{Binding FechaSacado.Fecha, Converter={StaticResource RevertDateConverter}}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" Header="V"/>
+                <DataGridTextColumn Width="Auto" Header="Fecha" Binding="{Binding FechaSacado.Fecha, Converter={StaticResource RevertDateConverter}}"/>
+                <DataGridTextColumn Width="Auto" Header="Hora" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Hora}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <Label Content="Deudas" FontSize="15" FontWeight="Bold" Grid.Column="0" Grid.Row="0" />
-        
-        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceListDeuda}}" Grid.Column="0" Grid.Row="1" >
+
+        <Label Content="Deudas" FontSize="15" FontWeight="Bold" Grid.Column="1" Grid.Row="0" />
+
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceListDeuda}, Path=/deudaProductosPerDeuda}" Grid.Column="1" Grid.Row="1" >
             <DataGrid.GroupStyle>
                 <GroupStyle >
                     <GroupStyle.HeaderTemplate>
@@ -57,18 +77,17 @@
                 </GroupStyle>
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="AUTO" Header="Fecha" Binding="{Binding Venta.Fecha.Fecha}" />
                 <DataGridTextColumn Width="*" Header="Detalle" Binding="{Binding Producto.Descripcion}" />
                 <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Precio">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="$" />
-                                <TextBlock Text="{Binding PrecioFinal}" TextAlignment="Right" Grid.Column="1" />
+                                <TextBlock Text="$"/>
+                                <TextBlock Text="{Binding precioFinal}" TextAlignment="Right" Grid.Column="1"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -77,13 +96,13 @@
                 <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Total">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="15,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="$" />
-                                <TextBlock Text="{Binding TotalFaltante}" TextAlignment="Right" Grid.Column="1" />
+                                <TextBlock Text="$"/>
+                                <TextBlock Text="{Binding TotalFaltante}" TextAlignment="Right" Grid.Column="1"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -94,24 +113,80 @@
         <CheckBox Content="Agrupar por fecha" IsChecked="{Binding isAgrupadoPorFecha}" Grid.Column="0" Grid.Row="2" />
 
 
-        <Label Content="Pagos" FontSize="15" FontWeight="Bold" Grid.Column="1" Grid.Row="0" />
-        
-        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourcePagosDeudor}}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+        <Label Content="Pagos" FontSize="15" FontWeight="Bold" Grid.Column="2" Grid.Row="0" />
+
+        <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourcePagosDeudor}}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
             <DataGrid.GroupStyle>
                 <GroupStyle >
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Background="Gray" DataContext="{Binding Items}" Text="{Binding Fecha.Fecha}" />
+                            <TextBlock Background="Gray" DataContext="{Binding Items}" Text="{Binding Fecha.Fecha, Converter={StaticResource RevertDateConverter}}" />
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding Fecha.Fecha}" />
-                <DataGridTextColumn Width="*" Header="Efectivo" Binding="{Binding Caja.Efectivo}" />
-                <DataGridTextColumn Width="*" Header="MercadoPago" Binding="{Binding Caja.MercadoPago}" />
-                <DataGridTextColumn Width="*" Header="Vuelto" Binding="{Binding Caja.Vuelto}" />
-                <DataGridTextColumn Width="*" Header="Total" Binding="{Binding Caja.doubleTotalTotal}" />
+                <DataGridTextColumn Width="Auto" Header="Fecha" Binding="{Binding Fecha.Fecha}" Visibility="Collapsed"/>
+                <DataGridTemplateColumn Width="Auto" Header="Efectivo">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Efectivo}" HorizontalAlignment="Right" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" Header="MP">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" Grid.Column="0"/>
+                                <TextBlock Text="{Binding MercadoPago}" HorizontalAlignment="Right" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" Header="Vuelto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Vuelto}" HorizontalAlignment="Right" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" Header="Total">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" Grid.Column="0"/>
+                                <TextBlock Text="{Binding doubleTotalTotal}" HorizontalAlignment="Right" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="Auto" Header="Efectivo" Binding="{Binding Efectivo}" Visibility="Collapsed" />
+                <DataGridTextColumn Width="Auto" Header="MercadoPago" Binding="{Binding MercadoPago}" Visibility="Collapsed" />
+                <DataGridTextColumn Width="Auto" Header="Vuelto" Binding="{Binding Vuelto}" Visibility="Collapsed" />
+                <DataGridTextColumn Width="Auto" Header="Total" Binding="{Binding doubleTotalTotal}" Visibility="Collapsed" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

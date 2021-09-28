@@ -6,14 +6,14 @@ namespace IDQ.Domain.Models
     public class ingresoProductoModel : Base.ModelBase
     {
         #region Private
-        int _Cantidad; Double _PrecioPagado, _PrecioActual; productoModel _Producto; ingresoModel _Ingreso;
+        int _Cantidad; Decimal _PrecioPagado, _PrecioActual; productoModel _Producto; ingresoModel _Ingreso;
         #endregion // Private
 
 
         #region Public
         public int Cantidad { get => _Cantidad; set { if (SetProperty(ref _Cantidad, value)) { OnPropertyChanged(); } } }
-        public Double PrecioPagado { get => _PrecioPagado; set { if (SetProperty(ref _PrecioPagado, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); OnPropertyChanged(nameof(PrecioSugerido)); } } }
-        public Double PrecioActual { get => _PrecioActual; set { if (SetProperty(ref _PrecioActual, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PrecioPagado { get => _PrecioPagado; set { if (SetProperty(ref _PrecioPagado, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); OnPropertyChanged(nameof(PrecioSugerido)); } } }
+        public Decimal PrecioActual { get => _PrecioActual; set { if (SetProperty(ref _PrecioActual, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
         public int ProductoID { get; set; }
         public virtual productoModel Producto { get => _Producto; set { if (SetProperty(ref _Producto, value)) { OnPropertyChanged(); } } }
@@ -25,10 +25,10 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public Double PrecioTotal => Math.Round(Cantidad * PrecioPagado, 2);
+        public Decimal PrecioTotal => Math.Round(Cantidad * PrecioPagado, 2);
 
         [NotMapped]
-        public Double PrecioSugerido => Math.Round(PrecioPagado * 1.3, 2);
+        public Decimal PrecioSugerido => Math.Round(PrecioPagado * 1.3m, 2);
         #endregion // NotMapped
 
         public override void updateModel()

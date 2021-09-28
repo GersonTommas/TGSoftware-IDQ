@@ -9,11 +9,11 @@ namespace IDQ.Domain.Models
     public class ventaModel : Base.ModelBase
     {
         #region Private
-        String _Hora; Double _PrecioTotal; cajaModel _Caja; fechaModel _Fecha; usuarioModel _Usuario; deudorModel _Deudor;
+        String _Hora; Decimal _PrecioTotal; cajaModel _Caja; fechaModel _Fecha; usuarioModel _Usuario; deudorModel _Deudor; deudaModel _DeudaForVenta;
         #endregion // Private
 
         #region Public
-        public Double PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, value)) { OnPropertyChanged(); } } }
+        public Decimal PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, value)) { OnPropertyChanged(); } } }
 
         public int? CajaId { get; set; }
         public virtual cajaModel Caja { get => _Caja; set { if (SetProperty(ref _Caja, value)) { OnPropertyChanged(); } } }
@@ -28,11 +28,16 @@ namespace IDQ.Domain.Models
 
         public int? DeudorID { get; set; }
         public virtual deudorModel Deudor { get => _Deudor; set { if (SetProperty(ref _Deudor, value)) { OnPropertyChanged(); } } }
+
+
+        public virtual deudaModel DeudaForVenta { get => _DeudaForVenta; set { if (SetProperty(ref _DeudaForVenta, value)) { OnPropertyChanged(); } } }
         #endregion // Public
 
         #region Navigation
         public virtual ICollection<ventaProductoModel> VentaProductosPerVenta { get; private set; } = new ObservableCollection<ventaProductoModel>();
-        public virtual ICollection<deudorPagoModel> DeudaorPagosPerVenta { get; private set; } = new ObservableCollection<deudorPagoModel>();
+
+
+        public virtual ICollection<deudorPagoModel> DeudaorPagosPerVenta { get; private set; } = new ObservableCollection<deudorPagoModel>(); // Deprecated
         #endregion // Navigation
 
         #region NotMapped
@@ -41,7 +46,7 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public int isVentaPagado => VentaProductosPerVenta.All(x => x.BolPagado) ? 0 : VentaProductosPerVenta.All(x => x.BolPagado == false) ? 2 : 1;
         [NotMapped]
-        public Double DeudaTotalVenta => Math.Round(VentaProductosPerVenta.Sum(x => x.TotalFaltante), 2);
+        public Decimal DeudaTotalVenta => Math.Round(VentaProductosPerVenta.Sum(x => x.TotalFaltante), 2);
         #endregion // NotMapped
     }
 }

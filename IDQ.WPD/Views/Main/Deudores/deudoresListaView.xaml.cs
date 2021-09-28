@@ -17,7 +17,7 @@ namespace IDQ.WPF.Views.Main.Deudores
         #region Filters
         void CollectionViewSourceListDeuda_Filter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (e.Item as ventaProductoModel).CantidadFaltante > 0;
+            e.Accepted = (e.Item as deudaModel).FechaPagado == null;
         }
         #endregion // Filters
     }

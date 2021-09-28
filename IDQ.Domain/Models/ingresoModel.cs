@@ -9,14 +9,14 @@ namespace IDQ.Domain.Models
     public class ingresoModel : Base.ModelBase
     {
         #region Private
-        Double _PagadoPesos, _PagadoMP, _PrecioTotal; String _Hora; string _Detalle; proveedorModel _Proveedor; usuarioModel _Usuario; fechaModel _Fecha;
+        Decimal _PagadoPesos, _PagadoMP, _PrecioTotal; String _Hora; string _Detalle; proveedorModel _Proveedor; usuarioModel _Usuario; fechaModel _Fecha;
         #endregion // Private
 
 
         #region Public
-        public Double PagadoPesos { get => _PagadoPesos; set { if (SetProperty(ref _PagadoPesos, Math.Round(value, 2))) { OnPropertyChanged(); } } }
-        public Double PagadoMP { get => _PagadoMP; set { if (SetProperty(ref _PagadoMP, Math.Round(value, 2))) { OnPropertyChanged(); } } }
-        public Double PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PagadoPesos { get => _PagadoPesos; set { if (SetProperty(ref _PagadoPesos, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PagadoMP { get => _PagadoMP; set { if (SetProperty(ref _PagadoMP, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
         public String Hora { get => _Hora; set { if (SetProperty(ref _Hora, Convert.ToDateTime(value).ToString("HH:mm:ss"))) { OnPropertyChanged(); } } }
         public string Detalle { get => _Detalle; set { if (SetProperty(ref _Detalle, value)) { OnPropertyChanged(); } } }
@@ -38,7 +38,7 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public int ingresosCantidadProductosPerIngreso => IngresoProductosPerIngreso.Count();
+        public int ingresosCantidadProductosPerIngreso => IngresoProductosPerIngreso.Count;
         #endregion // NotMapped
 
         public override void updateModel()

@@ -39,7 +39,7 @@ namespace IDQ.WPF
             // Create the main window, but on the UI thread.
             _ = Dispatcher.BeginInvoke((Action)(() =>
               {
-                  MainWindow = new LogInWindow();
+                  MainWindow = new ContentWindow();
                   MainWindow.Loaded += (sender, e) =>
                   {
                       _ = mainWindowLoaded.Set();
