@@ -31,7 +31,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                     Apellido = sentUsuario.Apellido,
                     Contraseña = sentUsuario.Contraseña,
                     Detalle = sentUsuario.Detalle,
-                    FechaIngreso = sentUsuario.FechaIngreso,
+                    FechaDeIngreso = sentUsuario.FechaDeIngreso,
                     FechaSalida = sentUsuario.FechaSalida,
                     Nivel = sentUsuario.Nivel,
                     Nombre = sentUsuario.Nombre,

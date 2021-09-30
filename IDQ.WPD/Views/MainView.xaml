@@ -74,6 +74,9 @@
                 <TabItem Header="Deudas">
                     <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
                 </TabItem>
+                <TabItem Header="Tags">
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainTagsMedidasNavigator.CurrentViewModel}"/>
+                </TabItem>
             </TabControl>
         </Grid>
 

@@ -7,25 +7,40 @@ namespace IDQ.Domain.Models
 {
     public class usuarioModel : Base.ModelBase
     {
-        #region Private
-        int _Nivel; Decimal _Resto; string _Nombre, _Apellido, _Detalle, _Contraseña, _Usuario; String _Fecha, _FechaSalida; bool _Activo;
-        #endregion // Private
-
-        #region Public
+        #region Variables
+        int _Nivel;
         public int Nivel { get => _Nivel; set { if (SetProperty(ref _Nivel, value)) { OnPropertyChanged(); } } }
+
+        Decimal _Resto;
         public Decimal Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); } } }
 
+        string _Nombre;
         public string Nombre { get => _Nombre; set { if (SetProperty(ref _Nombre, value)) { OnPropertyChanged(); } } }
+
+        string _Apellido;
         public string Apellido { get => _Apellido; set { if (SetProperty(ref _Apellido, value)) { OnPropertyChanged(); } } }
+
+        string _Usuario;
         public string Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
+
+        string _Detalle;
         public string Detalle { get => _Detalle; set { if (SetProperty(ref _Detalle, value)) { OnPropertyChanged(); } } }
+
+        string _Contraseña;
         public string Contraseña { get => _Contraseña; set { if (SetProperty(ref _Contraseña, value)) { OnPropertyChanged(); } } }
 
-        public String FechaIngreso { get => _Fecha; set { if (SetProperty(ref _Fecha, Convert.ToDateTime(value).ToString("yyyy/MM/dd"))) { OnPropertyChanged(); } } }
-        public String FechaSalida { get => _FechaSalida; set { if (SetProperty(ref _FechaSalida, Convert.ToDateTime(value).ToString("yyyy/MM/dd"))) { OnPropertyChanged(); } } }
+        public string FechaSalida { get; set; } // Deprecated
+        public string FechaIngreso { get; set; } // Deprecated
 
+        fechaModel _FechaDeIngreso;
+        public virtual fechaModel FechaDeIngreso { get => _FechaDeIngreso; set { if (SetProperty(ref _FechaDeIngreso, value)) { OnPropertyChanged(); } } } // New
+
+        fechaModel _FechaDeEgreso;
+        public virtual fechaModel FechaDeEgreso { get => _FechaDeEgreso; set { if (SetProperty(ref _FechaDeEgreso, value)) { OnPropertyChanged(); } } } // New
+
+        bool _Activo;
         public bool Activo { get => _Activo; set { if (SetProperty(ref _Activo, value)) { OnPropertyChanged(); } } }
-        #endregion // Public
+        #endregion // Variables
 
         #region Navigation
         public virtual ICollection<cajaConteoModel> CajaConteosPerUsuario { get; private set; } = new ObservableCollection<cajaConteoModel>();

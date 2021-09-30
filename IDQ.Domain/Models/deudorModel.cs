@@ -8,21 +8,24 @@ namespace IDQ.Domain.Models
 {
     public class deudorModel : Base.ModelBase
     {
-        #region Private
-        int _Nivel; Decimal _Resto; string _Nombre, _Detalles; usuarioModel _Usuario;
-        #endregion // Private
-
-        #region Public
+        #region Variables
+        int _Nivel;
         public int Nivel { get => _Nivel; set { if (SetProperty(ref _Nivel, value)) { OnPropertyChanged(); } } }
+
+        Decimal _Resto;
         public Decimal Resto { get => _Resto; set { if (SetProperty(ref _Resto, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(doubleFaltanteTotal)); } } }
 
+        string _Nombre;
         public string Nombre { get => _Nombre; set { if (SetProperty(ref _Nombre, value)) { OnPropertyChanged(); } } }
 
+        string _Detalles;
         public string Detalles { get => _Detalles; set { if (SetProperty(ref _Detalles, value)) { OnPropertyChanged(); } } }
 
         public int UsuarioID { get; set; }
+        usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
-        #endregion // Public
+        #endregion // Variables
+
 
         #region Navigation
         public virtual ICollection<cajaModel> cajasPerDeudor { get; private set; } = new ObservableCollection<cajaModel>();
@@ -33,17 +36,19 @@ namespace IDQ.Domain.Models
         public virtual ICollection<deudorPagoModel> DeudorPagosPerDeudor { get; private set; } = new ObservableCollection<deudorPagoModel>(); // Deprecated
         #endregion // Navigation
 
+
         #region NotMapped
         [NotMapped]
         public Decimal doubleDeudaTotal => Math.Round(VentasPerDeudor.Sum(x => x.DeudaTotalVenta), 2);
         [NotMapped]
         public Decimal doubleFaltanteTotal => Math.Round(doubleDeudaTotal - Resto, 2);
+        #endregion // NotMapped
+
 
         public override void updateModel()
         {
             OnPropertyChanged(nameof(doubleDeudaTotal));
             OnPropertyChanged(nameof(doubleFaltanteTotal));
         }
-        #endregion // NotMapped
     }
 }

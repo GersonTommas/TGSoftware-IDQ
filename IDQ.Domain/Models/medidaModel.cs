@@ -10,21 +10,22 @@ namespace IDQ.Domain.Models
 {
     public class medidaModel : Base.ModelBase
     {
-        #region Private
-        int _Tipo; string _Medida; bool _Activo;
-        #endregion // Private
-
-        #region Public
+        #region Variables
+        int _Tipo;
         public int Tipo { get => _Tipo; set { if (SetProperty(ref _Tipo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(TipoShort)); OnPropertyChanged(nameof(fullMedida)); } } }
 
+        string _Medida;
         public string Medida { get => _Medida; set { if (SetProperty(ref _Medida, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(fullMedida)); } } }
 
+        bool _Activo;
         public bool Activo { get => _Activo; set { if (SetProperty(ref _Activo, value)) { OnPropertyChanged(); } } }
-        #endregion // Public
+        #endregion // Variables
+
 
         #region Navigation
         public virtual ICollection<productoModel> ProductosPerMedida { get; private set; } = new ObservableCollection<productoModel>();
         #endregion // Navigation
+
 
         #region NotMapped
         [NotMapped]
@@ -74,6 +75,7 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public string fullMedida => Medida + TipoShort;
         #endregion // NotMapped
+
 
         public override void updateModel()
         {

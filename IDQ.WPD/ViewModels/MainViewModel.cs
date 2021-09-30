@@ -14,6 +14,8 @@ namespace IDQ.WPF.ViewModels
         public INavigator mainVentasNavigator { get; } = new Navigator();
         public INavigator mainComprasNavigator { get; } = new Navigator();
         public INavigator mainDeudasNavigator { get; } = new Navigator();
+        public INavigator mainTagsMedidasNavigator { get; } = new Navigator();
+
 
         public MainViewModel()
         {
@@ -22,6 +24,7 @@ namespace IDQ.WPF.ViewModels
             mainVentasNavigator.CurrentViewModel = new mainVentasViewModel();
             mainComprasNavigator.CurrentViewModel = new mainComprasViewModel();
             mainDeudasNavigator.CurrentViewModel = new mainDeudoresViewModel();
+            mainTagsMedidasNavigator.CurrentViewModel = new mainMedidasTagsViewModel();
         }
         #endregion // Initialize
 

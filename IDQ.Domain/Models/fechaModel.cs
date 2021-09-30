@@ -8,13 +8,11 @@ namespace IDQ.Domain.Models
 {
     public class fechaModel : Base.ModelBase
     {
-        #region Private
+        #region Variables
         String _Fecha;
-        #endregion // Private
-
-        #region Public
         public String Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, Convert.ToDateTime(value).ToString("yyyy/MM/dd"))) { OnPropertyChanged(); } } }
-        #endregion // Public
+        #endregion // Variables
+
 
         #region Navigation
         public virtual ICollection<abiertoProductoModel> AbiertoProductosPerFecha { get; private set; } = new ObservableCollection<abiertoProductoModel>();
@@ -43,7 +41,13 @@ namespace IDQ.Domain.Models
         public virtual ICollection<sacadoProductoModel> SacadoProductosSacadosPerFecha { get; private set; } = new ObservableCollection<sacadoProductoModel>(); // Deprecated
         [InverseProperty(nameof(sacadoProductoModel.FechaPagado))]
         public virtual ICollection<sacadoProductoModel> SacadoProductosPagadosPerFecha { get; private set; } = new ObservableCollection<sacadoProductoModel>(); // Deprecated
+
+        [InverseProperty(nameof(usuarioModel.FechaDeIngreso))]
+        public virtual ICollection<usuarioModel> UsuariosPerFechaIngreso { get; private set; } = new ObservableCollection<usuarioModel>(); // New
+        [InverseProperty(nameof(usuarioModel.FechaDeEgreso))]
+        public virtual ICollection<usuarioModel> UsuariosPerFechaEgreso { get; private set; } = new ObservableCollection<usuarioModel>(); // New
         #endregion // Navigation
+
 
         #region NotMapped
         [NotMapped]
@@ -69,6 +73,7 @@ namespace IDQ.Domain.Models
             OnPropertyChanged(nameof(fechaModel));
         }
         #endregion // NotMapped
+
 
         public override void updateModel()
         {

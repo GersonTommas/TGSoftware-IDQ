@@ -174,6 +174,29 @@ namespace IDQ.EntityFramework.Updates
                 _ = context.globalDb.SaveChanges();
             }
             #endregion // Update Separated-Deudas
+
+
+            #region Update 20210929025647 usuarioModel Added-FechaModels
+            ObservableCollection<usuarioModel> usuarios = context.globalDb.usuarios.Local.ToObservableCollection();
+            if (usuarios.All(x => x.FechaDeIngreso == null))
+            {
+                foreach (usuarioModel usuario in usuarios)
+                {
+                    if (usuario.FechaIngreso != null)
+                    {
+                        usuario.FechaDeIngreso = context.returnFecha(usuario.FechaIngreso);
+                        _ = context.globalDb.SaveChanges();
+                    }
+
+                    if (usuario.FechaSalida != null)
+                    {
+                        usuario.FechaDeEgreso = context.returnFecha(usuario.FechaSalida);
+                        _ = context.globalDb.SaveChanges();
+                    }
+
+                }
+            }
+            #endregion // Update 20210929025647 usuarioModel Added-FechaModels
         }
     }
 }

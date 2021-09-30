@@ -54,16 +54,6 @@
                 <views:xBlankNavigatorView/>
             </DataTemplate>
             <!--#endregion Blank-->
-
-            
-            <!--#region LogIn-->
-            <DataTemplate DataType="{x:Type local:LogInViewModel}">
-                <local:LogInView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:LogInCajaViewModel}">
-                <local:LogInCajaView/>
-            </DataTemplate>
-            <!--#endregion LogIn-->
             
             
             <!--#region Views-->
@@ -93,6 +83,10 @@
 
             <DataTemplate DataType="{x:Type viewmodelsmain:mainDeudoresViewModel}">
                 <viewsmain:mainDeudoresView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodelsmain:mainMedidasTagsViewModel}">
+                <viewsmain:mainMedidasTagsView/>
             </DataTemplate>
             
             <DataTemplate DataType="{x:Type viewmodelsmain:mainProductosViewModel}">

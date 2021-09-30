@@ -46,6 +46,8 @@ namespace IDQ.EntityFramework
             foreach (Microsoft.EntityFrameworkCore.Metadata.IMutableProperty property in modelBuilder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
             { property.SetColumnType("decimal(14, 2)"); }
 
+            //_ = modelBuilder.Entity<tagModel>().Property(x => x.fullTag).HasComputedColumnSql("[Tag] + ' ' + [Minimo]", false);
+
             base.OnModelCreating(modelBuilder);
         }
     }
@@ -60,6 +62,21 @@ namespace IDQ.EntityFramework
         public static ObservableCollection<medidaModel> globalAllMedidas;
         public static ObservableCollection<fechaModel> globalAllFechas;
         public static ObservableCollection<deudorModel> globalAllDeudores;
+
+
+        public static fechaModel returnFecha(string sentFecha = null)
+        {
+            if (sentFecha == null)
+            {
+                try { return globalDb.fechas.Local.Single(x => x.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd")); }
+                catch { return new fechaModel() { Fecha = DateTime.Today.ToString(@"yyyy/MM/dd") }; }
+            }
+            else
+            {
+                try { return globalDb.fechas.Local.Single(x => x.Fecha == sentFecha); }
+                catch { return new fechaModel() { Fecha = sentFecha }; }
+            }
+        }
 
         public context()
         {
