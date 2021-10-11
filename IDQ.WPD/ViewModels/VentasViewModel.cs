@@ -151,6 +151,10 @@ namespace IDQ.WPF.ViewModels
 
 
         #region Commands
+        public Command buttonCommandOpenBuscador => new Command(
+            (object parameter) => { HelperFullWindow buscador = new HelperFullWindow(this); buscador.ShowDialog(); });
+
+
         public Command textBoxCommandFindProducto => new Command(
             (object parameter) => helperFindProducto(parameter),
             (object parameter) => !string.IsNullOrWhiteSpace(inputCodigo));

@@ -29,7 +29,7 @@
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding isLoginIn}" Visibility="{Binding isCierre, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" Grid.Column="0">
             <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="3" Width="300" Height="300" Margin="15">
-                <Image Source="Pack://application:,,,/Resources/Images/Logo02.png" Margin="5" Stretch="Uniform" />
+                <Image Source="Pack://application:,,,/Resources/Images/Logo03.png" Margin="5" Stretch="Uniform" />
             </Border>
 
 
@@ -101,9 +101,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <ctrls:ctrlTextBox text="{Binding newCajaConteo.EfectivoApertura, Mode=OneWay}" labelContent="Caja:" isReadOnly="True" textWidth="60" Grid.Column="0"/>
-                                <ctrls:ctrlTextBox text="{Binding newCajaConteo.Caja.Efectivo}" labelContent="Sistema:" isReadOnly="True" textWidth="60" Grid.Column="1"/>
-                                <ctrls:ctrlTextBox text="{Binding newCajaConteo.difEfectivoApertura, Mode=OneWay}" labelContent="Diferencia:" isReadOnly="True" textWidth="60" Grid.Column="2"/>
+                                <ctrls:ctrlTextBox text="{Binding pseudoCaja.Efectivo, Mode=OneWay}" labelContent="Caja:" isReadOnly="True" textWidth="60" Grid.Column="0"/>
+                                <ctrls:ctrlTextBox text="{Binding pseudoCaja.CajaEfectivo, Mode=OneWay}" labelContent="Sistema:" isReadOnly="True" textWidth="60" Grid.Column="1"/>
+                                <ctrls:ctrlTextBox text="{Binding pseudoCaja.difEfectivo, Mode=OneWay}" labelContent="Diferencia:" isReadOnly="True" textWidth="60" Grid.Column="2"/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -118,9 +118,9 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <ctrls:ctrlTextBox text="{Binding newCajaConteo.MercadoPagoApertura}" labelContent="MercadoPago:" inputType="2" textWidth="60" Grid.Column="0"/>
-                    <ctrls:ctrlTextBox text="{Binding newCajaConteo.Caja.MercadoPago, Mode=OneWay}" labelContent="Sistema:" textWidth="60"  isReadOnly="True" Grid.Column="1"/>
-                    <ctrls:ctrlTextBox text="{Binding newCajaConteo.difMercadoPagoApertura, Mode=OneWay}" labelContent="Diferencia:" textWidth="60" isReadOnly="True" Grid.Column="2"/>
+                    <ctrls:ctrlTextBox text="{Binding pseudoCaja.MercadoPago}" labelContent="MercadoPago:" inputType="2" textWidth="60" Grid.Column="0"/>
+                    <ctrls:ctrlTextBox text="{Binding pseudoCaja.CajaMercadoPago, Mode=OneWay}" labelContent="Sistema:" textWidth="60"  isReadOnly="True" Grid.Column="1"/>
+                    <ctrls:ctrlTextBox text="{Binding pseudoCaja.difMercadoPago, Mode=OneWay}" labelContent="Diferencia:" textWidth="60" isReadOnly="True" Grid.Column="2"/>
                 </Grid>
             </GroupBox>
 

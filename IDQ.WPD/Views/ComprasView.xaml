@@ -34,7 +34,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ctrls:ctrlInfoShortcuts hasGuardar="True" hasAgregar="True" hasCancelar="True" Grid.Row="0" />
+            <ctrls:ctrlInfoShortcuts textF1="Guardar" textEnter="Agregar" textEsc="Cancelar" Grid.Row="0" />
 
         </Grid>
         

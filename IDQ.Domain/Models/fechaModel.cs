@@ -18,18 +18,20 @@ namespace IDQ.Domain.Models
         public virtual ICollection<abiertoProductoModel> AbiertoProductosPerFecha { get; private set; } = new ObservableCollection<abiertoProductoModel>();
         public virtual ICollection<cajaModel> CajasPerFecha { get; private set; } = new ObservableCollection<cajaModel>();
         public virtual ICollection<consumoProductoModel> ConsumosProductosPerFecha { get; private set; } = new ObservableCollection<consumoProductoModel>();
+        public virtual ICollection<conteoModel> ConteosPerFecha { get; private set; } = new ObservableCollection<conteoModel>(); // New
         public virtual ICollection<deudorPagoModel> DeudorPagosPerFecha { get; private set; } = new ObservableCollection<deudorPagoModel>(); // Deprecated
         public virtual ICollection<ingresoModel> IngresosPerFecha { get; private set; } = new ObservableCollection<ingresoModel>();
         public virtual ICollection<modificadoProductoModel> ModificadosProductosPerFecha { get; private set; } = new ObservableCollection<modificadoProductoModel>();
         public virtual ICollection<productoModel> ProductosModificadosPerFecha { get; private set; } = new ObservableCollection<productoModel>();
+        public virtual ICollection<pseudoCajaModel> pseudoCajasPerFecha { get; private set; } = new ObservableCollection<pseudoCajaModel>(); // New
         public virtual ICollection<retiroCajaModel> RetirosPerFecha { get; private set; } = new ObservableCollection<retiroCajaModel>();
         public virtual ICollection<ventaModel> VentasPerFecha { get; private set; } = new ObservableCollection<ventaModel>();
         public virtual ICollection<ventaProductoModel> VentaProductosPagadosPerFecha { get; private set; } = new ObservableCollection<ventaProductoModel>(); // Deprecated
 
         [InverseProperty(nameof(cajaConteoModel.FechaApertura))]
-        public virtual ICollection<cajaConteoModel> CajaConteosAperturaPerFecha { get; private set; } = new ObservableCollection<cajaConteoModel>();
+        public virtual ICollection<cajaConteoModel> CajaConteosAperturaPerFecha { get; private set; } = new ObservableCollection<cajaConteoModel>(); // Deprecated
         [InverseProperty(nameof(cajaConteoModel.FechaCierre))]
-        public virtual ICollection<cajaConteoModel> CajaConteosCierrePerFecha { get; private set; } = new ObservableCollection<cajaConteoModel>();
+        public virtual ICollection<cajaConteoModel> CajaConteosCierrePerFecha { get; private set; } = new ObservableCollection<cajaConteoModel>(); // Deprecated
 
 
         [InverseProperty(nameof(deudaModel.FechaSacado))]
@@ -53,7 +55,10 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public int TotalCantidadVentasDiario => VentasPerFecha.Count;
         [NotMapped]
-        public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.PrecioTotal);
+        //public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.PrecioTotal);
+        public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.Caja != null ? x.Caja.Efectivo - x.Caja.Vuelto : 0);
+        [NotMapped]
+        public Decimal TotalMPVentasDiario => VentasPerFecha.Sum(x => x.Caja != null ? x.Caja.MercadoPago : 0);
 
         [NotMapped]
         public int TotalCantidadConsumosDiario => ConsumosProductosPerFecha.Count;
@@ -62,6 +67,7 @@ namespace IDQ.Domain.Models
         {
             OnPropertyChanged(nameof(TotalCantidadVentasDiario));
             OnPropertyChanged(nameof(TotalPesosVentasDiario));
+            OnPropertyChanged(nameof(TotalMPVentasDiario));
         }
         public void updateTotalConsumosDiario()
         {

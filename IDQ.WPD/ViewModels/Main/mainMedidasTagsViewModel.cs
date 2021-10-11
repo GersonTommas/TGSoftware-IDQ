@@ -14,6 +14,9 @@ namespace IDQ.WPF.ViewModels.Main
         #region Variables
         public ObservableCollection<medidaModel> CollectionSourceMedidas => context.globalAllMedidas;
         public ObservableCollection<tagModel> CollectionSourceTags => context.globalAllTags;
+
+        public medidaModel selectedMedida { get; set; }
+        public tagModel selectedTag { get; set; }
         #endregion // Variables
 
 
@@ -25,7 +28,7 @@ namespace IDQ.WPF.ViewModels.Main
 
         void helperEditMedida()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.medidaNewEditViewModel());
+            Shared.Navigators.UpdateEditorSlider(new Helpers.medidaNewEditViewModel(selectedMedida));
         }
 
         void helperNewTag()
@@ -35,25 +38,25 @@ namespace IDQ.WPF.ViewModels.Main
 
         void helperEditTag()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.tagNewEditViewModel());
+            Shared.Navigators.UpdateEditorSlider(new Helpers.tagNewEditViewModel(selectedTag));
         }
 
-        bool checkEditMedida => true;
+        bool checkEditMedida => selectedMedida != null;
 
-        bool checkEditTag => true;
+        bool checkEditTag => selectedTag != null;
         #endregion // Helpers
 
 
         #region Commands
-        public Command buttonCommandNewMedida => new Command((object parameter) => helperNewMedida());
+        public Command controlCommandNuevaMedida => new Command((object parameter) => helperNewMedida());
 
-        public Command buttonCommandEditMedida => new Command(
+        public Command controlCommandEditarMedida => new Command(
             (object parameter) => helperEditMedida(),
             (object parameter) => checkEditMedida);
 
-        public Command buttonCommandNewTag => new Command((object parameter) => helperNewTag());
+        public Command controlCommandNuevoTag => new Command((object parameter) => helperNewTag());
 
-        public Command buttonCommandEditTag => new Command(
+        public Command controlCommandEditarTag => new Command(
             (object parameter) => helperEditTag(),
             (object parameter) => checkEditTag);
         #endregion // Commands

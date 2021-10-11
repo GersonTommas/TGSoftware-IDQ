@@ -12,7 +12,7 @@ namespace IDQ.EntityFramework.Updates
     {
         public static void xDoUpdate()
         {
-            #region Update ventas 01
+            #region Update 20210910013623_ventas-preciototal
             ObservableCollection<ventaModel> ventas = context.globalDb.ventas.Local.ToObservableCollection();
             if (ventas.All(x => x.PrecioTotal == 0))
             {
@@ -22,10 +22,10 @@ namespace IDQ.EntityFramework.Updates
                 }
                 _ = context.globalDb.SaveChangesAsync();
             }
-            #endregion // Update ventas 01
+            #endregion // Update 20210910013623_ventas-preciototal
 
 
-            #region Update deudorPagos 01
+            #region Update 20210911170945_deudorPagos-Added
             ObservableCollection<deudorPagoModel> deudorPagos = context.globalDb.deudorPagos.Local.ToObservableCollection();
             ObservableCollection<cajaModel> cajas = context.globalDb.caja.Local.ToObservableCollection();
             if (deudorPagos.Count == 0)
@@ -64,9 +64,9 @@ namespace IDQ.EntityFramework.Updates
                 }
                 _ = context.globalDb.SaveChanges();
             }
-            #endregion // Update deudorPagos 01
+            #endregion // Update 20210911170945_deudorPagos-Added
 
-
+            /*
             #region Update cajaConteo 01
             ObservableCollection<cajaConteoModel> cajaConteos = context.globalDb.cajaConteos.Local.ToObservableCollection();
             if (cajaConteos.All(x => x.EfectivoApertura == 0))
@@ -84,7 +84,7 @@ namespace IDQ.EntityFramework.Updates
                 _ = context.globalDb.SaveChanges();
             }
             #endregion // Update cajaConteo 01
-
+            */
 
             #region // Update Add-Ingreso-PrecioTotal
             ObservableCollection<ingresoModel> ingresos = context.globalDb.ingresos.Local.ToObservableCollection();
@@ -197,6 +197,150 @@ namespace IDQ.EntityFramework.Updates
                 }
             }
             #endregion // Update 20210929025647 usuarioModel Added-FechaModels
+
+
+            #region Update Conteos
+            var cajaConteos = context.globalDb.cajaConteos.Local.OrderBy(x => x.CajaID);
+            if (!context.globalDb.conteos.Any())
+            {
+                foreach (cajaConteoModel exConteo in cajaConteos)
+                //for (int i = 0; i < cajaConteos.Count; i++)
+                {
+                    //cajaConteoModel exConteo = cajaConteos.Single(x => x.Id == i + 1);
+
+                    conteoModel tempConteo = null;
+
+                    try { tempConteo = context.globalDb.conteos.Single(x => x.Usuario == exConteo.Usuario && x.CajaSalida == null); } catch { }
+
+                    if (tempConteo != null)
+                    {
+                        if (exConteo.Detalle == "1")
+                        {
+                            if (exConteo.Caja.Fecha == tempConteo.Fecha)
+                            {
+                                tempConteo.CajaSalida = new pseudoCajaModel()
+                                {
+                                    CajaEfectivo = exConteo.Caja.Efectivo,
+                                    Efectivo = exConteo.Caja.MercadoPago,
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Hora = exConteo.Caja.Hora
+                                };
+                            }
+                            else
+                            {
+                                tempConteo.CajaSalida = new pseudoCajaModel()
+                                {
+                                    AgregadoEfectivo = tempConteo.CajaEntrada.AgregadoEfectivo,
+                                    AgregadoMercadoPago = tempConteo.CajaEntrada.AgregadoMercadoPago,
+                                    CajaEfectivo = tempConteo.CajaEntrada.CajaEfectivo,
+                                    CajaMercadoPago = tempConteo.CajaEntrada.CajaMercadoPago,
+                                    Efectivo = tempConteo.CajaEntrada.Efectivo,
+                                    Fecha = tempConteo.CajaEntrada.Fecha,
+                                    Hora = tempConteo.CajaEntrada.Hora,
+                                    MercadoPago = tempConteo.CajaEntrada.MercadoPago,
+                                    Detalles = "AUTOMATICO - Sin Cierre Encontrado."
+                                };
+
+                                conteoModel newConteo = new conteoModel()
+                                {
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Usuario = exConteo.Usuario,
+                                    CajaEntrada = new pseudoCajaModel()
+                                    {
+                                        CajaEfectivo = exConteo.Caja.Efectivo,
+                                        Efectivo = exConteo.Caja.MercadoPago,
+                                        Fecha = exConteo.Caja.Fecha,
+                                        Hora = exConteo.Caja.Hora,
+                                        Detalles = "AUTOMATICO - Sin Apertura Encontrada."
+                                    },
+                                    CajaSalida = new pseudoCajaModel()
+                                    {
+                                        CajaEfectivo = exConteo.Caja.Efectivo,
+                                        Efectivo = exConteo.Caja.MercadoPago,
+                                        Fecha = exConteo.Caja.Fecha,
+                                        Hora = exConteo.Caja.Hora
+                                    }
+                                };
+                                context.globalDb.conteos.Local.Add(newConteo);
+                            }
+                        }
+                        else
+                        {
+                            tempConteo.CajaSalida = new pseudoCajaModel()
+                            {
+                                AgregadoEfectivo = tempConteo.CajaEntrada.AgregadoEfectivo,
+                                AgregadoMercadoPago = tempConteo.CajaEntrada.AgregadoMercadoPago,
+                                CajaEfectivo = tempConteo.CajaEntrada.CajaEfectivo,
+                                CajaMercadoPago = tempConteo.CajaEntrada.CajaMercadoPago,
+                                Efectivo = tempConteo.CajaEntrada.Efectivo,
+                                Fecha = tempConteo.CajaEntrada.Fecha,
+                                Hora = tempConteo.CajaEntrada.Hora,
+                                MercadoPago = tempConteo.CajaEntrada.MercadoPago,
+                                Detalles = "AUTOMATICO - Sin Cierre Encontrado."
+                            };
+
+                            conteoModel newConteo = new conteoModel()
+                            {
+                                Usuario = exConteo.Usuario,
+                                Fecha = exConteo.Caja.Fecha,
+                                CajaEntrada = new pseudoCajaModel()
+                                {
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Hora = exConteo.Caja.Hora,
+                                    CajaEfectivo = exConteo.Caja.Efectivo,
+                                    Efectivo = exConteo.Caja.MercadoPago
+                                }
+                            };
+                            context.globalDb.conteos.Local.Add(newConteo);
+                        }
+                    }
+                    else
+                    {
+                        if (exConteo.Detalle == "1")
+                        {
+                            tempConteo = new conteoModel()
+                            {
+                                Fecha = exConteo.Caja.Fecha,
+                                Usuario = exConteo.Usuario,
+                                CajaEntrada = new pseudoCajaModel()
+                                {
+                                    CajaEfectivo = exConteo.Caja.Efectivo,
+                                    Efectivo = exConteo.Caja.MercadoPago,
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Hora = exConteo.Caja.Hora,
+                                    Detalles = "AUTOMATICO - Solo CIERRE."
+                                },
+                                CajaSalida = new pseudoCajaModel()
+                                {
+                                    CajaEfectivo = exConteo.Caja.Efectivo,
+                                    Efectivo = exConteo.Caja.MercadoPago,
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Hora = exConteo.Caja.Hora
+                                }
+                            };
+                            context.globalDb.conteos.Local.Add(tempConteo);
+                        }
+                        else
+                        {
+                            tempConteo = new conteoModel()
+                            {
+                                Fecha = exConteo.Caja.Fecha,
+                                Usuario = exConteo.Usuario,
+                                CajaEntrada = new pseudoCajaModel()
+                                {
+                                    CajaEfectivo = exConteo.Caja.Efectivo,
+                                    Efectivo = exConteo.Caja.MercadoPago,
+                                    Fecha = exConteo.Caja.Fecha,
+                                    Hora = exConteo.Caja.Hora
+                                }
+                            };
+                            context.globalDb.conteos.Local.Add(tempConteo);
+                        }
+                    }
+                    _ = context.globalDb.SaveChanges();
+                }
+            }
+            #endregion // Update Conteos
         }
     }
 }

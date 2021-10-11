@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="IDQ.WPF.Controls.ctrlRedCross"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IDQ.WPF.Controls"
+             Name="thisControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Padding="5">
+    <Viewbox>
+        <Grid>
+            <Path Data="M0,0L10,10M10,0L0,10" Stroke="Red" StrokeThickness="2" Height="10" Width="10" Visibility="{Binding ElementName=thisControl, Path=hasCross}" />
+            <Path Name="TickMark" Fill="Green" Data="M0,5 4.3,9.5 10,0 4,7" Visibility="{Binding ElementName=thisControl, Path=hasOk}" />
+            <Path Fill="Yellow" Data="M0,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" Visibility="{Binding ElementName=thisControl, Path=hasMiddle}">
+                <Path.LayoutTransform>
+                    <ScaleTransform ScaleX="0.4" ScaleY="0.4"/>
+                </Path.LayoutTransform>
+            </Path>
+        </Grid>
+    </Viewbox>
+</UserControl>

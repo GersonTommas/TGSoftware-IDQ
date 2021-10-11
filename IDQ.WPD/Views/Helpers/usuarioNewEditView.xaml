@@ -34,7 +34,7 @@
 
             <ctrls:ctrlTextBox labelContent="Contraseña" text="{Binding newUsuario.Contraseña}" isCurrency="False" textAlignment="Left" Grid.Column="1" Grid.Row="1"/>
 
-            <ctrls:ctrlTextBox labelContent="Nivel" text="{Binding newUsuario.Nivel}" isCurrency="False" textAlignment="Center" Grid.Column="2" Grid.Row="0"/>
+            <ctrls:ctrlTextBox labelContent="Nivel" text="{Binding newUsuario.Nivel}" isCurrency="False" textAlignment="Center" textWidth="30" Grid.Column="2" Grid.Row="0"/>
 
             <CheckBox Content="Activo" IsChecked="{Binding newUsuario.Activo}" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1"/>
 

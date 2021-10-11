@@ -15,7 +15,7 @@
 
     <UserControl.InputBindings>
         <KeyBinding Key="F1" Command="{Binding comGuardarVenta}" />
-        <KeyBinding Key="F4" Command="{Binding comIngresoManual}" />
+        <KeyBinding Key="F4" Command="{Binding buttonCommandOpenBuscador}" />
         <KeyBinding Key="F12" Command="{Binding ControlCommandGuardarVentaEfectivoExacto}" />
         <KeyBinding Key="Esc" Command="{Binding resultCommandCancelar}" />
     </UserControl.InputBindings>

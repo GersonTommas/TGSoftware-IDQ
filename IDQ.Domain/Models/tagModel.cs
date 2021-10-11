@@ -30,8 +30,10 @@ namespace IDQ.Domain.Models
 
 
         #region Not Mapped
+        /*
         [NotMapped]
-        public string FullTag => Tag + " " + Minimo.ToString(); // Deprecated?
+        public string FullTag => Tag + " " + Minimo.ToString(); // Deprecated
+        */
         #endregion // Not Mapped
 
 

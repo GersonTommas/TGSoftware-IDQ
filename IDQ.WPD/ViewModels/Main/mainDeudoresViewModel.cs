@@ -22,9 +22,6 @@ namespace IDQ.WPF.ViewModels.Main
         bool _hidePaid;
         public bool hidePaid { get => _hidePaid; set { if (SetProperty(ref _hidePaid, value)) { OnPropertyChanged(); } } }
 
-        bool _isLista = true;
-        public string buttonStringListaFecha => _isLista ? "Fecha" : "Lista";
-
         //ObservableCollection<fechaModel> collectionSourceFechas => context.globalAllFechas;
 
         deudorModel _passDeudor;
@@ -38,8 +35,6 @@ namespace IDQ.WPF.ViewModels.Main
 
 
         #region Commands
-        public Command buttonCommandListaFecha => new Command(
-            (object parameter) => { Navigator.CurrentViewModel = _isLista ? new deudoresFechaViewModel() : new deudoresListaViewModel(); _isLista = !_isLista; OnPropertyChanged(nameof(buttonStringListaFecha)); });
         #endregion // Commands
     }
 }

@@ -19,6 +19,7 @@ namespace IDQ.EntityFramework
         public DbSet<cajaConteoModel> cajaConteos { get; set; }
         public DbSet<cajaModel> caja { get; set; }
         public DbSet<consumoProductoModel> consumosProductos { get; set; }
+        public DbSet<conteoModel> conteos { get; set; }
         public DbSet<deudaModel> deudas { get; set; }
         public DbSet<deudaProductoModel> deudaProductos { get; set; }
         public DbSet<deudorModel> deudores { get; set; }
@@ -32,6 +33,7 @@ namespace IDQ.EntityFramework
         public DbSet<motivoRetiroModel> retiroMotivos { get; set; }
         public DbSet<productoModel> productos { get; set; }
         public DbSet<proveedorModel> proveedores { get; set; }
+        public DbSet<pseudoCajaModel> pseudoCajas { get; set; }
         //public DbSet<puestoModel> puestos { get; set; }
         public DbSet<retiroCajaModel> retiros { get; set; }
         public DbSet<sacadoProductoModel> sacadoProductos { get; set; }
@@ -127,6 +129,7 @@ namespace IDQ.EntityFramework
             globalDb.caja.LoadAsync();
             globalDb.cajaConteos.LoadAsync();
             globalDb.consumosProductos.LoadAsync();
+            globalDb.conteos.LoadAsync();
             globalDb.deudas.LoadAsync();
             globalDb.deudaProductos.LoadAsync();
             globalDb.deudores.LoadAsync();
@@ -138,6 +141,7 @@ namespace IDQ.EntityFramework
             globalDb.modificadoProductos.LoadAsync();
             globalDb.productos.LoadAsync();
             globalDb.proveedores.LoadAsync();
+            globalDb.pseudoCajas.LoadAsync();
             globalDb.retiros.LoadAsync();
             globalDb.retiroMotivos.LoadAsync();
             globalDb.sacadoProductos.LoadAsync();

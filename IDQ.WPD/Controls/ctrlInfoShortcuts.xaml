@@ -18,74 +18,102 @@
     <GroupBox Header="Comandos" VerticalAlignment="Top">
         <StackPanel>
             <StackPanel HorizontalAlignment="Center">
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasGuardar, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF1, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Text="F1: "/>
-                    <TextBlock Text="Guardar" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF1}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasTag, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF2, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Text="F2: "/>
-                    <TextBlock Text="Nuevo Tag" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF2}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasMedidas, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF3, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Text="F3: "/>
-                    <TextBlock Text="Nueva Medida" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF3}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasProductos, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF4, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Text="F4: "/>
-                    <TextBlock Text="Productos" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF4}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasAbrirProducto, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF5, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="F5: " />
-                    <TextBlock Text="Abrir Producto" Grid.Column="1" />
+
+                    <TextBlock Text="F5: "/>
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF5}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasAgregar, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF6, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
+                    <TextBlock Text="F6: "/>
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF6}" Grid.Column="1" />
+                </Grid>
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF7, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="F7: "/>
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF7}" Grid.Column="1" />
+                </Grid>
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textEnter, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
                     <TextBlock Text="Enter: "/>
-                    <TextBlock Text="Agregar" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textEnter}" Grid.Column="1" />
                 </Grid>
-                
-                <Grid Visibility="{Binding ElementName=thisControl, Path=hasCancelar, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textEsc, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Text="Esc: "/>
-                    <TextBlock Text="Cancelar" Grid.Column="1" />
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textEsc}" Grid.Column="1" />
                 </Grid>
             </StackPanel>
         </StackPanel>

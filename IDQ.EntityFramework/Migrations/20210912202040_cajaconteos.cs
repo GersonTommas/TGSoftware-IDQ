@@ -6,15 +6,26 @@ namespace IDQ.EntityFramework.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.DropColumn(
                 name: "Salida",
                 table: "cajaConteos");
+            */
+
+            migrationBuilder.DropColumn(
+                name: "Detalle",
+                table: "cajaConteos");
+
+            migrationBuilder.RenameColumn(
+                name: "Salida",
+                table: "cajaConteos",
+                newName: "Detalle");
 
             migrationBuilder.RenameColumn(
                 name: "Diferencia",
                 table: "cajaConteos",
                 newName: "DiferenciaApertura");
-
+            
             migrationBuilder.AddColumn<int>(
                 name: "FechaAperturaID",
                 table: "cajaConteos",
@@ -61,13 +72,13 @@ namespace IDQ.EntityFramework.Migrations
                 table: "cajaConteos",
                 type: "INTEGER",
                 nullable: true);
-
+            
             migrationBuilder.AddColumn<string>(
                 name: "HoraApertura",
                 table: "cajaConteos",
                 type: "TEXT",
                 nullable: true);
-
+            
             migrationBuilder.AddColumn<string>(
                 name: "HoraCierre",
                 table: "cajaConteos",
@@ -189,10 +200,11 @@ namespace IDQ.EntityFramework.Migrations
                 table: "cajaConteos",
                 newName: "Diferencia");
 
+            /*
             migrationBuilder.RenameColumn(
                 name: "FechaAperturaID",
                 table: "cajaConteos",
-                newName: "Salida");
+                newName: "Salida");*/
         }
     }
 }

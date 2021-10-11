@@ -45,6 +45,7 @@
             <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
             <converters:CeroIsNothingConverter x:Key="CeroIsNothingConverter"/>
             <converters:RevertDateConverter x:Key="RevertDateConverter"/>
+            <converters:ParameterTrueToCollapsedConverter x:Key="ParameterTrueToCollapsedConverter"/>
             <!--#endregion Converters-->
             
             
@@ -95,15 +96,6 @@
             
             <DataTemplate DataType="{x:Type viewmodelsmain:mainVentasViewModel}">
                 <viewsmain:mainVentasView/>
-            </DataTemplate>
-
-            <!--Main-Deudores-->
-            <DataTemplate DataType="{x:Type viewmodelsdeudores:deudoresFechaViewModel}">
-                <viewsdeudores:deudoresFechaView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodelsdeudores:deudoresListaViewModel}">
-                <viewsdeudores:deudoresListaView/>
             </DataTemplate>
             
             

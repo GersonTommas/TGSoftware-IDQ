@@ -42,18 +42,35 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Test" Click="Button_Click"/>
+                            <Button Content="Test"/>
                             <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
                         </StackPanel>
 
-                        <StackPanel VerticalAlignment="Center">
-                            <ctrls:ctrlTextBox text="{Binding cajaActual.Efectivo, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
-                            <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
-                        </StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Viewbox Height="26" Grid.Column="0" Grid.Row="0">
+                                <Image Source="Pack://application:,,,/Resources/Images/SignoPesosRedondo.png" Stretch="UniformToFill"/>
+                            </Viewbox>
+                            <ctrls:ctrlTextBox text="{Binding cajaActual.Efectivo, Mode=OneWay}" isReadOnly="True" Grid.Column="1" Grid.Row="0"/>
+
+
+                            <Viewbox Height="26" Grid.Column="0" Grid.Row="1">
+                                <Image Source="Pack://application:,,,/Resources/Images/MP Logo.png" Stretch="UniformToFill"/>
+                            </Viewbox>
+                            <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" Grid.Column="1" Grid.Row="1"/>
+                        </Grid>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
-                        <GroupBox Header="Acciones">
+                        <GroupBox Header="Acciones" Visibility="Collapsed">
                             <StackPanel Orientation="Horizontal" >
                                 <Button Content="Venta" Command="{Binding comVenta}"/>
                                 <Button Content="Ingreso" Command="{Binding comIngreso}"/>
@@ -130,7 +147,7 @@
             </TabItem>
 
             <TabItem Header="Cerrar Sesion">
-                <ContentControl Content="{Binding logOutNavigator.CurrentViewModel}"/>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Cerrar Sesión" Command="{Binding buttonCommandCerrarSesion}"/>
             </TabItem>
             <!-- Iniciar Sesion OLD
             <TabItem Header="Iniciar Sesion">
@@ -150,7 +167,7 @@
         </TabControl>
         
         <TabControl IsEnabled="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}, ConverterParameter=true}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
-            <TabItem Header="Iniciar Sesion" IsSelected="True">
+            <TabItem Header="{Binding tabItemTitle}" IsSelected="True">
                 
                 <ContentControl Content="{Binding logInNavigator.CurrentViewModel}" />
                 

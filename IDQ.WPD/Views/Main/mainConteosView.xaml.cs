@@ -14,25 +14,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace IDQ.WPF.Views.Main.Deudores
+namespace IDQ.WPF.Views.Main
 {
     /// <summary>
-    /// Interaction logic for deudoresFechaView.xaml
+    /// Interaction logic for mainConteosView.xaml
     /// </summary>
-    public partial class deudoresFechaView : UserControl
+    public partial class mainConteosView : UserControl
     {
-        public deudoresFechaView()
+        public mainConteosView()
         {
             InitializeComponent();
         }
 
-        void CollectionViewSourceListDeuda_Filter(object sender, FilterEventArgs e)
-        {
-            e.Accepted = (e.Item as ventaProductoModel).CantidadFaltante > 0;
-        }
         void CollectionViewSourceFechas_Filter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (e.Item as ventaProductoModel).CantidadFaltante > 0;
+            if (e.Item is fechaModel item)
+            {
+                e.Accepted = item.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd") | item.ConteosPerFecha.Count > 0;
+            }
         }
     }
 }

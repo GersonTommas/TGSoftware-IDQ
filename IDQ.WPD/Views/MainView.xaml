@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:IDQ.WPF.Views"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels"
+             xmlns:mainviews="clr-namespace:IDQ.WPF.Views.Main"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -69,10 +70,13 @@
                     <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
                 </TabItem>
                 <TabItem Header="Ingresos">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainIngresosNavigator.CurrentViewModel}"/>
+                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainComprasNavigator.CurrentViewModel}"/>
                 </TabItem>
                 <TabItem Header="Deudas">
                     <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
+                </TabItem>
+                <TabItem Header="Conteos">
+                    <mainviews:mainConteosView Margin="5"/>
                 </TabItem>
                 <TabItem Header="Tags">
                     <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainTagsMedidasNavigator.CurrentViewModel}"/>
@@ -80,6 +84,6 @@
             </TabControl>
         </Grid>
 
-        <Button Content="Test" Command="{Binding comTest}" Grid.Row="2"/>
+        <Button Content="Test" Command="{Binding comTest}" Grid.Row="2" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

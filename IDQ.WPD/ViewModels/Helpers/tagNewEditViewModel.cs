@@ -8,8 +8,6 @@ namespace IDQ.WPF.ViewModels.Helpers
     public class tagNewEditViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public INavigator Navigator { get; set; }
-
         public tagNewEditViewModel() { }
 
         public tagNewEditViewModel(productoModel sentProducto) { _newProducto = sentProducto; }
@@ -25,17 +23,13 @@ namespace IDQ.WPF.ViewModels.Helpers
                     Minimo = sentTag.Minimo,
                     Tag = sentTag.Tag
                 };
-                isEdit = true;
             }
         }
         #endregion // Initialize
 
 
         #region Variables
-        bool _isEdit;
-        public bool isEdit { get => _isEdit; set { if (SetProperty(ref _isEdit, value)) { OnPropertyChanged(); } } }
-
-        public string groupBoxTitle => isEdit ? "ID: " + _editTag.Id : "Nuevo Tag";
+        public string groupBoxTitle => _editTag != null ? "ID: " + _editTag.Id : "Nuevo Tag";
 
         readonly productoModel _newProducto;
         readonly tagModel _editTag;
@@ -45,45 +39,56 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Helpers
-        void helperGuardar()
+        void helperGuardarNuevo()
         {
-            tagModel compareTag = null;
-            if (!string.IsNullOrWhiteSpace(newTag.Tag)) { newTag.Tag = newTag.Tag.Trim(); }
+            tagModel _compareTag = findCompare();
 
-            try { compareTag = context.globalDb.tags.Single(x => x.Tag.ToLower() == newTag.Tag.ToLower() && x.Minimo == newTag.Minimo); } catch { }
-
-            if (isEdit)
-            {
-                if (compareTag == null || compareTag.Id == newTag.Id)
-                {
-                    _editTag.Activo = newTag.Activo;
-                    _editTag.Minimo = newTag.Minimo;
-                    _editTag.Tag = newTag.Tag;
-
-                    _ = context.globalDb.SaveChanges();
-
-                    Shared.Navigators.UpdateProductoSlider(null);
-                }
-                else { Shared.GlobalVars.messageError.Existencia(); }
-            }
-            else if (compareTag == null)
+            if (_compareTag == null)
             {
                 context.globalDb.tags.Local.Add(newTag);
                 _ = context.globalDb.SaveChanges();
 
-                if (_newProducto != null) { _newProducto.Tag = newTag; }
-
-                if (Navigator != null) { Navigator.CurrentViewModel = null; }
-                else { Shared.Navigators.UpdateProductoSlider(null); }
+                if (_newProducto != null) { _newProducto.Tag = newTag; Shared.Navigators.UpdateProductoSlider(null); }
+                else { Shared.Navigators.UpdateEditorSlider(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
 
-        bool checkGuardar()
+        void helperGuardarEdit()
+        {
+            tagModel _compareTag = findCompare();
+
+            if (_compareTag == null || _compareTag.Id == _editTag.Id)
+            {
+                _editTag.Activo = newTag.Activo;
+                _editTag.Minimo = newTag.Minimo;
+                _editTag.Tag = newTag.Tag;
+
+                _ = context.globalDb.SaveChanges();
+
+                if (_newProducto != null) { Shared.Navigators.UpdateProductoSlider(null); }
+                else { Shared.Navigators.UpdateEditorSlider(null); }
+            }
+            else { Shared.GlobalVars.messageError.Existencia(); }
+        }
+
+        tagModel findCompare()
+        {
+            tagModel _result = null;
+
+            newTag.Tag = newTag.Tag.Trim();
+
+            try { _result = context.globalDb.tags.Single(x => x.Tag.ToLower() == newTag.Tag.ToLower() && x.Minimo == newTag.Minimo); } catch { }
+
+            return _result;
+        }
+
+        bool checkGuardar => newTag.Minimo >= 0 && !string.IsNullOrWhiteSpace(newTag.Tag) && newTag.Tag?.Length > 0;
+        /*
         {
             try { if (newTag.Minimo >= 0 && !string.IsNullOrWhiteSpace(newTag.Tag) && newTag.Tag.Length > 0) { return true; } } catch { }
             return false;
-        }
+        }*/
         #endregion // Helpers
 
 
@@ -91,8 +96,8 @@ namespace IDQ.WPF.ViewModels.Helpers
         public Command ControlCommandCancelar => new Command((object parameter) => { Shared.Navigators.UpdateProductoSlider(null); });
 
         public Command guardarTagCommand => new Command(
-            (object parameter) => helperGuardar(),
-            (object parameter) => checkGuardar());
+            (object parameter) => { if (_editTag != null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
+            (object parameter) => checkGuardar);
         #endregion // Commands
     }
 }

@@ -13,25 +13,29 @@
             <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=hasActivoInactivo, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource BoolToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Fill="{StaticResource NoStockBackground}" Style="{StaticResource ColourRectangle}" />
-                        <Label Content="Inactivo" />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Fill="{StaticResource MinStockBackground}" Style="{StaticResource ColourRectangle}" />
+                        <local:ctrlRedCross hasOk="Visible"/>
+                        <!--Rectangle Fill="{StaticResource MinStockBackground}" Style="{StaticResource ColourRectangle}" /-->
                         <Label Content="Activo" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <local:ctrlRedCross hasCross="Visible"/>
+                        <!--Rectangle Fill="{StaticResource NoStockBackground}" Style="{StaticResource ColourRectangle}" /-->
+                        <Label Content="Inactivo" />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding ElementName=thisUserControl, Path=isActivoFullLine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                     <StackPanel Orientation="Horizontal">
-                        <Border BorderThickness="2" BorderBrush="{StaticResource NoStockBackground}" Height="10" Width="10" Margin="5" />
-                        <Label Content="Inactivo" />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal">
-                        <Border BorderThickness="2" BorderBrush="{StaticResource MinStockBackground}" Height="10" Width="10" Margin="5" />
+                        <local:ctrlRedCross hasOk="Visible"/>
+                        <!--Border BorderThickness="2" BorderBrush="{StaticResource MinStockBackground}" Height="10" Width="10" Margin="5" /-->
                         <Label Content="Activo" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <local:ctrlRedCross hasCross="Visible"/>
+                        <!--Border BorderThickness="2" BorderBrush="{StaticResource NoStockBackground}" Height="10" Width="10" Margin="5" /-->
+                        <Label Content="Inactivo" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

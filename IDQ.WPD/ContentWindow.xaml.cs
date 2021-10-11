@@ -30,11 +30,7 @@ namespace IDQ.WPF
 
         public static async void updateEditorSlider(Base.ViewModelBase sentObject) { (thisWindow.DataContext as ContentViewModel).updateEditorSlider(sentObject); }
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        public static void updateUsuarioLogueado() { (thisWindow.DataContext as ContentViewModel).updateUsuarioActivo(); }
     }
 
     public class ContentViewModel : Base.ViewModelBase
@@ -54,9 +50,10 @@ namespace IDQ.WPF
         public INavigator logInNavigator { get; } = new Navigator();
         public INavigator ContentTopNavigator => Shared.Navigators.ContentTopNavigator;
 
-        public usuarioModel UsuarioLogueado { get => Shared.GlobalVars.usuarioLogueado; set { if (SetProperty(ref Shared.GlobalVars.usuarioLogueado, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(isLogged)); } } }
+        public usuarioModel usuarioActivo { get => Shared.GlobalVars.usuarioLogueado; set { if (SetProperty(ref Shared.GlobalVars.usuarioLogueado, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(isLogged)); } } }
         public bool isLogged => Shared.GlobalVars.usuarioLogueado != null;
 
+        public string tabItemTitle => usuarioActivo != null ? "Cerrar Sesion" : "Iniciar Sesion";
 
         public cajaModel cajaActual => context.globalCajaActual;
 
@@ -82,6 +79,12 @@ namespace IDQ.WPF
             _isAnimationLoading = false;
         }
 
+        public void updateUsuarioActivo()
+        {
+            OnPropertyChanged(nameof(usuarioActivo));
+            OnPropertyChanged(nameof(tabItemTitle));
+        }
+
         public ContentViewModel()
         {
             mainNavigator.CurrentViewModel = new MainViewModel();
@@ -89,5 +92,10 @@ namespace IDQ.WPF
             logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator);
         }
         #endregion // Initialize
+
+
+        #region Commands
+        public Command buttonCommandCerrarSesion => new Command((object parameter) => logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator, true));
+        #endregion // Commands
     }
 }

@@ -16,21 +16,26 @@ namespace IDQ.WPF.Controls
 
 
         #region Properties
-        public bool hasGuardar { get => (bool)GetValue(hasGuardarProperty); set { SetValue(hasGuardarProperty, value); OnPropChanged(); } }
-        public bool hasTag { get => (bool)GetValue(hasTagProperty); set { SetValue(hasTagProperty, value); OnPropChanged(); } }
-        public bool hasMedidas { get => (bool)GetValue(hasMedidasProperty); set { SetValue(hasMedidasProperty, value); OnPropChanged(); } }
-        public bool hasProductos { get => (bool)GetValue(hasProductosProperty); set { SetValue(hasProductosProperty, value); OnPropChanged(); } }
-        public bool hasAgregar { get => (bool)GetValue(hasAgregarProperty); set { SetValue(hasAgregarProperty, value); OnPropChanged(); } }
-        public bool hasAbrirProducto { get => (bool)GetValue(hasAbrirProductoProperty); set { SetValue(hasAbrirProductoProperty, value); OnPropChanged(); } }
-        public bool hasCancelar { get => (bool)GetValue(hasCancelarProperty); set { SetValue(hasCancelarProperty, value); OnPropChanged(); } }
+        public string textF1 { get => (string)GetValue(textF1Property); set { SetValue(textF1Property, value); OnPropChanged(); } }
+        public string textF2 { get => (string)GetValue(textF2Property); set { SetValue(textF2Property, value); OnPropChanged(); } }
+        public string textF3 { get => (string)GetValue(textF3Property); set { SetValue(textF3Property, value); OnPropChanged(); } }
+        public string textF4 { get => (string)GetValue(textF4Property); set { SetValue(textF4Property, value); OnPropChanged(); } }
+        public string textF5 { get => (string)GetValue(textF5Property); set { SetValue(textF5Property, value); OnPropChanged(); } }
+        public string textF6 { get => (string)GetValue(textF6Property); set { SetValue(textF6Property, value); OnPropChanged(); } }
+        public string textF7 { get => (string)GetValue(textF7Property); set { SetValue(textF7Property, value); OnPropChanged(); } }
+        public string textEnter { get => (string)GetValue(textEnterProperty); set { SetValue(textEnterProperty, value); OnPropChanged(); } }
+        public string textEsc { get => (string)GetValue(textEscProperty); set { SetValue(textEscProperty, value); OnPropChanged(); } }
 
-        public static readonly DependencyProperty hasGuardarProperty = DependencyProperty.Register("hasGuardar", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasTagProperty = DependencyProperty.Register("hasTag", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasMedidasProperty = DependencyProperty.Register("hasMedidas", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasProductosProperty = DependencyProperty.Register("hasProductos", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasAgregarProperty = DependencyProperty.Register("hasSeleccionar", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasAbrirProductoProperty = DependencyProperty.Register("hasAbrirProducto", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
-        public static readonly DependencyProperty hasCancelarProperty = DependencyProperty.Register(("hasCancelar"), typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty textF1Property = DependencyProperty.Register("textF1", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF2Property = DependencyProperty.Register("textF2", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF3Property = DependencyProperty.Register("textF3", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF4Property = DependencyProperty.Register("textF4", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF5Property = DependencyProperty.Register("textF5", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF6Property = DependencyProperty.Register("textF6", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textF7Property = DependencyProperty.Register("textF7", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textEnterProperty = DependencyProperty.Register("textEnter", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty textEscProperty = DependencyProperty.Register("textEsc", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
         #endregion // Properties
 
 

@@ -40,7 +40,7 @@
                 </Grid>
             </GroupBox>
 
-            <ctrls:ctrlInfoShortcuts hasGuardar="True" hasProductos="True" hasCancelar="True" Grid.Column="1" />
+            <ctrls:ctrlInfoShortcuts textF1="Guardar" textF2="Productos" textEsc="Cancelar" Grid.Column="1" />
 
         </Grid>
 

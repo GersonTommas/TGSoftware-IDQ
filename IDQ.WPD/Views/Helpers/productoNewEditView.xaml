@@ -118,7 +118,7 @@
             </Grid>
         </GroupBox>
 
-        <ctrls:ctrlInfoShortcuts hasGuardar="True" hasTag="True" hasMedidas="True" hasCancelar="True" Grid.Column="1" Grid.Row="0" />
+        <ctrls:ctrlInfoShortcuts textF1="Guardar" textF2="Nuevo Tag" textF3="Nueva Medida" textEsc="Cancelar" Grid.Column="1" Grid.Row="0" />
 
     </Grid>
 </UserControl>

@@ -18,16 +18,21 @@ using System.Windows.Input;
 
 namespace IDQ.WPF.Shared
 {
-    public class GlobalVars
+    public class GlobalVars : IDQ.Domain.Base.PropertyChangedBase
     {
         public static string colorWindowBackgroundOK =>  "DarkGreen";
         public static string colorWindowBackkgroundNO => "Red";
         public static string strFecha => DateTime.Today.ToString(@"yyyy/MM/dd");
         public static string strHora => DateTime.Now.ToString(@"HH:mm:ss");
 
-
         public static usuarioModel usuarioLogueado;
 
+
+        public static void updateUsuarioLogueado(usuarioModel sentUsuario)
+        {
+            usuarioLogueado = sentUsuario;
+            ContentWindow.updateUsuarioLogueado();
+        }
 
         public static void nextTarget(object sender, bool reverse = false)
         {

@@ -23,17 +23,13 @@ namespace IDQ.WPF.ViewModels.Helpers
                     Medida = sentMedida.Medida,
                     Tipo = sentMedida.Tipo
                 };
-                isEdit = true;
             }
         }
         #endregion // Initialize
 
 
         #region Variables
-        bool _isEdit;
-        public bool isEdit { get => _isEdit; set { if (SetProperty(ref _isEdit, value)) { OnPropertyChanged(); } } }
-
-        public string groupBoxTitle => isEdit ? "ID: " + _editMedida.Id : "Nueva Medida";
+        public string groupBoxTitle => _editMedida != null ? "ID: " + _editMedida.Id : "Nueva Medida";
 
         readonly productoModel _newEditProducto;
         readonly medidaModel _editMedida;
@@ -43,39 +39,47 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Helpers
-        void helperGuardar()
+        void helperGuardarNuevo()
         {
-            medidaModel compareMedida = null;
-            if (!string.IsNullOrWhiteSpace(newMedida.Medida)) { newMedida.Medida = newMedida.Medida.Trim(); }
+            medidaModel _compareMedida = findCompare();
 
-            try { compareMedida = context.globalDb.medidas.Single(x => x.Medida.ToLower() == newMedida.Medida.ToLower() && x.Tipo == newMedida.Tipo); } catch { }
-
-            if (isEdit)
-            {
-                if (compareMedida == null || compareMedida.Id == _editMedida.Id)
-                {
-                    _editMedida.Activo = newMedida.Activo; _editMedida.Medida = newMedida.Medida;
-                    _ = context.globalDb.SaveChanges();
-                    Shared.GlobalVars.messageError.Guardado();
-
-                    Shared.Navigators.UpdateProductoSlider(null);
-                    //thisWindow.DialogResult = true;
-                }
-                else { Shared.GlobalVars.messageError.Existencia(); }
-            }
-            else if (compareMedida == null)
+            if (_compareMedida == null)
             {
                 _ = context.globalDb.medidas.Add(newMedida);
                 _ = context.globalDb.SaveChanges();
                 Shared.GlobalVars.messageError.Guardado();
 
-                if (_newEditProducto != null) { _newEditProducto.Medida = newMedida; }
-
-                Shared.Navigators.UpdateProductoSlider(null);
-                //thisWindow.DialogResult = true;
-                //if (Navigator != null) { Navigator.CurrentViewModel = null; }
+                if (_newEditProducto != null) { _newEditProducto.Medida = newMedida; Shared.Navigators.UpdateProductoSlider(null); }
+                else { Shared.Navigators.UpdateEditorSlider(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
+        }
+
+        void helperGuardarEdit()
+        {
+            medidaModel _compareMedida = findCompare();
+
+            if (_compareMedida == null || _compareMedida.Id == _editMedida.Id)
+            {
+                _editMedida.Activo = newMedida.Activo; _editMedida.Medida = newMedida.Medida;
+                _ = context.globalDb.SaveChanges();
+                Shared.GlobalVars.messageError.Guardado();
+
+                if (_newEditProducto != null) { Shared.Navigators.UpdateProductoSlider(null); }
+                else { Shared.Navigators.UpdateEditorSlider(null); }
+            }
+            else { Shared.GlobalVars.messageError.Existencia(); }
+        }
+
+        medidaModel findCompare()
+        {
+            medidaModel _result = null;
+
+            newMedida.Medida = newMedida.Medida.Trim();
+
+            try { _result = context.globalDb.medidas.Single(x => x.Medida.ToLower() == newMedida.Medida.ToLower() && x.Tipo == newMedida.Tipo); } catch { }
+
+            return _result;
         }
 
         bool checkGuardar => !string.IsNullOrWhiteSpace(newMedida.Medida) && newMedida.Medida.Length > 0 && newMedida.Tipo > 0;
@@ -86,7 +90,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         public Command ControlCommandCancelar => new Command((object parameter) => Shared.Navigators.UpdateProductoSlider(null));
 
         public Command guardarCommand => new Command(
-            (object parameter) => helperGuardar(),
+            (object parameter) => { if (_editMedida != null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
             (object parameter) => checkGuardar);
         #endregion // Commands
     }

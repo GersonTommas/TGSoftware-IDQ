@@ -1,0 +1,16 @@
+﻿<Window x:Class="IDQ.WPF.HelperFullWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IDQ.WPF"
+        xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
+        mc:Ignorable="d"
+        Title="HelperFullWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <d:Window.DataContext>
+        <local:HelperFullWindow/>
+    </d:Window.DataContext>
+    <Grid Background="{StaticResource Brush.TabControl.Background.Normal}">
+        <ctrls:ctrlBuscador selectedItem="{Binding BuscadorSelectedProducto}" isOnlyOneProducto="{Binding BuscadorisOnlyOne}"/>
+    </Grid>
+</Window>

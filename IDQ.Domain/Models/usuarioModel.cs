@@ -43,7 +43,8 @@ namespace IDQ.Domain.Models
         #endregion // Variables
 
         #region Navigation
-        public virtual ICollection<cajaConteoModel> CajaConteosPerUsuario { get; private set; } = new ObservableCollection<cajaConteoModel>();
+        public virtual ICollection<conteoModel> ConteosPerUsuario { get; private set; } = new ObservableCollection<conteoModel>();
+        public virtual ICollection<cajaConteoModel> CajaConteosPerUsuario { get; private set; } = new ObservableCollection<cajaConteoModel>(); // Deprecated
         public virtual ICollection<deudorModel> DeudoresPerUsuario { get; private set; } = new ObservableCollection<deudorModel>();
         public virtual ICollection<sacadoProductoModel> SacadoProductosPerUsuario { get; private set; } = new ObservableCollection<sacadoProductoModel>();
         public virtual ICollection<ingresoModel> IngresosPerUsuario { get; private set; } = new ObservableCollection<ingresoModel>();

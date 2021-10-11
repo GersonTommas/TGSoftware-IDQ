@@ -29,11 +29,13 @@ namespace IDQ.WPF.Controls
         public bool isOnlyOneProducto { get => (bool)GetValue(isOnlyOneProductoProperty); set { SetValue(isOnlyOneProductoProperty, value); OnPropChanged(); } }
         public object selectedItem { get => GetValue(selectedItemProperty); set { SetValue(selectedItemProperty, value); OnPropChanged(); } }
         public Visibility soloStockVisibility { get => (Visibility)GetValue(soloStockVisibilityProperty); set { SetValue(soloStockVisibilityProperty, value); OnPropChanged(); } }
+        public bool hasSentCommand { get => (bool)GetValue(hasSentCommandProperty); set { SetValue(hasSentCommandProperty, value); OnPropChanged(); } }
 
 
         public static readonly DependencyProperty isOnlyOneProductoProperty = DependencyProperty.Register("isOnlyOneProducto", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
         public static readonly DependencyProperty selectedItemProperty = DependencyProperty.Register("selectedItem", typeof(object), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
         public static readonly DependencyProperty soloStockVisibilityProperty = DependencyProperty.Register("soloStockVisibility", typeof(Visibility), typeof(ctrlBuscador), new PropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty hasSentCommandProperty = DependencyProperty.Register("hasSentCommand", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
         #endregion // Variables
 
 

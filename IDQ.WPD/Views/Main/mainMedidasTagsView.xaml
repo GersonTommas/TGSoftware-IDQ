@@ -12,6 +12,7 @@
     <d:UserControl.DataContext>
         <viewmodel:mainMedidasTagsViewModel/>
     </d:UserControl.DataContext>
+    
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionViewSourceTags" Source="{Binding CollectionSourceTags}">
             <CollectionViewSource.SortDescriptions>
@@ -19,14 +20,21 @@
                 <scm:SortDescription PropertyName="Minimo"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
         <CollectionViewSource x:Key="CollectionViewSourceMedidas" Source="{Binding CollectionSourceMedidas}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Tipo"/>
                 <scm:SortDescription PropertyName="Medida"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        
     </UserControl.Resources>
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding controlCommandNuevoTag}"/>
+        <KeyBinding Key="F2" Command="{Binding controlCommandEditarTag}"/>
+        <KeyBinding Key="F3" Command="{Binding controlCommandNuevaMedida}"/>
+        <KeyBinding Key="F4" Command="{Binding controlCommandEditarMedida}"/>
+    </UserControl.InputBindings>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -44,7 +52,7 @@
 
             <Label Content="Tags" Grid.Row="0"/>
             
-            <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceTags}}" Grid.Row="1">
+            <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceTags}}" SelectedItem="{Binding selectedTag}" EnableRowVirtualization="False" Focusable="True" IsTabStop="True" KeyboardNavigation.TabNavigation="Once" IsSynchronizedWithCurrentItem="True" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}"/>
                     <DataGridTextColumn Width="*" Header="Tag" Binding="{Binding fullTag}"/>
@@ -60,7 +68,7 @@
             </Grid.RowDefinitions>
 
             <Label Content="Medidas" Grid.Row="0"/>
-            <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" Grid.Row="1">
+            <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" SelectedItem="{Binding selectedMedida}" IsSynchronizedWithCurrentItem="True" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}"/>
                     <DataGridTextColumn Width="*" Header="Medida" Binding="{Binding fullMedida}"/>
@@ -75,7 +83,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ctrls:ctrlInfoShortcuts hasAgregar="False" hasMedidas="True" hasTag="True"/>
+            <ctrls:ctrlInfoShortcuts textF1="Nuevo Tag" textF2="Editar Tag" textF3="Nueva Medida" textF4="Editar Medida" Grid.Row="0"/>
             <ctrls:ctrlInfoColors hasStock="False" hasActivoInactivo="True" Grid.Row="2"/>
         </Grid>
     </Grid>

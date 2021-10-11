@@ -49,7 +49,7 @@
 
             <ComboBox x:Name="comboBoxFechas" ItemsSource="{Binding Source={StaticResource collectionViewSourceFechas}, Mode=OneWay}" DisplayMemberPath="Fecha" Focusable="True" Grid.Row="0" />
 
-            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceHoras}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True" Grid.Row="1" >
+            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceHoras}, Mode=OneWay}" IsSynchronizedWithCurrentItem="True" Focusable="True" IsTabStop="True" Grid.Row="1" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="AUTO">
                         <DataGridTemplateColumn.CellTemplate>
@@ -80,10 +80,26 @@
             </DataGrid>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
-                <Label Content="Ventas: " />
-                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalPesosVentasDiario, Mode=OneWay}" labelContent="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalCantidadVentasDiario, Mode=OneWay}" isReadOnly="True" VerticalAlignment="Top" />
-            </StackPanel>
+            <Grid Margin="2,5" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Height="20" Grid.Column="0">
+                    <Image Source="Pack://application:,,,/Resources/Images/SignoPesosRedondo.png" Stretch="UniformToFill"/>
+                </Viewbox>
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalPesosVentasDiario, Mode=OneWay}" textWidth="0" isLabelOn="False" isReadOnly="True" Grid.Column="1"/>
+
+                <Viewbox Height="20" Grid.Column="2">
+                    <Image Source="Pack://application:,,,/Resources/Images/MP Logo.png" Stretch="UniformToFill"/>
+                </Viewbox>
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalMPVentasDiario, Mode=OneWay}" textWidth="0" isLabelOn="False" isReadOnly="True" Grid.Column="3"/>
+
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalPesosVentasDiario, Mode=OneWay}" labelContent="{Binding Source={StaticResource collectionViewSourceFechas}, Path=/TotalCantidadVentasDiario, Mode=OneWay}" isReadOnly="True" VerticalAlignment="Top" Visibility="Collapsed"/>
+            </Grid>
         </Grid>
 
         <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceProductos}, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
@@ -133,7 +149,7 @@
             <StackPanel HorizontalAlignment="Right" Grid.Column="2">
                 <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/PrecioTotal, Mode=OneWay}" labelContent="Total:" isReadOnly="True" HorizontalAlignment="Right"  />
                 <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Caja.Efectivo, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" HorizontalAlignment="Right" />
-                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Caja.MercadoPago, Mode=OneWay}" labelContent="MercadoPago:" isReadOnly="True" HorizontalAlignment="Right" />
+                <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Caja.MercadoPago, Mode=OneWay}" labelContent="MercadoPago:" isReadOnly="True" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Caja.MercadoPago, Converter={StaticResource ParameterTrueToCollapsedConverter}, ConverterParameter=0}" />
                 <ctrls:ctrlTextBox text="{Binding Source={StaticResource collectionViewSourceHoras}, Path=/Caja.Vuelto, Mode=OneWay}" labelContent="Vuelto:" isReadOnly="True" HorizontalAlignment="Right" />
             </StackPanel>
         </Grid>
