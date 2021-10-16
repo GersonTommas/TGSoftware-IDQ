@@ -67,9 +67,24 @@ namespace IDQ.WPF
         #endregion // Variables
 
 
+        #region Helpers
+        void helperGuardar()
+        {
+            (thisWindow as HelperWindow).cantidad = Cantidad;
+            thisWindow.DialogResult = true;
+        }
+
+        bool checkGuardar => cantidadVisibility == Visibility.Visible ? Cantidad > 0 : false;
+        #endregion Helpers
+
+
         #region Commands
+        public Command enterCommand => new Command(
+            (object parameter) => { helperGuardar(); },
+            (object parameter) => checkGuardar);
+
         public Command resultCommandCantidad => new Command(
-            (object parameter) => { },
+            (object parameter) => { (thisWindow as HelperWindow).cantidad = Cantidad; thisWindow.DialogResult = true; },
             (object parameter) => Cantidad > 0);
 
         public Command resultCommandPrecioVenta => new Command(

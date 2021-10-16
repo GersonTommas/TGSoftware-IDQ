@@ -34,7 +34,7 @@ namespace IDQ.Domain.Models
         [NotMapped]
         public Decimal PrecioTotal => Math.Round(Cantidad * Precio, 2);
         [NotMapped]
-        public bool BolPagado => FechaPagado != null;
+        public bool BolPagado => FechaPagado is not null;
         #endregion // NotMapped
 
 

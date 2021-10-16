@@ -15,7 +15,7 @@ namespace IDQ.WPF.Views.Helpers
 
         public productoNewEditView() { InitializeComponent(); thisWindow = this; }
 
-        public static async void updateProductoSlider(Base.ViewModelBase sentViewModel) { (thisWindow.DataContext as productoNewEditViewModel).updateEditorSlider(sentViewModel); }
+        //public static async void updateProductoSlider(Base.ViewModelBase sentViewModel) { (thisWindow.DataContext as productoNewEditViewModel).updateEditorSlider(sentViewModel); }
         #endregion // Initialize
 
 

@@ -56,8 +56,8 @@ namespace IDQ.WPF.ViewModels
 
                 if (isCierre)
                 {
-                    if (tempConteo != null)
-                    //if (tempCajaConteo != null)
+                    if (tempConteo is not null)
+                    //if (tempCajaConteo is not null)
                     {
                         _cierreConteo = tempConteo; isCajaCierre = true;
                         //_cierreCajaConteo = tempCajaConteo; isCajaCierre = true;
@@ -101,8 +101,8 @@ namespace IDQ.WPF.ViewModels
                 }
                 else
                 {
-                    if (tempConteo != null)
-                    //if (tempCajaConteo != null)
+                    if (tempConteo is not null)
+                    //if (tempCajaConteo is not null)
                     {
                         if (MessageBox.Show("Hay una caja abierta para el usuario " + selectedUser.Usuario + ". Desea cerrarla y abrir una nueva?", "Caja Abierta", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
@@ -210,7 +210,7 @@ namespace IDQ.WPF.ViewModels
                 //newCajaConteo.Usuario = selectedUser;
                 isLoginIn = false;
             }
-            else { Shared.GlobalVars.messageError.LogIn(); if (sender != null) { ((PasswordBox)sender).SelectAll(); } }
+            else { Shared.GlobalVars.messageError.LogIn(); if (sender is not null) { ((PasswordBox)sender).SelectAll(); } }
         }
 
         void helperSaltear()
@@ -238,8 +238,8 @@ namespace IDQ.WPF.ViewModels
 
             if (isCajaCierre)
             {
-                if (_cierreConteo != null)
-                //if (_cierreCajaConteo != null)
+                if (_cierreConteo is not null)
+                //if (_cierreCajaConteo is not null)
                 {
                     _cierreConteo.Usuario = selectedUser;
                     _cierreConteo.CajaSalida = pseudoCaja;
@@ -282,7 +282,7 @@ namespace IDQ.WPF.ViewModels
             helperSaltear();
         }
 
-        bool checkLogIn => selectedUser != null;
+        bool checkLogIn => selectedUser is not null;
 
         bool checkGuardar => pseudoCaja.Efectivo > 0;
         #endregion // Helpers

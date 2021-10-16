@@ -32,7 +32,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             if (sender is PasswordBox passBox)
             {
-                if (passBox.Password != null)
+                if (passBox.Password is not null)
                 {
                     //string pass = passBox.Password;
                     if (newStockProducto.Usuario.Contraseña == passBox.Password)
@@ -41,23 +41,23 @@ namespace IDQ.WPF.ViewModels.Helpers
                         newStockProducto.Producto.Stock += newStockProducto.Cantidad;
                         _ = dataService.Create(newStockProducto);
                         //_ = context.globalDb.modificadoProductos.Add(newStockProducto);
-                        
+
                         //_ = context.globalDb.SaveChanges();
 
-                        Shared.Navigators.UpdateEditorSlider(null);
+                        Shared.Navigators.ContentTopNavigator.updateNavigator(null);
                     }
                     else { Shared.GlobalVars.messageError.LogIn(); }
                 }
             }
         }
 
-        bool checkGuardar => newStockProducto.Cantidad != 0 && newStockProducto.Producto != null && newStockProducto.Usuario != null;
+        bool checkGuardar => newStockProducto.Cantidad != 0 && newStockProducto.Producto is not null && newStockProducto.Usuario is not null;
         #endregion // Helpers
 
 
 
         #region Commands
-        public Command controlCancelar => new Command((object parameter) => Shared.Navigators.UpdateEditorSlider(null));
+        public Command controlCancelar => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(null));
 
         public Command controlGuardarCommand => new Command(
             (object parameter) => helperGuardar(parameter),

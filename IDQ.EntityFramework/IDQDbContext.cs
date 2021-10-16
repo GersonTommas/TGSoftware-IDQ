@@ -29,6 +29,7 @@ namespace IDQ.EntityFramework
         public DbSet<ingresoModel> ingresos { get; set; }
         //public DbSet<jornadaModel> jornadas { get; set; }
         public DbSet<medidaModel> medidas { get; set; }
+        public DbSet<medidaSelectorModel> medidaSelector { get; set; }
         public DbSet<modificadoProductoModel> modificadoProductos { get; set; }
         public DbSet<motivoRetiroModel> retiroMotivos { get; set; }
         public DbSet<productoModel> productos { get; set; }
@@ -68,7 +69,7 @@ namespace IDQ.EntityFramework
 
         public static fechaModel returnFecha(string sentFecha = null)
         {
-            if (sentFecha == null)
+            if (sentFecha is null)
             {
                 try { return globalDb.fechas.Local.Single(x => x.Fecha == DateTime.Today.ToString(@"yyyy/MM/dd")); }
                 catch { return new fechaModel() { Fecha = DateTime.Today.ToString(@"yyyy/MM/dd") }; }
@@ -138,6 +139,7 @@ namespace IDQ.EntityFramework
             globalDb.ingresos.LoadAsync();
             globalDb.ingresoProductos.LoadAsync();
             globalDb.medidas.LoadAsync();
+            globalDb.medidaSelector.LoadAsync();
             globalDb.modificadoProductos.LoadAsync();
             globalDb.productos.LoadAsync();
             globalDb.proveedores.LoadAsync();
@@ -150,7 +152,8 @@ namespace IDQ.EntityFramework
             globalDb.ventaProductos.LoadAsync();
             globalDb.ventas.LoadAsync();
 
-            globalCajaActual = globalDb.caja.Local.Single(x => x.Id == 1);
+            try { globalCajaActual = globalDb.caja.Local.Single(x => x.Id == 1); } catch { }
+
             globalAllUsuarios = globalDb.usuarios.Local.ToObservableCollection();
             globalAllProductos = globalDb.productos.Local.ToObservableCollection();
             globalAllTags = globalDb.tags.Local.ToObservableCollection();

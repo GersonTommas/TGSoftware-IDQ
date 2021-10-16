@@ -26,7 +26,7 @@ namespace IDQ.WPF.ViewModels
 
 
         string _inputCodigo;
-        public string inputCodigo { get => _inputCodigo; set { if (SetProperty(ref _inputCodigo, value)) { OnPropertyChanged(); if (newConsumo.Producto != null) { newConsumo.Producto = null; newConsumo.Precio = 0; } } } }
+        public string inputCodigo { get => _inputCodigo; set { if (SetProperty(ref _inputCodigo, value)) { OnPropertyChanged(); if (newConsumo.Producto is not null) { newConsumo.Producto = null; newConsumo.Precio = 0; } } } }
 
 
         public consumoProductoModel newConsumo { get; } = new consumoProductoModel() { Fecha = Shared.GlobalVars.returnFecha(), Cantidad = 1 };
@@ -61,14 +61,14 @@ namespace IDQ.WPF.ViewModels
                     else
                     {
                         _intCodigoFailedCount++;
-                        if (sender != null) { (sender as TextBox).SelectAll(); }
+                        if (sender is not null) { (sender as TextBox).SelectAll(); }
                     }
                 }
                 else
                 {
                     _strCodigoFailed = _inputCodigo;
                     _intCodigoFailedCount++;
-                    if (sender != null) { (sender as TextBox).SelectAll(); }
+                    if (sender is not null) { (sender as TextBox).SelectAll(); }
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace IDQ.WPF.ViewModels
             }
         }
 
-        bool checkGuardar => newConsumo != null && newConsumo.Producto != null && newConsumo.Cantidad > 0;
+        bool checkGuardar => newConsumo is not null && newConsumo.Producto is not null && newConsumo.Cantidad > 0;
         #endregion // Helpers
 
 

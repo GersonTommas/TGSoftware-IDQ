@@ -49,7 +49,7 @@ namespace IDQ.Domain.Models
         #region Helpers
         void privUpdateVenta()
         {
-            if (VentaForCaja != null)
+            if (VentaForCaja is not null)
             {
                 OnPropertyChanged(nameof(doubleEfectivoTotal));
                 OnPropertyChanged(nameof(doubleTotalTotal));

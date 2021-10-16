@@ -8,7 +8,7 @@
              xmlns:viewmodels="clr-namespace:IDQ.WPF.ViewModels.Helpers"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d"
-             x:Name="thisHelper" d:Width="800" Focusable="False" IsTabStop="False">
+             x:Name="thisHelper" d:Width="800" d:Height="100" Focusable="False" IsTabStop="False">
     <d:UserControl.DataContext>
         <viewmodels:productoNewEditViewModel/>
     </d:UserControl.DataContext>
@@ -43,13 +43,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <GroupBox VerticalAlignment="Center" Header="{Binding groupBoxTitle}" IsEnabled="{Binding Navigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" Grid.Column="0" Grid.Row="0" >
+        <Label Content="{Binding ProductoTagMedidaNavigator.oldFocusString}"/>
+
+        <GroupBox VerticalAlignment="Center" Header="{Binding groupBoxTitle}" IsEnabled="{Binding ProductoTagMedidaNavigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" Grid.Column="0" Grid.Row="0" >
             <Grid> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Grid IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center">
+                <Grid IsEnabled="{Binding ProductoTagMedidaNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -59,7 +61,7 @@
 
                     
 
-                    <ctrls:ctrlTextBox x:Name="texter" isMaster="{Binding ProductoTagMedidaNavigator.CurrentViewModel, Converter={StaticResource NullToTrueComparerConverter}}" text="{Binding newProducto.Codigo}" labelContent="Código" enterCommand="{Binding textBoxCommandCodigoDuplicado}" isHeaderTop="True" textAlignment="Left" isCurrency="False" isReadOnly="{Binding isForceNewCode}"  Grid.Column="0"/>
+                    <ctrls:ctrlTextBox x:Name="texter" isMaster="{Binding ProductoTagMedidaNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" text="{Binding newProducto.Codigo}" labelContent="Código" enterCommand="{Binding textBoxCommandCodigoDuplicado}" isHeaderTop="True" textAlignment="Left" isCurrency="False" isReadOnly="{Binding isForceNewCode}"  Grid.Column="0"/>
 
                     <ctrls:ctrlTextBox text="{Binding newProducto.Descripcion}" labelContent="Descripción" enterCommand="{Binding bNextControl}" isHeaderTop="True" textAlignment="Left" isCurrency="False" Grid.Column="1"/>
 
@@ -74,8 +76,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <StackPanel VerticalAlignment="Center" Margin="5" IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Grid.Column="0">
+
+                    <StackPanel VerticalAlignment="Center" Margin="5" IsEnabled="{Binding ProductoTagMedidaNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" Grid.Column="0">
                         <Label Content="Unidad" Style="{StaticResource LabelSobreTextBox}" />
                         <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" SelectedItem="{Binding newProducto.Medida}" Margin="0" Padding="0" DisplayMemberPath="fullMedida" MinWidth="80" IsTabStop="True" Focusable="True" >
                             <ComboBox.InputBindings>
@@ -83,28 +85,6 @@
                             </ComboBox.InputBindings>
                         </ComboBox>
                     </StackPanel>
-
-                    <Grid Background="{StaticResource Brush.SEditBar.Control.Background}" IsEnabled="{Binding isEditBarEnabled}" Grid.Column="0" Grid.ColumnSpan="2">
-                        <Grid.Style>
-                            <Style TargetType="{x:Type Grid}">
-                                <Setter Property="MaxHeight" Value="0"/>
-                                <Setter Property="Margin" Value="0"/>
-                                <Setter Property="Panel.ZIndex" Value="1000"/>
-                                <Setter Property="VerticalAlignment" Value="Top"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding startAnimation}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard Storyboard="{StaticResource storyHeightHide}"/>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <ContentPresenter Content="{Binding ProductoTagMedidaNavigator.CurrentViewModel}" />
-                    </Grid>
 
                     <StackPanel VerticalAlignment="Center" Margin="5" Grid.Column="2">
                         <Label Content="Tag" Style="{StaticResource LabelSobreTextBox}" />
@@ -117,6 +97,30 @@
                 </Grid>
             </Grid>
         </GroupBox>
+
+
+
+        <Grid Background="{StaticResource Brush.SEditBar.Control.Background}" Visibility="{Binding ProductoTagMedidaNavigator.isNavigatorEnabled, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding ProductoTagMedidaNavigator.isNavigatorEnabled}" HorizontalAlignment="Right" Width="300" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="MaxHeight" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Panel.ZIndex" Value="1000"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ProductoTagMedidaNavigator.startAnimation}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource storyHeightHide}"/>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <ContentPresenter Content="{Binding ProductoTagMedidaNavigator.CurrentViewModel}" />
+        </Grid>
 
         <ctrls:ctrlInfoShortcuts textF1="Guardar" textF2="Nuevo Tag" textF3="Nueva Medida" textEsc="Cancelar" Grid.Column="1" Grid.Row="0" />
 

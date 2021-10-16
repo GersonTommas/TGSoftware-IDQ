@@ -7,11 +7,10 @@
              mc:Ignorable="d" 
              x:Name="thisUserControl"
              d:DesignHeight="450" d:DesignWidth="800" Focusable="False" IsTabStop="False">
-    <UserControl.DataContext>
-        <local:ctrlBuscadorViewModel/>
-    </UserControl.DataContext>
-    
-    <Grid>
+    <Grid x:Name="firstControl">
+        <d:Grid.DataContext>
+            <local:ctrlBuscadorViewModel/>
+        </d:Grid.DataContext>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="AUTO" />

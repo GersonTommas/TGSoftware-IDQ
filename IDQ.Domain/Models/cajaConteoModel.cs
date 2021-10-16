@@ -73,7 +73,7 @@ namespace IDQ.Domain.Models
         public Decimal difTotalCierre => difEfectivoCierre + difMercadoPagoCierre + DiferenciaCierre; // Deprecated
 
         [NotMapped]
-        public bool conteoAbierto => FechaCierre == null; // Deprecated
+        public bool conteoAbierto => FechaCierre is null; // Deprecated
         #endregion // NotMapped
 
 

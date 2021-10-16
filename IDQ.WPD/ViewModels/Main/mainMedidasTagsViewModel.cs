@@ -23,27 +23,27 @@ namespace IDQ.WPF.ViewModels.Main
         #region Helpers
         void helperNewMedida()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.medidaNewEditViewModel());
+            Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.medidaNewEditViewModel());
         }
 
         void helperEditMedida()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.medidaNewEditViewModel(selectedMedida));
+            Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.medidaNewEditViewModel(selectedMedida));
         }
 
         void helperNewTag()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.tagNewEditViewModel());
+            Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.tagNewEditViewModel());
         }
 
         void helperEditTag()
         {
-            Shared.Navigators.UpdateEditorSlider(new Helpers.tagNewEditViewModel(selectedTag));
+            Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.tagNewEditViewModel(selectedTag));
         }
 
-        bool checkEditMedida => selectedMedida != null;
+        bool checkEditMedida => selectedMedida is not null;
 
-        bool checkEditTag => selectedTag != null;
+        bool checkEditTag => selectedTag is not null;
         #endregion // Helpers
 
 

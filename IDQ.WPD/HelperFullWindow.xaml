@@ -8,9 +8,84 @@
         mc:Ignorable="d"
         Title="HelperFullWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <d:Window.DataContext>
-        <local:HelperFullWindow/>
+        <local:HelperFullWindowViewModel/>
     </d:Window.DataContext>
-    <Grid Background="{StaticResource Brush.TabControl.Background.Normal}">
-        <ctrls:ctrlBuscador selectedItem="{Binding BuscadorSelectedProducto}" isOnlyOneProducto="{Binding BuscadorisOnlyOne}"/>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding cancelCommand}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="AUTO" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Buscar">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="{Binding strSearchDescripcionCodigo}" MinWidth="70" Command="{Binding comSearchDescripcionCodigo}" />
+                <ctrls:ctrlTextBox text="{Binding strSearchProducto, UpdateSourceTrigger=PropertyChanged}" enterCommand="{Binding bComUnSoloProducto}" isLabelOn="False" isMaster="True" textAlignment="Left" isCurrency="False" VerticalAlignment="Center" Width="200" Visibility="Collapsed"/>
+
+                <TextBox x:Name="FirstTextBox" Text="{Binding strSearchProducto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MainTextBox}" Width="200" VerticalAlignment="Center" Loaded="FirstTextBox_Loaded">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding bComUnSoloProducto}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Content="Limpiar" Command="{Binding comLimpiar}" Visibility="Collapsed" />
+                <CheckBox Content="Solo Con Stock" IsChecked="{Binding bolSelectorSoloStock}" VerticalAlignment="Center" />
+            </StackPanel>
+        </GroupBox>
+
+        <DataGrid x:Name="dataGridProducts" KeyboardNavigation.TabNavigation="None" IsTabStop="True" ItemsSource="{Binding selectorListProductos}" SelectedItem="{Binding selectedSelectorProducto}" IsSynchronizedWithCurrentItem="True" RowStyle="{StaticResource stockGridRow}" Grid.Row="1">
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Backspace" Command="{Binding ctrlBuscadorDeleteCommand}"/>
+                <KeyBinding Key="Delete" Command="{Binding ctrlBuscadorDeleteCommand}"/>
+                <KeyBinding Key="Return" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" Command="{Binding ctrlBuscadorAddCommand}" />
+                <KeyBinding Key="F5" Command="{Binding comAbrirProducto}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="I">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Rectangle>
+                                <Rectangle.Style>
+                                    <Style TargetType="{x:Type Rectangle}" BasedOn="{StaticResource ColourRectangle}">
+                                        <Setter Property="Fill" Value="{StaticResource AgregadoForeground}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CantidadIngresado}" Value="0">
+                                                <Setter Property="Fill" Value="Transparent" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Rectangle.Style>
+                            </Rectangle>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="100" Header="Código" Binding="{Binding Codigo}" />
+                <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Descripcion}" />
+                <DataGridTextColumn MinWidth="60" Width="auto" Header="Medida" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Medida.fullMedida}" />
+                <DataGridTextColumn MinWidth="50" Header="Stock" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Stock}" />
+                <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Precio" SortMemberPath="PrecioActual">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="15,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="$" Grid.Column="0"/>
+                                <TextBlock Text="{Binding PrecioActual}" HorizontalAlignment="Right" Grid.Column="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn MinWidth="100" Width="auto" Header="Tag" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Tag.Tag}" />
+                <DataGridTextColumn MinWidth="60" Width="auto" Header="Ingresado" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadIngresado, Mode=OneWay, Converter={StaticResource CeroIsNothingConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

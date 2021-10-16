@@ -32,7 +32,9 @@ namespace IDQ.WPF
         internal void InitializeApplication()
         {
             context.InitializeDatabase();
-            EntityFramework.Updates.xUpdateService.xDoUpdate();
+            EntityFramework.Updates.xUpdateService.xDoUpdate(WPF.Properties.Settings.Default.Version);
+            WPF.Properties.Settings.Default.Version = 2.0M;
+            WPF.Properties.Settings.Default.Save();
 
             EventWaitHandle mainWindowLoaded = new ManualResetEvent(false);
 

@@ -56,7 +56,12 @@ namespace IDQ.WPF.Controls
 
         #region TextBox
         readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();
-        void initilizeClock() { Timer.Tick += new EventHandler(timer_Click); Timer.Interval = new TimeSpan(0, 0, 0, 0, 100); }
+
+        void initilizeClocks()
+        {
+            Timer.Tick += new EventHandler(timer_Click); Timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+        }
+
         void timer_Click(object sender, EventArgs e) { textBox.SelectAll(); Timer.Stop(); }
 
 
@@ -83,7 +88,7 @@ namespace IDQ.WPF.Controls
 
         void textBox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (isMaster) { if (sender != null) { _ = (sender as TextBox).Focus(); (sender as TextBox).SelectAll(); initilizeClock(); Timer.Start(); } }
+            if (isMaster) { if (sender is not null) { _ = (sender as TextBox).Focus(); (sender as TextBox).SelectAll(); initilizeClocks(); Timer.Start(); } }
         }
         #endregion // TextBox
     }

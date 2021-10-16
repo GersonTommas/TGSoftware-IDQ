@@ -58,7 +58,7 @@ namespace IDQ.WPF.ViewModels
 
                     try { _setIngresoProducto = newIngreso.IngresoProductosPerIngreso.Single(x => x.Producto == selectedProducto); } catch { }
 
-                    if (_setIngresoProducto != null)
+                    if (_setIngresoProducto is not null)
                     {
                         _setIngresoProducto.Cantidad = inputWindow.cantidad;
                         _setIngresoProducto.PrecioPagado = inputWindow.precioCompra;
@@ -100,11 +100,11 @@ namespace IDQ.WPF.ViewModels
 
         public Command ctrlBuscadorDeleteCommand => new Command(
             (object parameter) => heleperDeleteIngresoProducto(),
-            (object parameter) => selectedProducto != null);
+            (object parameter) => selectedProducto is not null);
 
         public Command ctrlBuscadorAddCommand => new Command(
             (object parameter) => { helperAgregarIngresoProducto(); },
-            (object parameter) => selectedProducto != null);
+            (object parameter) => selectedProducto is not null);
         #endregion // Commands
     }
 }

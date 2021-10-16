@@ -31,7 +31,7 @@ namespace IDQ.Domain.Models
         #region NotMapped
         [NotMapped]
         public Decimal precioFinal => CantidadFaltante > 0
-                                        ? Deuda?.Deudor != null
+                                        ? Deuda?.Deudor is not null
                                             ? Deuda.Deudor.Nivel switch
                                             {
                                                 1 => Math.Round(Precio, 2),

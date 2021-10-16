@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:IDQ.WPF.Views"
         xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
         mc:Ignorable="d"
-        Title="IDQ - TgSoftware" Height="600" Width="800" Padding="0" Margin="0" Background="{StaticResource Brush.Navigation.Background.Normal}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="IDQ - TgSoftware" Height="600" Width="800" Padding="0" Margin="0" Background="{StaticResource Brush.Navigation.Background.Normal}" WindowStartupLocation="CenterScreen" WindowState="Maximized" Focusable="False" IsTabStop="False">
     <Window.DataContext>
         <local:ContentViewModel/>
     </Window.DataContext>
@@ -24,7 +24,8 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <ContentControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False">
+            <ContentControl IsEnabled="{Binding  ContentTopNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False">
+            <!--<ContentControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False"-->
                 <Grid>
                     <Grid.Resources>
                         <ResourceDictionary>
@@ -70,14 +71,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
-                        <GroupBox Header="Acciones" Visibility="Collapsed">
-                            <StackPanel Orientation="Horizontal" >
-                                <Button Content="Venta" Command="{Binding comVenta}"/>
-                                <Button Content="Ingreso" Command="{Binding comIngreso}"/>
-                                <Button Content="Consumo" Command="{Binding comConsumir}" />
-                            </StackPanel>
-                        </GroupBox>
-
+                        <Label Content="{Binding testString}"/>
                         <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
                     </StackPanel>
                 </Grid>
@@ -91,7 +85,8 @@
                         <Setter Property="Panel.ZIndex" Value="1000"/>
                         <Setter Property="VerticalAlignment" Value="Top"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding startAnimation}" Value="True">
+                            <!--DataTrigger Binding="{Binding startAnimation}" Value="True"-->
+                            <DataTrigger Binding="{Binding ContentTopNavigator.startAnimation}" Value="True">
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard Storyboard="{StaticResource storyHeightShow}"/>
                                 </DataTrigger.EnterActions>
@@ -102,12 +97,14 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <ContentControl  Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding isEditBarEnabled}"/>
+                <ContentControl Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding ContentTopNavigator.isNavigatorEnabled}" Focusable="False" IsTabStop="False"/>
+                <!--<ContentControl  Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding isEditBarEnabled}"/-->
             </Grid>
         </Grid>
 
 
-        <TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+        <TabControl IsEnabled="{Binding ContentTopNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
+        <!--TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1"-->
             <TabItem Header="Opciones" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
 
             </TabItem>

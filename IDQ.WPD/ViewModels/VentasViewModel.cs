@@ -37,7 +37,7 @@ namespace IDQ.WPF.ViewModels
 
         #region Helpers
         void helperResetEverything() { newVenta = new ventaModel(); helperClearProductoVenta(); }
-        void helperClearProductoVenta() { if (newVentaProducto == null || newVentaProducto.Producto != null) { newVentaProducto = new ventaProductoModel() { Cantidad = 1 }; } helperClearTries(); }
+        void helperClearProductoVenta() { if (newVentaProducto is null || newVentaProducto.Producto is not null) { newVentaProducto = new ventaProductoModel() { Cantidad = 1 }; } helperClearTries(); }
         void helperClearTries() { ventaFallo = false; _failedCodigo = ""; }
 
 
@@ -50,7 +50,7 @@ namespace IDQ.WPF.ViewModels
             { tempProd = context.globalDb.productos.Local.Single(x => x.Codigo.ToLower() == _tempInputCodigo.ToLower()); } catch { }
 
 
-            if (tempProd != null)
+            if (tempProd is not null)
             {
                 newVentaProducto.Producto = tempProd;
                 newVentaProducto.Precio = tempProd.PrecioActual;
@@ -66,7 +66,7 @@ namespace IDQ.WPF.ViewModels
                 {
                     if (Shared.GlobalVars.messageError.NewProduct())
                     {
-                        Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel(_tempInputCodigo));
+                        Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.productoNewEditViewModel(_tempInputCodigo));
                     }
                 }
                 else
@@ -84,7 +84,7 @@ namespace IDQ.WPF.ViewModels
             try
             { duplicate = newVenta.VentaProductosPerVenta.Single(x => x.Producto == newVentaProducto.Producto); } catch { }
 
-            if (duplicate != null)
+            if (duplicate is not null)
             {
                 duplicate.Cantidad += newVentaProducto.Cantidad;
             }
@@ -111,7 +111,7 @@ namespace IDQ.WPF.ViewModels
 
         void helperGuardarVenta()
         {
-
+            Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.pagarVentaViewModel(this));
         }
 
         void helperGuardarVentaEfectivoExacto()
@@ -142,17 +142,17 @@ namespace IDQ.WPF.ViewModels
             context.globalCajaActual.Efectivo += newVenta.Caja.Efectivo;
         }
 
-        bool checkAddProductoVenta => newVentaProducto.Producto != null && newVentaProducto.Cantidad > 0 && isItSafe;
+        bool checkAddProductoVenta => newVentaProducto.Producto is not null && newVentaProducto.Cantidad > 0 && isItSafe;
 
-        bool checkGuardarVenta => newVenta != null && newVenta.VentaProductosPerVenta.Count > 0 && isItSafe;
+        bool checkGuardarVenta => newVenta is not null && newVenta.VentaProductosPerVenta.Count > 0 && isItSafe;
 
-        bool isItSafe => Shared.Navigators.ContentTopNavigator.CurrentViewModel == null;
+        bool isItSafe => Shared.Navigators.ContentTopNavigator.CurrentViewModel is null;
         #endregion // Helpers
 
 
         #region Commands
         public Command buttonCommandOpenBuscador => new Command(
-            (object parameter) => { HelperFullWindow buscador = new HelperFullWindow(this); buscador.ShowDialog(); });
+            (object parameter) => { HelperFullWindow buscador = new HelperFullWindow(); if (buscador.ShowDialog() == true) { if (buscador.resultProducto is not null) { inputCodigo = buscador.resultProducto.Codigo; newVentaProducto.Cantidad = buscador.resultCantidad; helperFindProducto(); } } });
 
 
         public Command textBoxCommandFindProducto => new Command(
@@ -167,13 +167,13 @@ namespace IDQ.WPF.ViewModels
 
         public Command dataGridCommandRemoveProductoVenta => new Command(
             (object parameter) => helperRemoveProductoVenta(parameter),
-            (object parameter) => selectedVentaProducto != null);
+            (object parameter) => selectedVentaProducto is not null);
 
-        public Command ControlCommandPagarVenta => new Command(
+        public Command controlCommandPagarVenta => new Command(
             (object parameter) => { helperGuardarVenta(); },
             (object parameter) => checkGuardarVenta);
 
-        public Command ControlCommandGuardarVentaEfectivoExacto => new Command(
+        public Command controlCommandGuardarVentaEfectivoExacto => new Command(
             (object parameter) => helperGuardarVentaEfectivoExacto(),
             (object parameter) => checkGuardarVenta);
 

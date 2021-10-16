@@ -22,7 +22,7 @@ namespace IDQ.Domain.Models
         #endregion // Variables
 
         [NotMapped]
-        public int stockFinal => Producto != null ? Producto.Stock + Cantidad : 0;
+        public int stockFinal => Producto is not null ? Producto.Stock + Cantidad : 0;
 
         public override void updateModel()
         {

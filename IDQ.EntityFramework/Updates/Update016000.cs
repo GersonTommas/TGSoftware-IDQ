@@ -20,7 +20,6 @@ namespace IDQ.EntityFramework.Updates
                 {
                     venta.PrecioTotal = Math.Round(venta.VentaProductosPerVenta.Sum(x => x.PrecioTotal), 2);
                 }
-                _ = context.globalDb.SaveChangesAsync();
             }
             #endregion // Update 20210910013623_ventas-preciototal
 
@@ -42,7 +41,7 @@ namespace IDQ.EntityFramework.Updates
 
                         foreach (ventaProductoModel ventaProducto in caja.VentaProductosPerCaja)
                         {
-                            if (deudaPago.Deudor == null)
+                            if (deudaPago.Deudor is null)
                             {
                                 deudaPago.Deudor = ventaProducto.Deudor;
                             }
@@ -55,14 +54,13 @@ namespace IDQ.EntityFramework.Updates
                                 deudaPago.VentaPerDeudorPago.Add(ventaProducto.Venta);
                             }
                         }
-                        if (deudaPago.Deudor != null)
+                        if (deudaPago.Deudor is not null)
                         {
                             context.globalDb.deudorPagos.Local.Add(deudaPago);
                             _ = context.globalDb.SaveChanges();
                         }
                     }
                 }
-                _ = context.globalDb.SaveChanges();
             }
             #endregion // Update 20210911170945_deudorPagos-Added
 
@@ -94,7 +92,6 @@ namespace IDQ.EntityFramework.Updates
                 {
                     ingreso.PrecioTotal = Math.Round(ingreso.IngresoProductosPerIngreso.Sum(x => x.PrecioTotal), 2);
                 }
-                _ = context.globalDb.SaveChanges();
             }
             #endregion // Update Add-Ingreso-PrecioTotal
 
@@ -113,7 +110,6 @@ namespace IDQ.EntityFramework.Updates
                         }
                     }
                 }
-                _ = context.globalDb.SaveChanges();
             }
             #endregion // Update Add-DeudorForCaja
 
@@ -124,7 +120,7 @@ namespace IDQ.EntityFramework.Updates
             {
                 foreach (ventaModel venta in ventas)
                 {
-                    if (venta.Deudor != null)
+                    if (venta.Deudor is not null)
                     {
                         deudaModel tempDeuda = new deudaModel
                         {
@@ -149,7 +145,7 @@ namespace IDQ.EntityFramework.Updates
                             if (ventaProducto.CantidadFaltante > 0) { tempIsPagado = false; }
                             else
                             {
-                                if (tempFechaPagado != null && ventaProducto.FechaPagado != null)
+                                if (tempFechaPagado is not null && ventaProducto.FechaPagado is not null)
                                 {
                                     tempFechaPagado = ventaProducto.FechaPagado;
                                 }
@@ -159,7 +155,7 @@ namespace IDQ.EntityFramework.Updates
                         }
                         if (tempIsPagado)
                         {
-                            if (tempFechaPagado == null)
+                            if (tempFechaPagado is null)
                             {
                                 try { tempFechaPagado = venta.Deudor.cajasPerDeudor.Last().Fecha; } catch { }
                             }
@@ -178,20 +174,18 @@ namespace IDQ.EntityFramework.Updates
 
             #region Update 20210929025647 usuarioModel Added-FechaModels
             ObservableCollection<usuarioModel> usuarios = context.globalDb.usuarios.Local.ToObservableCollection();
-            if (usuarios.All(x => x.FechaDeIngreso == null))
+            if (usuarios.All(x => x.FechaDeIngreso is null))
             {
                 foreach (usuarioModel usuario in usuarios)
                 {
-                    if (usuario.FechaIngreso != null)
+                    if (usuario.FechaIngreso is not null)
                     {
                         usuario.FechaDeIngreso = context.returnFecha(usuario.FechaIngreso);
-                        _ = context.globalDb.SaveChanges();
                     }
 
-                    if (usuario.FechaSalida != null)
+                    if (usuario.FechaSalida is not null)
                     {
                         usuario.FechaDeEgreso = context.returnFecha(usuario.FechaSalida);
-                        _ = context.globalDb.SaveChanges();
                     }
 
                 }
@@ -200,19 +194,16 @@ namespace IDQ.EntityFramework.Updates
 
 
             #region Update Conteos
-            var cajaConteos = context.globalDb.cajaConteos.Local.OrderBy(x => x.CajaID);
+            IOrderedEnumerable<cajaConteoModel> cajaConteos = context.globalDb.cajaConteos.Local.OrderBy(x => x.CajaID);
             if (!context.globalDb.conteos.Any())
             {
                 foreach (cajaConteoModel exConteo in cajaConteos)
-                //for (int i = 0; i < cajaConteos.Count; i++)
                 {
-                    //cajaConteoModel exConteo = cajaConteos.Single(x => x.Id == i + 1);
-
                     conteoModel tempConteo = null;
 
                     try { tempConteo = context.globalDb.conteos.Single(x => x.Usuario == exConteo.Usuario && x.CajaSalida == null); } catch { }
 
-                    if (tempConteo != null)
+                    if (tempConteo is not null)
                     {
                         if (exConteo.Detalle == "1")
                         {
@@ -341,6 +332,8 @@ namespace IDQ.EntityFramework.Updates
                 }
             }
             #endregion // Update Conteos
+
+            _ = context.globalDb.SaveChanges();
         }
     }
 }

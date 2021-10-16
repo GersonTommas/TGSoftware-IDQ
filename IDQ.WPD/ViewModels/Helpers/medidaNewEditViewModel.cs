@@ -1,6 +1,7 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace IDQ.WPF.ViewModels.Helpers
@@ -14,7 +15,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public medidaNewEditViewModel(medidaModel sentMedida)
         {
-            if (sentMedida != null)
+            if (sentMedida is not null)
             {
                 _editMedida = sentMedida;
                 newMedida = new medidaModel()
@@ -29,12 +30,14 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Variables
-        public string groupBoxTitle => _editMedida != null ? "ID: " + _editMedida.Id : "Nueva Medida";
+        public string groupBoxTitle => _editMedida is not null ? "ID: " + _editMedida.Id : "Nueva Medida";
 
         readonly productoModel _newEditProducto;
         readonly medidaModel _editMedida;
 
         public medidaModel newMedida { get; } = new medidaModel() { Activo = true };
+
+        public ObservableCollection<medidaSelectorModel> CollectionSourceTipoSelector => context.globalDb.medidaSelector.Local.ToObservableCollection();
         #endregion // Variables
 
 
@@ -43,14 +46,14 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             medidaModel _compareMedida = findCompare();
 
-            if (_compareMedida == null)
+            if (_compareMedida is null)
             {
                 _ = context.globalDb.medidas.Add(newMedida);
                 _ = context.globalDb.SaveChanges();
                 Shared.GlobalVars.messageError.Guardado();
 
-                if (_newEditProducto != null) { _newEditProducto.Medida = newMedida; Shared.Navigators.UpdateProductoSlider(null); }
-                else { Shared.Navigators.UpdateEditorSlider(null); }
+                if (_newEditProducto is not null) { _newEditProducto.Medida = newMedida; Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
+                else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
@@ -59,14 +62,14 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             medidaModel _compareMedida = findCompare();
 
-            if (_compareMedida == null || _compareMedida.Id == _editMedida.Id)
+            if (_compareMedida is null || _compareMedida.Id == _editMedida.Id)
             {
                 _editMedida.Activo = newMedida.Activo; _editMedida.Medida = newMedida.Medida;
                 _ = context.globalDb.SaveChanges();
                 Shared.GlobalVars.messageError.Guardado();
 
-                if (_newEditProducto != null) { Shared.Navigators.UpdateProductoSlider(null); }
-                else { Shared.Navigators.UpdateEditorSlider(null); }
+                if (_newEditProducto is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
+                else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
@@ -77,20 +80,20 @@ namespace IDQ.WPF.ViewModels.Helpers
 
             newMedida.Medida = newMedida.Medida.Trim();
 
-            try { _result = context.globalDb.medidas.Single(x => x.Medida.ToLower() == newMedida.Medida.ToLower() && x.Tipo == newMedida.Tipo); } catch { }
+            try { _result = context.globalDb.medidas.Single(x => x.Medida.ToLower() == newMedida.Medida.ToLower() && x.TipoSelector.Tipo == newMedida.TipoSelector.Tipo); } catch { }
 
             return _result;
         }
 
-        bool checkGuardar => !string.IsNullOrWhiteSpace(newMedida.Medida) && newMedida.Medida.Length > 0 && newMedida.Tipo > 0;
+        bool checkGuardar => !string.IsNullOrWhiteSpace(newMedida.Medida) && newMedida.Medida.Length > 0 && newMedida.TipoSelector is not null;
         #endregion // Helpers
 
 
         #region Commands
-        public Command ControlCommandCancelar => new Command((object parameter) => Shared.Navigators.UpdateProductoSlider(null));
+        public Command ControlCommandCancelar => new Command((object parameter) => { if (Shared.Navigators.ProductoTagMedidaNavigator.CurrentViewModel is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); } else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); } });
 
         public Command guardarCommand => new Command(
-            (object parameter) => { if (_editMedida != null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
+            (object parameter) => { if (_editMedida is not null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
             (object parameter) => checkGuardar);
         #endregion // Commands
     }

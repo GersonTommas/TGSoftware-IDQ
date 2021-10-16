@@ -14,7 +14,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         
         public tagNewEditViewModel(tagModel sentTag)
         {
-            if (sentTag != null)
+            if (sentTag is not null)
             {
                 _editTag = sentTag;
                 newTag = new tagModel()
@@ -29,7 +29,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Variables
-        public string groupBoxTitle => _editTag != null ? "ID: " + _editTag.Id : "Nuevo Tag";
+        public string groupBoxTitle => _editTag is not null ? "ID: " + _editTag.Id : "Nuevo Tag";
 
         readonly productoModel _newProducto;
         readonly tagModel _editTag;
@@ -43,13 +43,13 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             tagModel _compareTag = findCompare();
 
-            if (_compareTag == null)
+            if (_compareTag is null)
             {
                 context.globalDb.tags.Local.Add(newTag);
                 _ = context.globalDb.SaveChanges();
 
-                if (_newProducto != null) { _newProducto.Tag = newTag; Shared.Navigators.UpdateProductoSlider(null); }
-                else { Shared.Navigators.UpdateEditorSlider(null); }
+                if (_newProducto is not null) { _newProducto.Tag = newTag; Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
+                else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
@@ -58,7 +58,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             tagModel _compareTag = findCompare();
 
-            if (_compareTag == null || _compareTag.Id == _editTag.Id)
+            if (_compareTag is null || _compareTag.Id == _editTag.Id)
             {
                 _editTag.Activo = newTag.Activo;
                 _editTag.Minimo = newTag.Minimo;
@@ -66,8 +66,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
                 _ = context.globalDb.SaveChanges();
 
-                if (_newProducto != null) { Shared.Navigators.UpdateProductoSlider(null); }
-                else { Shared.Navigators.UpdateEditorSlider(null); }
+                if (_newProducto is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
+                else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
             else { Shared.GlobalVars.messageError.Existencia(); }
         }
@@ -93,10 +93,10 @@ namespace IDQ.WPF.ViewModels.Helpers
 
 
         #region Commands
-        public Command ControlCommandCancelar => new Command((object parameter) => { Shared.Navigators.UpdateProductoSlider(null); });
+        public Command ControlCommandCancelar => new Command((object parameter) => { if (Shared.Navigators.ProductoTagMedidaNavigator.CurrentViewModel is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); } else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); } });
 
         public Command guardarTagCommand => new Command(
-            (object parameter) => { if (_editTag != null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
+            (object parameter) => { if (_editTag is not null) { helperGuardarEdit(); } else { helperGuardarNuevo(); } },
             (object parameter) => checkGuardar);
         #endregion // Commands
     }

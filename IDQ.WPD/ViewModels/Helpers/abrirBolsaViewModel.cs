@@ -39,15 +39,15 @@ namespace IDQ.WPF.ViewModels.Helpers
 
             _ = context.globalDb.SaveChanges();
 
-            Shared.Navigators.UpdateEditorSlider(null);
+            Shared.Navigators.ContentTopNavigator.updateNavigator(null);
         }
 
-        bool checkGuardar => newConversion.ProductoSacado != null && newConversion.ProductoAgregado != null && newConversion.CantidadAgregado > 0 && newConversion.CantidadSacado > 0;
+        bool checkGuardar => newConversion.ProductoSacado is not null && newConversion.ProductoAgregado is not null && newConversion.CantidadAgregado > 0 && newConversion.CantidadSacado > 0;
         #endregion // Helpers
 
 
         #region Commands
-        public Command controlCommandCancelar => new Command((object parameter) => Shared.Navigators.UpdateEditorSlider(null));
+        public Command controlCommandCancelar => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(null));
 
         public Command controlCommandBuscador => new Command((object parameter) => helperSeleccionarProducto());
 

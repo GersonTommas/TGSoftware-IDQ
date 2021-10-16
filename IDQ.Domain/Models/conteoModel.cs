@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IDQ.Domain.Models
 {
@@ -28,7 +23,7 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public bool conteoAbierto => CajaSalida == null;
+        public bool conteoAbierto => CajaSalida is null;
         #endregion // NotMapped
     }
 }

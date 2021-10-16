@@ -11,6 +11,9 @@
     <Window.DataContext>
         <local:HelperWindowViewModel />
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding cancelCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,10 +25,11 @@
         </Grid.RowDefinitions>
 
 
-        <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Grid.Row="0">
+        <Border BorderThickness="1" Padding="20" Visibility="{Binding cantidadVisibility}" BorderBrush="Gray" Grid.Row="0">
             <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
         </Border>
-        <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Grid.Row="1">
+        
+        <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Visibility="{Binding ingresoVisibility}" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

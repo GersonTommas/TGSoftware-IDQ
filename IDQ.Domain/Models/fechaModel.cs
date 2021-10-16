@@ -56,9 +56,9 @@ namespace IDQ.Domain.Models
         public int TotalCantidadVentasDiario => VentasPerFecha.Count;
         [NotMapped]
         //public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.PrecioTotal);
-        public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.Caja != null ? x.Caja.Efectivo - x.Caja.Vuelto : 0);
+        public Decimal TotalPesosVentasDiario => VentasPerFecha.Sum(x => x.Caja is not null ? x.Caja.Efectivo - x.Caja.Vuelto : 0);
         [NotMapped]
-        public Decimal TotalMPVentasDiario => VentasPerFecha.Sum(x => x.Caja != null ? x.Caja.MercadoPago : 0);
+        public Decimal TotalMPVentasDiario => VentasPerFecha.Sum(x => x.Caja is not null ? x.Caja.MercadoPago : 0);
 
         [NotMapped]
         public int TotalCantidadConsumosDiario => ConsumosProductosPerFecha.Count;

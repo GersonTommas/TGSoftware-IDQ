@@ -32,7 +32,7 @@ namespace IDQ.WPF.Styles
         void UpdateSource()
         {
             Uri val = App.card == CardEnum.Light ? LightSource : DarkSource;
-            if (val != null && Source != val)
+            if (val is not null && Source != val)
             {
                 Source = val;
             }

@@ -55,7 +55,7 @@ namespace IDQ.Domain.Models
         public bool BolPagado => CantidadFaltante == 0; // Deprecated
 
         [NotMapped]
-        public Decimal PrecioFinal => Deudor != null
+        public Decimal PrecioFinal => Deudor is not null
                                         ? !BolPagado
                                             ? Deudor.Nivel switch
                                             {

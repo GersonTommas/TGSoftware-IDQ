@@ -11,6 +11,7 @@ namespace IDQ.WPF.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string tempString = (string)parameter;
+
             return !string.IsNullOrWhiteSpace(tempString) ?
                 tempString.ToLower() == "true" ? (bool)value ? Visibility.Collapsed : Visibility.Visible : (object)((bool)value ? Visibility.Visible : Visibility.Collapsed)
                 : (bool)value ? Visibility.Visible : Visibility.Collapsed;

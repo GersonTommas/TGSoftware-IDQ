@@ -14,7 +14,7 @@ namespace IDQ.WPF.Shared
 
         public static void regexNumbers(object sender, TextCompositionEventArgs e)
         {
-            if (e != null)
+            if (e is not null)
             {
                 Regex regex = new Regex("[^0-9]+");
                 e.Handled = regex.IsMatch(e.Text);
@@ -22,7 +22,7 @@ namespace IDQ.WPF.Shared
         }
         public static void regexNegativeNumbers(object sender, TextCompositionEventArgs e)
         {
-            if (e != null)
+            if (e is not null)
             {
                 Regex regex = new Regex("-?[^0-9]+");
                 e.Handled = regex.IsMatch(e.Text);
@@ -31,7 +31,7 @@ namespace IDQ.WPF.Shared
 
         public static void regexDouble(object sender, TextCompositionEventArgs e)
         {/*
-            if (e != null)
+            if (e is not null)
             {
                 Regex regex = new Regex(@"^-?\d(.\d+)?[^.]");
                 //var testBol = Regex.Matches(e.Text, @"\.").Count > 1;

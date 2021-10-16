@@ -16,7 +16,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         public productoNewEditViewModel(productoModel sentProducto)
         {
-            if (sentProducto != null)
+            if (sentProducto is not null)
             {
                 _editProducto = sentProducto;
 
@@ -52,36 +52,6 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         #region Animation
         public INavigator ProductoTagMedidaNavigator => Shared.Navigators.ProductoTagMedidaNavigator;
-
-        bool _isAnimationLoading;
-
-        bool _startAnimation;
-        public bool startAnimation { get => _startAnimation; set { if (SetProperty(ref _startAnimation, value)) { OnPropertyChanged(); } } }
-
-        bool _isEditBarEnabled;
-        public bool isEditBarEnabled { get => _isEditBarEnabled; set { if (SetProperty(ref _isEditBarEnabled, value)) { OnPropertyChanged(); } } }
-
-        public async void updateEditorSlider(Base.ViewModelBase sentViewModel)
-        {
-            if (_isAnimationLoading == false)
-            {
-                _isAnimationLoading = true;
-
-                await PutTaskDelay(sentViewModel, sentViewModel is not null);
-            }
-        }
-        async Task PutTaskDelay(Base.ViewModelBase sentObject, bool sentBool)
-        {
-            startAnimation = sentBool;
-
-            if (!sentBool) { await Task.Delay(900); isEditBarEnabled = sentBool; }
-
-            Shared.Navigators.ProductoTagMedidaNavigator.CurrentViewModel = sentObject;
-
-            if (sentBool) { isEditBarEnabled = sentBool; await Task.Delay(900); }
-
-            _isAnimationLoading = false;
-        }
         #endregion // Animation
 
 
@@ -125,7 +95,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
             if (isEdit)
             {
-                if (compareProductCodigo == null || compareProductDescripcion == null || compareProductCodigo.Id == _editProducto.Id || compareProductDescripcion.Id == _editProducto.Id)
+                if (compareProductCodigo is null || compareProductDescripcion is null || compareProductCodigo.Id == _editProducto.Id || compareProductDescripcion.Id == _editProducto.Id)
                 {
                     _editProducto.Activo = newProducto.Activo;
                     _editProducto.Codigo = newProducto.Codigo;
@@ -140,13 +110,13 @@ namespace IDQ.WPF.ViewModels.Helpers
                     _ = context.globalDb.SaveChanges();
                     Shared.GlobalVars.messageError.Guardado();
 
-                    Shared.Navigators.UpdateEditorSlider(null);
+                    Shared.Navigators.ContentTopNavigator.updateNavigator(null);
                 }
                 else { Shared.GlobalVars.messageError.Existencia(); }
             }
             else
             {
-                if (compareProductCodigo != null || compareProductDescripcion != null) { Shared.GlobalVars.messageError.Existencia(); }
+                if (compareProductCodigo is not null || compareProductDescripcion is not null) { Shared.GlobalVars.messageError.Existencia(); }
                 else
                 {
                     newProducto.Stock = newProducto.StockInicial;
@@ -154,7 +124,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                     newProducto.MedidaID = newProducto.Medida.Id;
                     _ = dataService.Create(newProducto);
 
-                    Shared.Navigators.UpdateEditorSlider(null);
+                    Shared.Navigators.ContentTopNavigator.updateNavigator(null);
                 }
             }
         }
@@ -163,7 +133,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             try
             {
-                if (ProductoTagMedidaNavigator.CurrentViewModel == null && !string.IsNullOrWhiteSpace(newProducto.Codigo) && !string.IsNullOrWhiteSpace(newProducto.Descripcion) && newProducto.Tag != null && newProducto.Medida != null)
+                if (ProductoTagMedidaNavigator.CurrentViewModel is null && !string.IsNullOrWhiteSpace(newProducto.Codigo) && !string.IsNullOrWhiteSpace(newProducto.Descripcion) && newProducto.Tag is not null && newProducto.Medida is not null)
                 {
                     if (newProducto.Codigo.Length > 0 && newProducto.Descripcion.Length > 0 && newProducto.Medida.Id > 0 && newProducto.PrecioActual > 0)
                     { return true; }
@@ -190,23 +160,25 @@ namespace IDQ.WPF.ViewModels.Helpers
         #endregion // Helpers
 
 
-        #region CommandsMusicaigoExiste(); } else { Shared.GlobalVars.nextTarget(parameter); } });
+        #region Commands
+
+        //MusicaigoExiste(); } else { Shared.GlobalVars.nextTarget(parameter); } });
 
         public Command controlGuardarCommand => new Command(
             (object parameter) => helperGuardar(),
             (object parameter) => checkGuardar());
 
         public Command controlCommandNewTag => new Command(
-            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new tagNewEditViewModel(newProducto)); },
-            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
+            (object parameter) => { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(new tagNewEditViewModel(newProducto)); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel is null);
 
         public Command controlCommandNewMedida => new Command(
-            (object parameter) => { Shared.Navigators.UpdateProductoSlider(new medidaNewEditViewModel(newProducto)); },
-            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
+            (object parameter) => { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(new medidaNewEditViewModel(newProducto)); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel is null);
 
         public Command cancelCommand => new Command(
-            (object parameter) => { Shared.Navigators.UpdateEditorSlider(null); },
-            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel == null);
+            (object parameter) => { Shared.Navigators.ContentTopNavigator.updateNavigator(null); },
+            (object parameter) => ProductoTagMedidaNavigator.CurrentViewModel is null);
         #endregion // Commands
     }
 }

@@ -58,7 +58,7 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public int stockVsMinimo => Tag != null ? Stock < 1 ? 1 : Stock < Tag.Minimo ? 2 : Stock == Tag.Minimo ? 3 : 4 : 0;
+        public int stockVsMinimo => Tag is not null ? Stock < 1 ? 1 : Stock < Tag.Minimo ? 2 : Stock == Tag.Minimo ? 3 : 4 : 0;
         bool _Agregado;
         [NotMapped]
         public bool Agregado { get => _Agregado; set { if (_Agregado != value) { _Agregado = value; OnPropertyChanged(); } } }

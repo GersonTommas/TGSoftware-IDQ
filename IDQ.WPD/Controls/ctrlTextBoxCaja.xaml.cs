@@ -74,7 +74,7 @@ namespace IDQ.WPF.Controls
 
         void textBox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (isMaster) { if (sender != null) { (sender as TextBox).Focus(); (sender as TextBox).SelectAll(); initilizeClock(); Timer.Start(); } }
+            if (isMaster) { if (sender is not null) { (sender as TextBox).Focus(); (sender as TextBox).SelectAll(); initilizeClock(); Timer.Start(); } }
         }
         #endregion // TextBox
     }

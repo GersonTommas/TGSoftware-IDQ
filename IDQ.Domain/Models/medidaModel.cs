@@ -10,16 +10,19 @@ namespace IDQ.Domain.Models
 {
     public class medidaModel : Base.ModelBase
     {
-        #region Variables
-        int _Tipo;
-        public int Tipo { get => _Tipo; set { if (SetProperty(ref _Tipo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(TipoShort)); OnPropertyChanged(nameof(fullMedida)); } } }
+        #region Properties
+        int _Tipo; // Deprecated
+        public int Tipo { get => _Tipo; set { if (SetProperty(ref _Tipo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(TipoShort)); OnPropertyChanged(nameof(fullMedida)); } } } // Deprecated
+
+        medidaSelectorModel _TipoSelector;
+        public virtual medidaSelectorModel TipoSelector { get => _TipoSelector; set { if (SetProperty(ref _TipoSelector, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(fullMedida)); } } }
 
         string _Medida;
         public string Medida { get => _Medida; set { if (SetProperty(ref _Medida, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(fullMedida)); } } }
 
         bool _Activo;
         public bool Activo { get => _Activo; set { if (SetProperty(ref _Activo, value)) { OnPropertyChanged(); } } }
-        #endregion // Variables
+        #endregion // Properties
 
 
         #region Navigation
@@ -28,8 +31,8 @@ namespace IDQ.Domain.Models
 
 
         #region NotMapped
-        [NotMapped]
-        public string TipoShort
+        [NotMapped] // Deprecated
+        public string TipoShort // Deprecated
         {
             get => Tipo switch
             {
@@ -73,7 +76,7 @@ namespace IDQ.Domain.Models
         }
 
         [NotMapped]
-        public string fullMedida => Medida + TipoShort;
+        public string fullMedida => TipoSelector is not null ? Medida + TipoSelector.Tipo : Medida; // Medida + TipoShort;
         #endregion // NotMapped
 
 

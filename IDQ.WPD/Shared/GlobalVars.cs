@@ -36,7 +36,7 @@ namespace IDQ.WPF.Shared
 
         public static void nextTarget(object sender, bool reverse = false)
         {
-            if (sender != null)
+            if (sender is not null)
             {
                 FocusNavigationDirection direction = FocusNavigationDirection.Next; if (reverse) { direction = FocusNavigationDirection.Previous; }
 

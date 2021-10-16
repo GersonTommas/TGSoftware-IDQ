@@ -21,7 +21,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         {
             thisNavigator = sentNavigator;
 
-            if (sentUsuario != null)
+            if (sentUsuario is not null)
             {
                 _EditUsuario = sentUsuario;
 
@@ -47,19 +47,19 @@ namespace IDQ.WPF.ViewModels.Helpers
         readonly usuarioModel _EditUsuario;
         public usuarioModel newUsuario { get; } = new usuarioModel();
 
-        public string groupTitle => _EditUsuario != null ? "Editar Usuario ID: " + _EditUsuario.Id : "Nuevo Usuario";
+        public string groupTitle => _EditUsuario is not null ? "Editar Usuario ID: " + _EditUsuario.Id : "Nuevo Usuario";
         #endregion // Variables
 
 
         #region Helpers
         void helperGuardarNuevo()
         {
-            Shared.Navigators.UpdateEditorSlider(null);
+            Shared.Navigators.ContentTopNavigator.updateNavigator(null);
         }
 
         void helperGuardarEditado()
         {
-            Shared.Navigators.UpdateEditorSlider(null);
+            Shared.Navigators.ContentTopNavigator.updateNavigator(null);
         }
 
         bool checkGuardar => true;
@@ -68,7 +68,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         #region Commands
         public Command buttonCommandGuardar => new Command(
-            (object parameter) => { if (_EditUsuario != null) { helperGuardarEditado(); } else { helperGuardarNuevo(); } },
+            (object parameter) => { if (_EditUsuario is not null) { helperGuardarEditado(); } else { helperGuardarNuevo(); } },
             (object parameter) => checkGuardar);
         #endregion // Commands
     }

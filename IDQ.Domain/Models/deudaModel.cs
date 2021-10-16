@@ -41,7 +41,7 @@ namespace IDQ.Domain.Models
         #region NotMapped
         public bool checkPagoDeuda(fechaModel sentFecha)
         {
-            if (FechaPagado == null && deudaProductosPerDeuda.Count > 0 && deudaProductosPerDeuda.All(x => x.CantidadFaltante == 0)) { FechaPagado = sentFecha; return true; }
+            if (FechaPagado is null && deudaProductosPerDeuda.Count > 0 && deudaProductosPerDeuda.All(x => x.CantidadFaltante == 0)) { FechaPagado = sentFecha; return true; }
             return false;
         }
         #endregion // NotMapped

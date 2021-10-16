@@ -22,19 +22,19 @@ namespace IDQ.WPF.ViewModels.Main
 
                 collectionAllProductos.Filter += delegate (object item)
                 {
-                    if (item == null) { return false; }
+                    if (item is null) { return false; }
                     else
                     {
                         productoModel tempItem = item as productoModel;
                         return !string.IsNullOrWhiteSpace(textBoxStringBusqueda)
-                            ? checkBoxBoolActive != null
+                            ? checkBoxBoolActive is not null
                                 ? buttonBoolBusqueda
                                     ? tempItem.Activo == checkBoxBoolActive && tempItem.Descripcion.ToLower().Contains(textBoxStringBusqueda.ToLower())
                                     : tempItem.Activo == checkBoxBoolActive && tempItem.Codigo.ToLower().Contains(textBoxStringBusqueda.ToLower())
                                 : buttonBoolBusqueda
                                     ? tempItem.Descripcion.ToLower().Contains(textBoxStringBusqueda.ToLower())
                                     : tempItem.Codigo.ToLower().Contains(textBoxStringBusqueda.ToLower())
-                            : checkBoxBoolActive != null ? tempItem.Activo == checkBoxBoolActive : true;
+                            : checkBoxBoolActive is not null ? tempItem.Activo == checkBoxBoolActive : true;
                     }
                 };
                 collectionAllProductos.SortDescriptions.Clear(); collectionAllProductos.SortDescriptions.Add(new SortDescription(nameof(productoModel.Descripcion), ListSortDirection.Ascending));
@@ -80,7 +80,7 @@ namespace IDQ.WPF.ViewModels.Main
 
         bool? _checkBoxBoolActive;
         public bool? checkBoxBoolActive { get => _checkBoxBoolActive; set { if (SetProperty(ref _checkBoxBoolActive, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(checkBoxStringActive)); textBoxStringBusqueda = ""; searchTimerRestart(); } } }
-        public string checkBoxStringActive => checkBoxBoolActive == null ? "Todo" : checkBoxBoolActive == false ? "Solo Inactivos" : "Solo Activos";
+        public string checkBoxStringActive => checkBoxBoolActive is null ? "Todo" : checkBoxBoolActive == false ? "Solo Inactivos" : "Solo Activos";
 
 
         string _textBoxStringBusqueda;
@@ -97,19 +97,19 @@ namespace IDQ.WPF.ViewModels.Main
 
 
         #region Commands
-        public Command buttonCommandVistas => new Command((object parameter) => { buttonBoolVistas = !buttonBoolVistas; });
+        public Command buttonCommandVistas => new Command((object parameter) => buttonBoolVistas = !buttonBoolVistas);
 
-        public Command buttonCommandBusqueda => new Command((object parameter) => { Shared.Navigators.UpdateEditorSlider(null); });//buttonBoolBusqueda = !buttonBoolBusqueda; });
+        public Command buttonCommandBusqueda => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(null));
 
-        public Command buttonCommandNewProducto => new Command((object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel()); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.New); _ = hWindow.ShowDialog();*/ });
+        public Command buttonCommandNewProducto => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.productoNewEditViewModel()));
 
         public Command buttonCommandModificarStock => new Command(
-            (object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.stockEditViewModel(collectionAllProductos.CurrentItem as productoModel)); },//HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Stock, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog(); },
-            (object parameter) => collectionAllProductos?.CurrentItem != null);
+            (object parameter) => { Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.stockEditViewModel(collectionAllProductos.CurrentItem as productoModel)); },
+            (object parameter) => collectionAllProductos?.CurrentItem is not null);
 
         public Command butttonCommandEditProducto => new Command(
-            (object parameter) => { Shared.Navigators.UpdateEditorSlider(new Helpers.productoNewEditViewModel(collectionAllProductos.CurrentItem as productoModel)); /*HelperWindow hWindow = new HelperWindow(Enumerators.ProductosEnum.Edit, collectionAllProductos.CurrentItem as productoModel); _ = hWindow.ShowDialog();*/ },
-            (object parameter) => collectionAllProductos?.CurrentItem != null);
+            (object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.productoNewEditViewModel(collectionAllProductos.CurrentItem as productoModel)),
+            (object parameter) => collectionAllProductos?.CurrentItem is not null);
         #endregion // Commands
     }
 }

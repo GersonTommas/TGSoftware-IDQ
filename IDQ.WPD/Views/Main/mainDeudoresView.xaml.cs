@@ -20,7 +20,7 @@ namespace IDQ.WPF.Views.Main
         #region Filters
         void CollectionViewSourceListDeuda_Filter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (e.Item as deudaModel).FechaPagado == null;
+            e.Accepted = (e.Item as deudaModel).FechaPagado is null;
         }
         #endregion // Filters
     }

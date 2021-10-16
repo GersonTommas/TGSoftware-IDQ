@@ -16,11 +16,11 @@ namespace IDQ.WPF.Controls
     public partial class ctrlBuscador : UserControl, INotifyPropertyChanged
     {
         #region Initialize
-        readonly ctrlBuscadorViewModel thisDataContext;
+        //readonly ctrlBuscadorViewModel thisDataContext;
 
         public ctrlBuscador()
         {
-            InitializeComponent(); thisDataContext = DataContext as ctrlBuscadorViewModel; thisDataContext.thisControl = this;
+            InitializeComponent(); firstControl.DataContext = new ctrlBuscadorViewModel(this);// thisDataContext = DataContext as ctrlBuscadorViewModel; thisDataContext.thisControl = this;
         }
         #endregion // Initialize
 
@@ -60,8 +60,11 @@ namespace IDQ.WPF.Controls
         #region Initialize
         public ctrlBuscador thisControl;
 
-        public ctrlBuscadorViewModel()
+        public ctrlBuscadorViewModel() { }
+
+        public ctrlBuscadorViewModel(ctrlBuscador sentControl)
         {
+            thisControl = sentControl;
             initilizeSearchTimer();
             selectorListProductosSource.Source = context.globalAllProductos;
 
@@ -70,7 +73,7 @@ namespace IDQ.WPF.Controls
                 selectorListProductos.SortDescriptions.Clear(); selectorListProductos.SortDescriptions.Add(new SortDescription("Descripcion", ListSortDirection.Ascending));
                 selectorListProductos.Filter = delegate (object item)
                 {
-                    if (item == null) { return false; }
+                    if (item is null) { return false; }
                     else
                     {
                         productoModel tempItem = item as productoModel;
@@ -96,7 +99,7 @@ namespace IDQ.WPF.Controls
         void searchTimerClick()
         {
             selectorListProductos.Refresh();
-            if (selectorListProductos != null && selectorListProductosSource.View.Cast<object>().Count() == 1) { _ = selectorListProductos.MoveCurrentToFirst(); thisControl.isOnlyOneProducto = true; } else { thisControl.isOnlyOneProducto = false; }
+            if (selectorListProductos is not null && selectorListProductosSource.View.Cast<object>().Count() == 1) { _ = selectorListProductos.MoveCurrentToFirst(); thisControl.isOnlyOneProducto = true; } else { thisControl.isOnlyOneProducto = false; }
         }
         void searchTimerRestart()
         {
@@ -138,7 +141,7 @@ namespace IDQ.WPF.Controls
 
 
         #region Commands
-        public Command comAbrirProducto => new Command((object parameter) => { if (parameter != null) { /*Views.addConversionView vTemp = new Views.addConversionView(parameter as productosModel); _ = vTemp.ShowDialog(); */} });
+        public Command comAbrirProducto => new Command((object parameter) => { if (parameter is not null) { /*Views.addConversionView vTemp = new Views.addConversionView(parameter as productosModel); _ = vTemp.ShowDialog(); */} });
 
         public Command comSearchDescripcionCodigo => new Command((object parameter) => bolSearchDescripcionCodigo = !bolSearchDescripcionCodigo);
 
