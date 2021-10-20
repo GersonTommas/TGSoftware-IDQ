@@ -79,6 +79,12 @@ namespace IDQ.WPF
 
 
         #region Commands
+        public Command textBoxCommandUpCantidad => new Command(
+            (object parameter) => { if (Cantidad < 1) { Cantidad = 1; } else { Cantidad++; } });
+
+        public Command textBoxCommandDnCantidad => new Command(
+            (object parameter) => { if (Cantidad < 2) { Cantidad = 1; } else { Cantidad--; } });
+
         public Command enterCommand => new Command(
             (object parameter) => { helperGuardar(); },
             (object parameter) => checkGuardar);

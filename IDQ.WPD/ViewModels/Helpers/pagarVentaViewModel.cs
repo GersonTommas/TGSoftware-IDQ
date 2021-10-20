@@ -57,7 +57,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         void helperGuardar()
         {
-
+            thisVenta.helperGuardarVenta(new cajaModel() { Efectivo = pagoEfectivo, Fecha = Shared.GlobalVars.returnFecha(), Hora = Shared.GlobalVars.strHora, MercadoPago = pagoMP, Vuelto = Vuelto }, selectedDeudor, isPagarDeuda);
+            Shared.Navigators.ContentTopNavigator.updateNavigator(null);
         }
 
         bool checkGuardar => selectedDeudor is not null || Vuelto >= 0;

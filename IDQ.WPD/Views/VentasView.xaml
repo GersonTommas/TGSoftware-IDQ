@@ -43,7 +43,7 @@
             <ctrls:ctrlTextBox isMaster="True" text="{Binding inputCodigo}" labelContent="Código" enterCommand="{Binding textBoxCommandFindProducto}" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="0"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Producto.Descripcion, Mode=OneWay}" labelContent="Descripción" isReadOnly="True" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="1"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.Precio, Mode=OneWay}" labelContent="Precio Unidad" isReadOnly="True" isHeaderTop="True" Grid.Column="2"/>
-            <ctrls:ctrlTextBox text="{Binding newVentaProducto.Cantidad}" labelContent="Cantidad" enterCommand="{Binding textBoxCommandAddProductoVenta}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
+            <ctrls:ctrlTextBox text="{Binding newVentaProducto.Cantidad}" labelContent="Cantidad" enterCommand="{Binding textBoxCommandAddProductoVenta}" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="3"/>
             <ctrls:ctrlTextBox text="{Binding newVentaProducto.PrecioTotal, Mode=OneWay}" labelContent="Precio Total" isReadOnly="True" isHeaderTop="True" Grid.Column="4"/>
         </Grid>
 

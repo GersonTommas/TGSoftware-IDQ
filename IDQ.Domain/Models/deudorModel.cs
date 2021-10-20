@@ -30,6 +30,7 @@ namespace IDQ.Domain.Models
         #region Navigation
         public virtual ICollection<cajaModel> cajasPerDeudor { get; private set; } = new ObservableCollection<cajaModel>();
         public virtual ICollection<deudaModel> deudasPerDeudor { get; private set; } = new ObservableCollection<deudaModel>();
+        public virtual ICollection<deudaProductoModel> deudaProductosPerDeudor { get; private set; } = new ObservableCollection<deudaProductoModel>();
         public virtual ICollection<ventaModel> VentasPerDeudor { get; private set; } = new ObservableCollection<ventaModel>();
         
         public virtual ICollection<ventaProductoModel> VentaProductosPerDeudor { get; private set; } = new ObservableCollection<ventaProductoModel>(); // Deprecated
@@ -39,10 +40,26 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public Decimal doubleDeudaTotal => Math.Round(VentasPerDeudor.Sum(x => x.DeudaTotalVenta), 2);
+        public Decimal doubleDeudaTotal => Math.Round(deudasPerDeudor.Where(x => x.FechaPagado is null).Sum(x => x.faltanteTotal), 2); //Math.Round(VentasPerDeudor.Sum(x => x.DeudaTotalVenta), 2);
         [NotMapped]
         public Decimal doubleFaltanteTotal => Math.Round(doubleDeudaTotal - Resto, 2);
         #endregion // NotMapped
+
+        public Decimal updatePagarAllDeudas(Decimal sentCobro, fechaModel sentToday)
+        {
+            foreach (deudaModel item in deudasPerDeudor.Where(x => x.FechaPagado is null))
+            {
+                sentCobro = item.updatePagarDeuda(sentCobro, sentToday);
+            }
+
+            if (deudasPerDeudor.Any(x => x.FechaPagado is null))
+            {
+                Resto = sentCobro;
+                sentCobro = 0;
+            }
+
+            return sentCobro;
+        }
 
 
         public override void updateModel()

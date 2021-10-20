@@ -136,6 +136,7 @@ namespace IDQ.EntityFramework.Updates
                         {
                             deudaProductoModel tempDeudaProducto = new deudaProductoModel
                             {
+                                Deudor = venta.Deudor,
                                 CantidadAdeudada = ventaProducto.CantidadDeuda,
                                 CantidadFaltante = ventaProducto.CantidadFaltante,
                                 Precio = ventaProducto.Precio,

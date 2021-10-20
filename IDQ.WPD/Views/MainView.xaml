@@ -14,76 +14,29 @@
     </UserControl.DataContext>
 
 
-    <Grid Background="{StaticResource Brush.Window.Inner.Background.Soft}" Margin="0" Grid.Column="1">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid Background="{StaticResource Brush.Window.Inner.Background.Soft}" Margin="0">
 
-        <Grid Background="{StaticResource Brush.Window.Upper.Background.Dark}" RenderOptions.EdgeMode="Aliased" Grid.Row="0" Visibility="Collapsed">
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <Style TargetType="RadioButton" BasedOn="{StaticResource NavRadioButton}" />
-                    <Style TargetType="GroupBox" BasedOn="{StaticResource NavGroupBox}"/>
-                    <Style TargetType="Label" BasedOn="{StaticResource NavigationLabel}"/>
-                </ResourceDictionary>
-            </Grid.Resources>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Test" Command="{Binding xComTest}" />
-                    <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
-                </StackPanel>
-                
-                <StackPanel VerticalAlignment="Center">
-                    <ctrls:ctrlTextBox text="{Binding cajaActual.Efectivo, Mode=OneWay}" labelContent="Efectivo:" isReadOnly="True" />
-                    <ctrls:ctrlTextBox text="{Binding cajaActual.MercadoPago, Mode=OneWay}" isReadOnly="True" labelContent="MercadoPago:" />
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
-                <GroupBox Header="Acciones">
-                    <StackPanel Orientation="Horizontal" >
-                        <Button Content="Venta" Command="{Binding comVenta}"/>
-                        <Button Content="Ingreso" Command="{Binding comIngreso}"/>
-                        <Button Content="Consumo" Command="{Binding comConsumir}" />
-                    </StackPanel>
-                </GroupBox>
-
-                <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
-            </StackPanel>
-        </Grid>
-
-        <Grid Background="{StaticResource Brush.Navigation.Background.Normal}" Grid.Row="1">
+        <Grid Background="{StaticResource Brush.Navigation.Background.Normal}">
             <TabControl>
                 <TabItem Header="Productos">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainProductosNavigator.CurrentViewModel}"/>
+                    <mainviews:mainProductosView/>
                 </TabItem>
                 <TabItem Header="Ventas">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainVentasNavigator.CurrentViewModel}"/>
+                    <mainviews:mainVentasView/>
                 </TabItem>
                 <TabItem Header="Ingresos">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainComprasNavigator.CurrentViewModel}"/>
+                    <mainviews:mainComprasView/>
                 </TabItem>
                 <TabItem Header="Deudas">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainDeudasNavigator.CurrentViewModel}"/>
+                    <mainviews:mainDeudoresView/>
                 </TabItem>
                 <TabItem Header="Conteos">
                     <mainviews:mainConteosView Margin="5"/>
                 </TabItem>
                 <TabItem Header="Tags">
-                    <ContentControl Focusable="False" IsTabStop="False" Content="{Binding mainTagsMedidasNavigator.CurrentViewModel}"/>
+                    <mainviews:mainMedidasTagsView/>
                 </TabItem>
             </TabControl>
         </Grid>
-
-        <Button Content="Test" Command="{Binding comTest}" Grid.Row="2" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

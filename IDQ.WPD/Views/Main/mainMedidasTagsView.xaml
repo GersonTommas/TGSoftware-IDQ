@@ -9,9 +9,9 @@
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <d:UserControl.DataContext>
+    <UserControl.DataContext>
         <viewmodel:mainMedidasTagsViewModel/>
-    </d:UserControl.DataContext>
+    </UserControl.DataContext>
     
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionViewSourceTags" Source="{Binding CollectionSourceTags}">
@@ -23,9 +23,11 @@
         
         <CollectionViewSource x:Key="CollectionViewSourceMedidas" Source="{Binding CollectionSourceMedidas}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Tipo"/>
                 <scm:SortDescription PropertyName="Medida"/>
             </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="TipoSelector.Tipo"/>
+            </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
 
@@ -54,7 +56,7 @@
             
             <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceTags}}" SelectedItem="{Binding selectedTag}" EnableRowVirtualization="False" Focusable="True" IsTabStop="True" KeyboardNavigation.TabNavigation="Once" IsSynchronizedWithCurrentItem="True" Grid.Row="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}"/>
+                    <DataGridTextColumn Width="Auto" CellStyle="{StaticResource dataGridColumnActivo}"/>
                     <DataGridTextColumn Width="*" Header="Tag" Binding="{Binding fullTag}"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -70,7 +72,7 @@
             <Label Content="Medidas" Grid.Row="0"/>
             <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceMedidas}}" SelectedItem="{Binding selectedMedida}" IsSynchronizedWithCurrentItem="True" Grid.Row="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}"/>
+                    <DataGridTextColumn Width="Auto" CellStyle="{StaticResource dataGridColumnActivo}"/>
                     <DataGridTextColumn Width="*" Header="Medida" Binding="{Binding fullMedida}"/>
                 </DataGrid.Columns>
             </DataGrid>

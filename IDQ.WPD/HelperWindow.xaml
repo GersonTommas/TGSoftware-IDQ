@@ -26,7 +26,7 @@
 
 
         <Border BorderThickness="1" Padding="20" Visibility="{Binding cantidadVisibility}" BorderBrush="Gray" Grid.Row="0">
-            <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
+            <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
         </Border>
         
         <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Visibility="{Binding ingresoVisibility}" Grid.Row="1">
@@ -37,7 +37,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <UniformGrid Columns="3" Rows="1" Grid.Column="0">
-                    <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding bNextControl}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
+                    <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding bNextControl}" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
                     <ctrls:ctrlTextBox text="{Binding PrecioCompra}" labelContent="Precio Pagado" enterCommand="{Binding bNextControl}" inputType="2" isHeaderTop="True" />
                     <ctrls:ctrlTextBox text="{Binding PrecioVenta}" labelContent="Precio Venta" enterCommand="{Binding resultCommandPrecioVenta}" inputType="2" isHeaderTop="True" />
                 </UniformGrid>

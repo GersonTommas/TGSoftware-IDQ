@@ -20,8 +20,6 @@ namespace IDQ.WPF
         public ContentWindow()
         {
             InitializeComponent(); thisWindow = this;
-            // test
-            
         }
         #endregion // Initialize
 

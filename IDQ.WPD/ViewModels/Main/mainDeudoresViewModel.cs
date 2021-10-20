@@ -1,7 +1,6 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
-using IDQ.WPF.ViewModels.Main.Deudores;
 using System.Collections.ObjectModel;
 
 namespace IDQ.WPF.ViewModels.Main
@@ -11,18 +10,13 @@ namespace IDQ.WPF.ViewModels.Main
         #region Initialize
         public INavigator Navigator { get; } = new Navigator();
 
-        public mainDeudoresViewModel()
-        {
-            Navigator.CurrentViewModel = new deudoresListaViewModel();
-        }
+        public mainDeudoresViewModel() { }
         #endregion // Initialize
 
 
         #region Variables
         bool _hidePaid;
         public bool hidePaid { get => _hidePaid; set { if (SetProperty(ref _hidePaid, value)) { OnPropertyChanged(); } } }
-
-        //ObservableCollection<fechaModel> collectionSourceFechas => context.globalAllFechas;
 
         deudorModel _passDeudor;
         public deudorModel passDeudor { get => _passDeudor; set { if (SetProperty(ref _passDeudor, value)) { OnPropertyChanged(); } } }
@@ -35,6 +29,9 @@ namespace IDQ.WPF.ViewModels.Main
 
 
         #region Commands
+        public Command buttonCommandPagarDeuda => new Command(
+            (object parameter) => { },
+            (object parameter) => true);
         #endregion // Commands
     }
 }

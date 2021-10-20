@@ -33,9 +33,11 @@ namespace IDQ.Domain.Models
         #endregion // Variables
 
 
+
         #region Navigation
         public virtual ICollection<deudaProductoModel> deudaProductosPerDeuda { get; private set; } = new ObservableCollection<deudaProductoModel>();
         #endregion // Navigation
+
 
 
         #region NotMapped
@@ -44,8 +46,37 @@ namespace IDQ.Domain.Models
             if (FechaPagado is null && deudaProductosPerDeuda.Count > 0 && deudaProductosPerDeuda.All(x => x.CantidadFaltante == 0)) { FechaPagado = sentFecha; return true; }
             return false;
         }
+
+        [NotMapped]
+        public Decimal faltanteTotal => Math.Round(deudaProductosPerDeuda.Sum(x => x.CantidadFaltante * x.precioFinal), 2);
         #endregion // NotMapped
 
+
+
+        public Decimal updatePagarDeuda(Decimal sentCobro, fechaModel sentToday)
+        {
+            if (FechaPagado is null && deudaProductosPerDeuda.Count > 0 && deudaProductosPerDeuda.Any(x => x.PrecioPagado == 0))
+            {
+                if (sentCobro > faltanteTotal)
+                {
+                    sentCobro -= faltanteTotal;
+
+                    foreach (deudaProductoModel item in deudaProductosPerDeuda.Where(x => x.CantidadFaltante > 0))
+                    {
+                        item.updatePrecioPagado(item.CantidadFaltante);
+                        item.CantidadFaltante = 0;
+                    }
+
+                    FechaPagado = sentToday;
+                }
+                else
+                {
+                    foreach (deudaProductoModel item in deudaProductosPerDeuda.Where(x => x.CantidadFaltante > 0)) { if (sentCobro > 0) { sentCobro = item.updatePagarProductoDeuda(sentCobro); } }
+                }
+            }
+
+            return sentCobro;
+        }
 
         public override void updateModel()
         {

@@ -98,13 +98,11 @@
                     </Style>
                 </Grid.Style>
                 <ContentControl Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding ContentTopNavigator.isNavigatorEnabled}" Focusable="False" IsTabStop="False"/>
-                <!--<ContentControl  Content="{Binding ContentTopNavigator.CurrentViewModel}" IsEnabled="{Binding isEditBarEnabled}"/-->
             </Grid>
         </Grid>
 
 
         <TabControl IsEnabled="{Binding ContentTopNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1">
-        <!--TabControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" Visibility="{Binding logInNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}" TabStripPlacement="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False" IsTabStop="False" Grid.Row="1"-->
             <TabItem Header="Opciones" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
 
             </TabItem>
@@ -120,13 +118,17 @@
                 <TabControl>
                     <TabItem Header="Venta 1">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="0" />
-                            </Grid.ColumnDefinitions>
-
-                            <views:VentasView Grid.Column="0" />
-
+                            <views:VentasView/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Venta 2">
+                        <Grid>
+                            <views:VentasView/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Venta 3">
+                        <Grid>
+                            <views:VentasView/>
                         </Grid>
                     </TabItem>
                 </TabControl>

@@ -35,7 +35,9 @@
                  TextAlignment="{Binding ElementName=thisControl, Path=textAlignment}"
                  Visibility="{Binding Path=isReadOnly, ElementName=thisControl, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
             <TextBox.InputBindings>
-                <KeyBinding Key="Return" Command="{Binding ElementName=thisControl, Path=enterCommand}" CommandParameter="{Binding ElementName=textBox}" />
+                <KeyBinding Key="Return" Command="{Binding ElementName=thisControl, Path=enterCommand}" CommandParameter="{Binding ElementName=textBox}"/>
+                <KeyBinding Key="Up" Command="{Binding ElementName=thisControl, Path=upKeyCommand}" CommandParameter="{Binding ElementName=textBox}"/>
+                <KeyBinding Key="Down" Command="{Binding ElementName=thisControl, Path=dnKeyCommand}" CommandParameter="{Binding ElementName=textBox}"/>
             </TextBox.InputBindings>
             <TextBox.Template>
 

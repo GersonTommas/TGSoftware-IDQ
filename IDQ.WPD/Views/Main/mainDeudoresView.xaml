@@ -7,11 +7,12 @@
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main"
              xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Main"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             x:Name="thisControl"
              d:DesignHeight="450" d:DesignWidth="800">
-    <d:UserControl.DataContext>
+    <UserControl.DataContext>
         <viewmodel:mainDeudoresViewModel/>
-    </d:UserControl.DataContext>
+    </UserControl.DataContext>
     
     <UserControl.Resources>
         <CollectionViewSource x:Key="collectionViewSourceDeudores" Source="{Binding sourceCollectionDeudores}">
@@ -32,12 +33,21 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
 
-        <CollectionViewSource x:Key="collectionViewSourceListDeuda" Source="{Binding passDeudor.deudasPerDeudor}" Filter="CollectionViewSourceListDeuda_Filter">
+        <CollectionViewSource x:Key="collectionViewSourceListDeuda" Source="{Binding passDeudor.deudaProductosPerDeudor}" Filter="CollectionViewSourceListDeuda_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Deuda.FechaSacadoID" Direction="Descending"/>
+                <scm:SortDescription PropertyName="Deuda.Hora" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Deuda.FechaSacado.Fecha"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <!--CollectionViewSource x:Key="collectionViewSourceListDeuda" Source="{Binding passDeudor.deudasPerDeudor}" Filter="CollectionViewSourceListDeuda_Filter">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="FechaSacadoID" Direction="Descending"/>
                 <scm:SortDescription PropertyName="Hora" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
+        </CollectionViewSource-->
     </UserControl.Resources>
 
 
@@ -79,6 +89,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <!--
             <Label Content="Fechas" FontSize="15" FontWeight="Bold" Grid.Column="0" Grid.Row="0" />
             <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceListDeuda}}" Grid.Column="0" Grid.Row="1">
                 <DataGrid.GroupStyle>
@@ -146,6 +157,53 @@
 
             <CheckBox Content="Agrupar por fecha" IsChecked="{Binding isAgrupadoPorFecha}" Grid.Column="0" Grid.Row="2" />
 
+            -->
+
+            <Label Content="Productos Adeudados" FontSize="15" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+
+            <DataGrid ItemsSource="{Binding Source={StaticResource collectionViewSourceListDeuda}}" Grid.Column="1" Grid.Row="1">
+                <DataGrid.GroupStyle>
+                    <GroupStyle >
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="Gray" DataContext="{Binding Items}" Text="{Binding Deuda.FechaSacado.Fecha}" Visibility="{Binding ElementName=thisControl, Path=DataContext.isAgrupadoPorFecha, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="Detalle" Binding="{Binding Producto.Descripcion}" />
+                    <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Precio">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid Margin="15,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="$"/>
+                                    <TextBlock Text="{Binding precioFinal}" TextAlignment="Right" Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="60" Header="Cantidad" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadFaltante}" />
+                    <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Total">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid Margin="15,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="$"/>
+                                    <TextBlock Text="{Binding TotalFaltante}" TextAlignment="Right" Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <Label Content="Pagos" FontSize="15" FontWeight="Bold" Grid.Column="2" Grid.Row="0" />
 
@@ -223,6 +281,8 @@
                     <DataGridTextColumn Width="Auto" Header="Total" Binding="{Binding doubleTotalTotal}" Visibility="Collapsed" />
                 </DataGrid.Columns>
             </DataGrid>
+
+            <CheckBox Content="Agrupar Por Fecha" IsChecked="{Binding isAgrupadoPorFecha}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"/>
         </Grid>
 
         <GroupBox Header="Comandos" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Visibility="Collapsed">

@@ -1,6 +1,5 @@
 ﻿using IDQ.Domain.Models;
 using IDQ.EntityFramework;
-using IDQ.WPF.States.Navigators;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -22,7 +21,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                 {
                     Activo = sentMedida.Activo,
                     Medida = sentMedida.Medida,
-                    Tipo = sentMedida.Tipo
+                    TipoSelector = sentMedida.TipoSelector
                 };
             }
         }

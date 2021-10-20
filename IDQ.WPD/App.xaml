@@ -5,8 +5,6 @@
              xmlns:views="clr-namespace:IDQ.WPF.Views"
              xmlns:viewmodelsmain="clr-namespace:IDQ.WPF.ViewModels.Main"
              xmlns:viewsmain="clr-namespace:IDQ.WPF.Views.Main"
-             xmlns:viewmodelsdeudores="clr-namespace:IDQ.WPF.ViewModels.Main.Deudores"
-             xmlns:viewsdeudores="clr-namespace:IDQ.WPF.Views.Main.Deudores"
              xmlns:viewmodelsproductos="clr-namespace:IDQ.WPF.ViewModels.Main.Productos"
              xmlns:viewsproductos="clr-namespace:IDQ.WPF.Views.Main.Productos"
              xmlns:viewModelsHelper="clr-namespace:IDQ.WPF.ViewModels.Helpers"
@@ -78,26 +76,6 @@
             
             <!--#region Main-->
             <!--Main-Base-->
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainComprasViewModel}">
-                <viewsmain:mainComprasView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainDeudoresViewModel}">
-                <viewsmain:mainDeudoresView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainMedidasTagsViewModel}">
-                <viewsmain:mainMedidasTagsView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainProductosViewModel}">
-                <viewsmain:mainProductosView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodelsmain:mainVentasViewModel}">
-                <viewsmain:mainVentasView/>
-            </DataTemplate>
-            
             
             <!--Main-Productos-->
             <DataTemplate DataType="{x:Type viewmodelsproductos:productosAdvancedViewModel}">
@@ -117,6 +95,10 @@
 
             <DataTemplate DataType="{x:Type viewModelsHelper:medidaNewEditViewModel}">
                 <viewsHelper:medidaNewEditView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModelsHelper:pagarDeudaViewModel}">
+                <viewsHelper:pagarDeudaView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModelsHelper:pagarVentaViewModel}">

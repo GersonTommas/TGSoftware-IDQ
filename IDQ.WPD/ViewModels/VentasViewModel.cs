@@ -46,8 +46,8 @@ namespace IDQ.WPF.ViewModels
             string _tempInputCodigo = inputCodigo.Trim();
 
             productoModel tempProd = null;
-            try
-            { tempProd = context.globalDb.productos.Local.Single(x => x.Codigo.ToLower() == _tempInputCodigo.ToLower()); } catch { }
+
+            try { tempProd = context.globalDb.productos.Local.Single(x => x.Codigo.ToLower() == _tempInputCodigo.ToLower()); } catch { }
 
 
             if (tempProd is not null)
@@ -109,9 +109,127 @@ namespace IDQ.WPF.ViewModels
             }
         }
 
-        void helperGuardarVenta()
+        void helperPagarVenta()
         {
             Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.pagarVentaViewModel(this));
+        }
+        
+        public void helperGuardarVenta(cajaModel sentCaja, deudorModel sentDeudor, bool isPagarDeuda)
+        {
+            newVenta.Caja = sentCaja;
+            internalContabilizarVenta();
+
+            if (sentDeudor is null)
+            {
+                context.globalCajaActual.Efectivo -= newVenta.Caja.Vuelto;
+            }
+            else
+            {
+                decimal tempCobrado = sentCaja.Efectivo + sentCaja.MercadoPago + sentDeudor.Resto;
+
+                if (tempCobrado >= newVenta.PrecioTotal)
+                {
+                    tempCobrado -= newVenta.PrecioTotal;
+                    sentDeudor.Resto = tempCobrado;
+                }
+                else
+                {
+                    deudaModel newDeuda = new deudaModel();
+
+                    foreach (ventaProductoModel prod in newVenta.VentaProductosPerVenta)
+                    {
+                        if (tempCobrado > prod.PrecioTotal)
+                        {
+                            tempCobrado -= prod.PrecioTotal;
+                        }
+                        else
+                        {
+                            int tempCantidad = prod.Cantidad;
+
+                            for (int i = 0; i < prod.Cantidad; i++)
+                            {
+                                if (tempCobrado > prod.Precio)
+                                {
+                                    tempCobrado -= prod.Precio;
+                                    tempCantidad -= 1;
+                                }
+                            }
+
+                            if (newDeuda.Deudor is null)
+                            {
+                                newDeuda.Deudor = sentDeudor;
+                                newDeuda.FechaSacado = newVenta.Fecha;
+                                newDeuda.Hora = newVenta.Hora;
+                            }
+
+                            newDeuda.deudaProductosPerDeuda.Add(new deudaProductoModel() { CantidadAdeudada = tempCantidad, CantidadFaltante = tempCantidad, Precio = prod.Precio, Producto = prod.Producto, Deudor = sentDeudor });
+                            sentDeudor.deudasPerDeudor.Add(newDeuda);
+                        }
+                    }
+
+                    newVenta.Deudor = sentDeudor;
+                    newVenta.DeudaForVenta = newDeuda;
+                }
+
+
+                if (isPagarDeuda)
+                {
+                    if (tempCobrado > 0)
+                    {
+                        deudorPagoModel newDeudorPago = new deudorPagoModel() { Caja = newVenta.Caja, Deudor = sentDeudor, Fecha = newVenta.Fecha };
+
+                        tempCobrado = sentDeudor.updatePagarAllDeudas(tempCobrado, newVenta.Fecha);
+
+                        newVenta.Caja.Vuelto = tempCobrado;
+                        context.globalCajaActual.Efectivo -= newVenta.Caja.Vuelto;
+                        context.globalDb.deudorPagos.Local.Add(newDeudorPago);
+
+                        /*
+
+                        foreach (deudaModel oldDeuda in sentDeudor.deudasPerDeudor.Where(x => x.FechaPagado == null))
+                        {
+                            foreach (deudaProductoModel oldProducto in oldDeuda.deudaProductosPerDeuda.Where(x => x.CantidadFaltante > 0))
+                            {
+                                if (tempCobrado > oldProducto.precioFinal * oldProducto.CantidadFaltante)
+                                {
+                                    tempCobrado -= oldProducto.precioFinal * oldProducto.CantidadFaltante;
+                                    oldProducto.CantidadFaltante = 0;
+                                    oldProducto.updatePrecioPagado(oldProducto.CantidadFaltante);
+                                }
+                                else if (tempCobrado > oldProducto.precioFinal)
+                                {
+                                    for (int i = 0; i < oldProducto.CantidadFaltante; i++)
+                                    {
+                                        if (tempCobrado > oldProducto.precioFinal)
+                                        {
+                                            tempCobrado -= oldProducto.precioFinal;
+                                            oldProducto.CantidadFaltante -= 1;
+                                            oldProducto.updatePrecioPagado(1);
+                                        }
+                                    }
+                                }
+                            }
+
+                            _ = oldDeuda.checkPagoDeuda(newVenta.Fecha);
+                        }
+
+                        newVenta.Caja.Vuelto = 0;
+                        sentDeudor.Resto = tempCobrado;
+                        */
+                    }
+                }
+                else
+                {
+                    context.globalCajaActual.Efectivo -= newVenta.Caja.Vuelto;
+                }
+
+                newVenta.Deudor = sentDeudor;
+            }
+
+            context.globalDb.ventas.Local.Add(newVenta);
+            _ = context.globalDb.SaveChanges();
+
+            helperResetEverything();
         }
 
         void helperGuardarVentaEfectivoExacto()
@@ -119,20 +237,19 @@ namespace IDQ.WPF.ViewModels
             newVenta.Caja = new cajaModel() { Efectivo = newVenta.PrecioTotal, Fecha = Shared.GlobalVars.returnFecha(), Hora = Shared.GlobalVars.strHora, MercadoPago = 0, Vuelto = 0 };
             newVenta.Deudor = null;
 
-            internalContabilizarVenta();
+            internalContabilizarVenta(true);
 
             context.globalDb.ventas.Local.Add(newVenta);
             _ = context.globalDb.SaveChanges();
             helperResetEverything();
         }
 
-        void internalContabilizarVenta()
+        void internalContabilizarVenta(bool isCambioExacto = false)
         {
             foreach (ventaProductoModel prod in newVenta.VentaProductosPerVenta)
             {
                 prod.Producto.Stock -= prod.Cantidad;
-                prod.PrecioPagado = prod.Precio;
-                prod.FechaPagado = newVenta.Fecha;
+                prod.Precio = prod.Producto.PrecioActual;
             }
 
             newVenta.Fecha = newVenta.Caja.Fecha;
@@ -164,13 +281,18 @@ namespace IDQ.WPF.ViewModels
             (object parameter) => helperAddProductoVenta(parameter),
             (object parameter) => checkAddProductoVenta);
 
+        public Command textBoxCommandUpCantidad => new Command(
+            (object parameter) => { if (newVentaProducto.Cantidad < 1) { newVentaProducto.Cantidad = 1; } else { newVentaProducto.Cantidad++; } });
+
+        public Command textBoxCommandDnCantidad => new Command(
+            (object parameter) => { if (newVentaProducto.Cantidad < 2) { newVentaProducto.Cantidad = 1; } else { newVentaProducto.Cantidad--; } });
 
         public Command dataGridCommandRemoveProductoVenta => new Command(
             (object parameter) => helperRemoveProductoVenta(parameter),
             (object parameter) => selectedVentaProducto is not null);
 
         public Command controlCommandPagarVenta => new Command(
-            (object parameter) => { helperGuardarVenta(); },
+            (object parameter) => helperPagarVenta(),
             (object parameter) => checkGuardarVenta);
 
         public Command controlCommandGuardarVentaEfectivoExacto => new Command(

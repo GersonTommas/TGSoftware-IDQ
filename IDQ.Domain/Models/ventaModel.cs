@@ -27,9 +27,9 @@ namespace IDQ.Domain.Models
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
 
-        public int? DeudorID { get; set; }
-        deudorModel _Deudor;
-        public virtual deudorModel Deudor { get => _Deudor; set { if (SetProperty(ref _Deudor, value)) { OnPropertyChanged(); } } }
+        public int? DeudorID { get; set; } // Deprecated
+        deudorModel _Deudor; // Deprecated
+        public virtual deudorModel Deudor { get => _Deudor; set { if (SetProperty(ref _Deudor, value)) { OnPropertyChanged(); } } } // Deprecated
 
         deudaModel _DeudaForVenta;
         public virtual deudaModel DeudaForVenta { get => _DeudaForVenta; set { if (SetProperty(ref _DeudaForVenta, value)) { OnPropertyChanged(); } } }
@@ -46,11 +46,11 @@ namespace IDQ.Domain.Models
 
         #region NotMapped
         [NotMapped]
-        public int isVentaDeuda => VentaProductosPerVenta.All(x => x.isProductoDeuda == 0) ? 0 : VentaProductosPerVenta.All(x => x.isProductoDeuda == 2) ? 2 : 1;
+        public int isVentaDeuda => DeudaForVenta is not null ? 1 : 0; //VentaProductosPerVenta.All(x => x.isProductoDeuda == 0) ? 0 : VentaProductosPerVenta.All(x => x.isProductoDeuda == 2) ? 2 : 1;
         [NotMapped]
-        public int isVentaPagado => VentaProductosPerVenta.All(x => x.BolPagado) ? 0 : VentaProductosPerVenta.All(x => x.BolPagado == false) ? 2 : 1;
-        [NotMapped]
-        public Decimal DeudaTotalVenta => Math.Round(VentaProductosPerVenta.Sum(x => x.TotalFaltante), 2);
+        public int isVentaPagado => DeudaForVenta is not null ? DeudaForVenta.FechaPagado is not null ? 0 : 1 : 1;//VentaProductosPerVenta.All(x => x.BolPagado) ? 0 : VentaProductosPerVenta.All(x => x.BolPagado == false) ? 2 : 1;
+        //[NotMapped] // Deprecated
+        //public Decimal DeudaTotalVenta => VentaProductosPerVenta.Sum(x => x.TotalFaltante); // Deprecated
         #endregion // NotMapped
     }
 }

@@ -11,6 +11,7 @@
     <UserControl.DataContext>
         <viewmodel:mainConteosViewModel/>
     </UserControl.DataContext>
+    
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionViewSourceFechas" Source="{Binding CollectionSourceFechas}" Filter="CollectionViewSourceFechas_Filter">
             <CollectionViewSource.SortDescriptions>

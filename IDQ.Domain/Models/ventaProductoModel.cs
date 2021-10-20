@@ -38,36 +38,38 @@ namespace IDQ.Domain.Models
 
 
         #region Navigation
-        public virtual ICollection<cajaModel> CajasPerVentaProducto { get; private set; } = new ObservableCollection<cajaModel>();
-        public virtual ICollection<deudorPagoModel> deudorPagosPerVentaProducto { get; private set; } = new ObservableCollection<deudorPagoModel>();
+        public virtual ICollection<cajaModel> CajasPerVentaProducto { get; private set; } = new ObservableCollection<cajaModel>(); // Deprecated
+        public virtual ICollection<deudorPagoModel> deudorPagosPerVentaProducto { get; private set; } = new ObservableCollection<deudorPagoModel>(); // Deprecated
         #endregion // Navigation
 
 
         #region NotMapped
         [NotMapped]
-        public Decimal PrecioTotal => Math.Round(Cantidad * Precio, 2);
+        public Decimal PrecioTotal => Cantidad * Precio;
 
-        [NotMapped]
+        [NotMapped] // Deprecated
         public int isProductoDeuda => CantidadDeuda == 0 ? 0 : CantidadDeuda < Cantidad ? 1 : 2; // Deprecated
-        [NotMapped]
-        public int isDeudaPagada => CantidadFaltante == 0 ? 0 : CantidadFaltante != CantidadDeuda ? 1 : 2; // Deprecated
-        [NotMapped]
-        public bool BolPagado => CantidadFaltante == 0; // Deprecated
-
-        [NotMapped]
-        public Decimal PrecioFinal => Deudor is not null
-                                        ? !BolPagado
-                                            ? Deudor.Nivel switch
-                                            {
-                                                1 => Math.Round(Precio, 2),
-                                                2 => Math.Round(Producto.PrecioActual, 2),
-                                                _ => Math.Round(Producto.PrecioActual * 1.05m, 2),
-                                            }
-                                            : Math.Round(PrecioPagado, 2)
+        //[NotMapped] // Deprecated
+        //public int isDeudaPagada => CantidadFaltante == 0 ? 0 : CantidadFaltante != CantidadDeuda ? 1 : 2; // Deprecated
+        //[NotMapped] // Deprecated
+        //public bool BolPagado => CantidadFaltante == 0; // Deprecated
+        /*
+        [NotMapped] // Deprecated
+        public Decimal PrecioFinal => Deudor is not null // Deprecated
+                                        ? !BolPagado // Deprecated
+                                            ? Deudor.Nivel switch // Deprecated
+                                            { // Deprecated
+                                                1 => Math.Round(Precio, 2), // Deprecated
+                                                2 => Math.Round(Producto.PrecioActual, 2), // Deprecated
+                                                _ => Math.Round(Producto.PrecioActual * 1.05m, 2), // Deprecated
+                                            } // Deprecated
+                                            : Math.Round(PrecioPagado, 2) // Deprecated
                                         : 0; // Deprecated
-        [NotMapped]
+        [NotMapped] // Deprecated
         public Decimal TotalFaltante { get { OnPropertyChanged(nameof(PrecioFinal)); return Math.Round(PrecioFinal * CantidadFaltante, 2); } } // Deprecated
+        */
         #endregion // NotMapped
+        
 
 
         public override void updateModel()

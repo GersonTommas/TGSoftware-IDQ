@@ -10,10 +10,12 @@
 
   <ItemGroup>
     <None Remove="Resources\Backgrounds\Background01.jpg" />
+    <None Remove="Resources\Colors\ColorPalette.png" />
     <None Remove="Resources\Images\Logo02.ico" />
     <None Remove="Resources\Images\Logo02.png" />
     <None Remove="Resources\Images\Logo03.png" />
     <None Remove="Resources\Images\LogoIcon01.ico" />
+    <None Remove="Resources\Images\LogoIcon01.png" />
     <None Remove="Resources\Images\MP Logo.png" />
     <None Remove="Resources\Images\SignoPesosRedondo.png" />
     <None Remove="Resources\Images\TGSoftware.png" />
@@ -30,10 +32,12 @@
 
   <ItemGroup>
     <Resource Include="Resources\Backgrounds\Background01.jpg" />
+    <Resource Include="Resources\Colors\ColorPalette.png" />
     <Resource Include="Resources\Images\Logo02.ico" />
     <Resource Include="Resources\Images\Logo02.png" />
     <Resource Include="Resources\Images\Logo03.png" />
     <Resource Include="Resources\Images\LogoIcon01.ico" />
+    <Resource Include="Resources\Images\LogoIcon01.png" />
     <Resource Include="Resources\Images\MP Logo.png" />
     <Resource Include="Resources\Images\SignoPesosRedondo.png" />
     <Resource Include="Resources\Images\TGSoftware.png" />

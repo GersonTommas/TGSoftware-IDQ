@@ -12,7 +12,7 @@
     
     <DataGrid ItemsSource="{Binding collectionAllProductos}" IsSynchronizedWithCurrentItem="True" Background="{StaticResource Brush.Grid.Background.Normal}" RowStyle="{StaticResource fullStockGridRow}">
         <DataGrid.Columns>
-            <DataGridTextColumn Width="Auto" Header="A" CellStyle="{StaticResource dataGridColumnActivo}" SortMemberPath="Activo" />
+            <DataGridTextColumn Width="Auto" CellStyle="{StaticResource dataGridColumnActivo}" SortMemberPath="Activo" />
             <DataGridTextColumn MinWidth="100" Width="100" Header="Código" Binding="{Binding Codigo}" />
             <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Descripcion}" />
             <DataGridTextColumn MinWidth="60" Header="Stock" Binding="{Binding Stock}" ElementStyle="{StaticResource TextCenter}" />

@@ -30,6 +30,8 @@ namespace IDQ.WPF.Controls
         public bool isLabelOn { get => (bool)GetValue(isLabelOnProperty); set { SetValue(isLabelOnProperty, value); OnPropChanged(); } }
         public bool isReadOnly { get => (bool)GetValue(isReadOnlyProperty); set { SetValue(isReadOnlyProperty, value); OnPropChanged(); } }
         public Command enterCommand { get => (Command)GetValue(enterCommandProperty); set { SetValue(enterCommandProperty, value); OnPropChanged(); } }
+        public Command upKeyCommand { get => (Command)GetValue(upKeyCommandProperty); set { SetValue(upKeyCommandProperty, value); OnPropChanged(); } }
+        public Command dnKeyCommand { get => (Command)GetValue(dnKeyCommandProperty); set { SetValue(dnKeyCommandProperty, value); OnPropChanged(); } }
         public int textWidth { get => (int)GetValue(textWithdProperty); set { SetValue(textWithdProperty, value); OnPropChanged(); } }
 
 
@@ -44,6 +46,8 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty isLabelOnProperty = DependencyProperty.Register("isLabelOn", typeof(bool), typeof(ctrlTextBox), new PropertyMetadata(true));
         public static readonly DependencyProperty isReadOnlyProperty = DependencyProperty.Register("isReadOnly", typeof(bool), typeof(ctrlTextBox), new PropertyMetadata(false));
         public static readonly DependencyProperty enterCommandProperty = DependencyProperty.Register("enterCommand", typeof(Command), typeof(ctrlTextBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty upKeyCommandProperty = DependencyProperty.Register("upKeyCommand", typeof(Command), typeof(ctrlTextBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty dnKeyCommandProperty = DependencyProperty.Register("dnKeyCommand", typeof(Command), typeof(ctrlTextBox), new PropertyMetadata(null));
         public static readonly DependencyProperty textWithdProperty = DependencyProperty.Register("textWidth", typeof(int), typeof(ctrlTextBox), new PropertyMetadata(70));
         #endregion // Properties
 

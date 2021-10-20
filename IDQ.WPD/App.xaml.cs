@@ -19,6 +19,8 @@ namespace IDQ.WPF
         {
             if (Enum.TryParse(WPF.Properties.Settings.Default.skinTheme, result: out SkinEnum tempSkin)) { if (Enum.IsDefined(typeof(SkinEnum), tempSkin)) { skin = tempSkin; } }
             if (Enum.TryParse(WPF.Properties.Settings.Default.cardTheme, result: out CardEnum tempCard)) { if (Enum.IsDefined(typeof(CardEnum), tempCard)) { card = tempCard; } }
+            // TEST
+            //skin = SkinEnum.Light;
         }
 
         public static new App Current => Application.Current as App;
