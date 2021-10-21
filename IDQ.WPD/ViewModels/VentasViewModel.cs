@@ -183,39 +183,6 @@ namespace IDQ.WPF.ViewModels
                         newVenta.Caja.Vuelto = tempCobrado;
                         context.globalCajaActual.Efectivo -= newVenta.Caja.Vuelto;
                         context.globalDb.deudorPagos.Local.Add(newDeudorPago);
-
-                        /*
-
-                        foreach (deudaModel oldDeuda in sentDeudor.deudasPerDeudor.Where(x => x.FechaPagado == null))
-                        {
-                            foreach (deudaProductoModel oldProducto in oldDeuda.deudaProductosPerDeuda.Where(x => x.CantidadFaltante > 0))
-                            {
-                                if (tempCobrado > oldProducto.precioFinal * oldProducto.CantidadFaltante)
-                                {
-                                    tempCobrado -= oldProducto.precioFinal * oldProducto.CantidadFaltante;
-                                    oldProducto.CantidadFaltante = 0;
-                                    oldProducto.updatePrecioPagado(oldProducto.CantidadFaltante);
-                                }
-                                else if (tempCobrado > oldProducto.precioFinal)
-                                {
-                                    for (int i = 0; i < oldProducto.CantidadFaltante; i++)
-                                    {
-                                        if (tempCobrado > oldProducto.precioFinal)
-                                        {
-                                            tempCobrado -= oldProducto.precioFinal;
-                                            oldProducto.CantidadFaltante -= 1;
-                                            oldProducto.updatePrecioPagado(1);
-                                        }
-                                    }
-                                }
-                            }
-
-                            _ = oldDeuda.checkPagoDeuda(newVenta.Fecha);
-                        }
-
-                        newVenta.Caja.Vuelto = 0;
-                        sentDeudor.Resto = tempCobrado;
-                        */
                     }
                 }
                 else
@@ -257,6 +224,7 @@ namespace IDQ.WPF.ViewModels
             newVenta.Usuario = Shared.GlobalVars.usuarioLogueado;
 
             context.globalCajaActual.Efectivo += newVenta.Caja.Efectivo;
+            context.globalCajaActual.MercadoPago += newVenta.Caja.MercadoPago;
         }
 
         bool checkAddProductoVenta => newVentaProducto.Producto is not null && newVentaProducto.Cantidad > 0 && isItSafe;

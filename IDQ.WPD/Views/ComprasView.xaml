@@ -23,20 +23,23 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ctrls:ctrlBuscador Grid.Column="0" Grid.Row="0"/>
+        <ctrls:ctrlBuscador hasStockOption="True" hasActivoOption="True" hasCantidadIngresado="True" Grid.Column="0" Grid.Row="0"/>
 
         <ctrls:ctrlTextBox text="{Binding newIngreso.PrecioTotal}" labelContent="Gastado:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1"/>
 
+        
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="AUTO" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
+            
+            <ctrls:ctrlInfoShortcuts textF1="Guardar" textEnter="Agregar" textDelete="Quitar" textEsc="Cancelar" Grid.Row="0" />
 
-            <ctrls:ctrlInfoShortcuts textF1="Guardar" textEnter="Agregar" textEsc="Cancelar" Grid.Row="0" />
 
+            <ctrls:ctrlInfoColors isActivoFullLine="False" hasActivoInactivo="True" hasActiveAndStock="True" hasMiddleColors="True" Grid.Row="2" />
         </Grid>
-        
+
     </Grid>
 </UserControl>

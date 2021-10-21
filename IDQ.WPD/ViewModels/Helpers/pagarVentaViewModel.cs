@@ -85,7 +85,7 @@ namespace IDQ.WPF.ViewModels.Helpers
             (object parameter) => checkGuardar);
 
 
-        public Command cancelCommand => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(null));
+        public Command controlCommandCancelar => new Command((object parameter) => Shared.Navigators.ContentTopNavigator.updateNavigator(null));
         #endregion // Commands
     }
 }

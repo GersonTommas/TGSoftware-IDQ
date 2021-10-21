@@ -44,6 +44,7 @@
             <converters:CeroIsNothingConverter x:Key="CeroIsNothingConverter"/>
             <converters:RevertDateConverter x:Key="RevertDateConverter"/>
             <converters:ParameterTrueToCollapsedConverter x:Key="ParameterTrueToCollapsedConverter"/>
+            <converters:ValueToParameterCompareVisibleConverter x:Key="ValueToParameterCompareVisibleConverter"/>
             <!--#endregion Converters-->
             
             

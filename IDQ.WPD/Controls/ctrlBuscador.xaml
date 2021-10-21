@@ -2,15 +2,21 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              x:Name="thisUserControl"
              d:DesignHeight="450" d:DesignWidth="800" Focusable="False" IsTabStop="False">
-    <Grid x:Name="firstControl">
-        <d:Grid.DataContext>
-            <local:ctrlBuscadorViewModel/>
-        </d:Grid.DataContext>
+    <d:UserControl.DataContext>
+        <local:ctrlBuscador/>
+    </d:UserControl.DataContext>
+
+    <UserControl.Resources>
+        <FrameworkElement x:Key="ProxyBinding" DataContext="{Binding}"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="FirstGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="AUTO" />
@@ -23,28 +29,32 @@
 
         <GroupBox Header="Buscar">
             <StackPanel Orientation="Horizontal">
-                <Button Content="{Binding strSearchDescripcionCodigo}" MinWidth="70" Command="{Binding comSearchDescripcionCodigo}" />
-                <local:ctrlTextBox text="{Binding strSearchProducto, UpdateSourceTrigger=PropertyChanged}" enterCommand="{Binding ElementName=thisUserControl, Path=DataContext.bComUnSoloProducto}" isLabelOn="False" isMaster="True" textAlignment="Left" isCurrency="False" VerticalAlignment="Center" Width="200" Visibility="Collapsed"/>
-                
-                <TextBox x:Name="FirstTextBox" Text="{Binding strSearchProducto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MainTextBox}" Width="200" VerticalAlignment="Center" Loaded="FirstTextBox_Loaded">
+                <Button Content="{Binding localButtonContentDescripcion}" MinWidth="70" Command="{Binding localCommandToggleButton}" />
+                <local:ctrlTextBox text="{Binding localStringToSearch, UpdateSourceTrigger=PropertyChanged}" enterCommand="{Binding oneProductoCommand}" isLabelOn="False" isMaster="True" textAlignment="Left" isCurrency="False" VerticalAlignment="Center" Width="200" Visibility="Collapsed"/>
+
+                <TextBox x:Name="FirstTextBox" Text="{Binding localStringToSearch, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MainTextBox}" Width="200" VerticalAlignment="Center" Loaded="FirstTextBox_Loaded">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Return" Command="{Binding ElementName=thisUserControl, Path=DataContext.bComUnSoloProducto}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
+                        <KeyBinding Key="Return" Command="{Binding oneProductoCommand}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
                     </TextBox.InputBindings>
                 </TextBox>
-                <Button Content="Limpiar" Command="{Binding comLimpiar}" Visibility="Collapsed" />
-                <CheckBox Content="Solo Con Stock" IsChecked="{Binding bolSelectorSoloStock}" Visibility="{Binding ElementName=thisUserControl, Path=soloStockVisibility}" VerticalAlignment="Center" />
+                <Button Content="Limpiar" Command="{Binding localCommandLimpiar}" Visibility="Collapsed" />
+                <CheckBox Content="{Binding localStockContent}" IsChecked="{Binding localBoolConStock}" Visibility="{Binding hasStockOption, Converter={StaticResource BoolToVisibilityConverter}}" IsThreeState="True" VerticalAlignment="Center" />
+                <CheckBox Content="{Binding localActivoContent}" IsChecked="{Binding localBoolIsActivo}" Visibility="{Binding hasActivoOption, Converter={StaticResource BoolToVisibilityConverter}}" IsThreeState="True" VerticalAlignment="Center"/>
             </StackPanel>
         </GroupBox>
 
-        <DataGrid x:Name="dataGridProducts" KeyboardNavigation.TabNavigation="None" IsTabStop="True" ItemsSource="{Binding selectorListProductos}" SelectedItem="{Binding selectedSelectorProducto}" IsSynchronizedWithCurrentItem="True" RowStyle="{StaticResource stockGridRow}" Grid.Row="1">
+
+        <ContentControl Content="{StaticResource ProxyBinding}" Visibility="Collapsed"/>
+        <DataGrid x:Name="dataGridProducts" KeyboardNavigation.TabNavigation="None" IsTabStop="True" ItemsSource="{Binding localCollectionViewSourceProductos}" SelectedItem="{Binding DGSelectedProducto}" IsSynchronizedWithCurrentItem="True" RowStyle="{StaticResource stockGridRow}" Grid.Row="1">
             <DataGrid.InputBindings>
-                <KeyBinding Key="Backspace" Command="{Binding ElementName=thisUserControl, Path=DataContext.ctrlBuscadorDeleteCommand}"/>
-                <KeyBinding Key="Delete" Command="{Binding ElementName=thisUserControl, Path=DataContext.ctrlBuscadorDeleteCommand}"/>
-                <KeyBinding Key="Return" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" Command="{Binding ElementName=thisUserControl, Path=DataContext.ctrlBuscadorAddCommand}" />
-                <KeyBinding Key="F5" Command="{Binding comAbrirProducto}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
+                <KeyBinding Key="Backspace" Command="{Binding DGBackspaceCommand}"/>
+                <KeyBinding Key="Delete" Command="{Binding DGDeleteCommand}"/>
+                <KeyBinding Key="Return" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" Command="{Binding DGEnterCommand}" />
+                <KeyBinding Key="F5" Command="{Binding DGF5Command}" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" />
             </DataGrid.InputBindings>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="I" Visibility="{Binding ElementName=thisUserControl, Path=hasCantidadAgregado, Converter={StaticResource BoolToVisibilityConverter}}">
+                <DataGridTemplateColumn CellStyle="{StaticResource dataGridColumnActivo}" Visibility="{Binding hasActivoOption}"/>
+                <DataGridTemplateColumn Visibility="{Binding DataContext.hasCantidadIngresado, Source={StaticResource ProxyBinding}, Converter={StaticResource BoolToVisibilityConverter}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Rectangle>
@@ -81,7 +91,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn MinWidth="100" Width="auto" Header="Tag" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Tag.Tag}" />
-                <DataGridTextColumn MinWidth="60" Width="auto" Header="Ingresado" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadIngresado, Mode=OneWay, Converter={StaticResource CeroIsNothingConverter}}"/>
+                <DataGridTextColumn MinWidth="60" Width="auto" Header="Ingresado" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadIngresado, Mode=OneWay, Converter={StaticResource CeroIsNothingConverter}}" Visibility="{Binding DataContext.hasCantidadIngresado, Source={StaticResource ProxyBinding}, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

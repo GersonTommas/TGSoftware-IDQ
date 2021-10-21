@@ -134,7 +134,7 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="Ingreso" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">
-                <ctrls:ctrlBuscador soloStockVisibility="Collapsed"/>
+                <views:ComprasView />
 
             </TabItem>
             <TabItem Header="Consumos" Visibility="{Binding logOutNavigator.CurrentViewModel, Converter={StaticResource NullToVisibleConverter}}">

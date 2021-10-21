@@ -11,6 +11,11 @@
         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Margin" Value="1" />
             <Setter Property="HorizontalAlignment" Value="Center" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     
@@ -18,7 +23,7 @@
     <GroupBox Header="Comandos" VerticalAlignment="Top">
         <StackPanel>
             <StackPanel HorizontalAlignment="Center">
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF1, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF1, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF1}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -29,7 +34,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF2, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF2, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF2}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -40,7 +45,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF3, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF3, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF3}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -51,7 +56,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF4, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF4, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF4}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -62,7 +67,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF5, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF5, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF5}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -73,7 +78,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF6, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF6, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF6}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -84,7 +89,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF7, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textF7, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF7}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -95,7 +100,7 @@
                 </Grid>
 
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textEnter, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textEnter, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEnter}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -105,8 +110,18 @@
                     <TextBlock Text="{Binding ElementName=thisControl, Path=textEnter}" Grid.Column="1" />
                 </Grid>
 
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textDelete, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledDelete}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textEsc, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}">
+                    <TextBlock Text="Delete: "/>
+                    <TextBlock Text="{Binding ElementName=thisControl, Path=textDelete}" Grid.Column="1"/>
+                </Grid>
+
+
+                <Grid Visibility="{Binding ElementName=thisControl, Path=textEsc, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEsc}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />

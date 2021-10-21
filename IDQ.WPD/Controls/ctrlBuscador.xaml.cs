@@ -11,38 +11,154 @@ using System.Windows.Data;
 namespace IDQ.WPF.Controls
 {
     /// <summary>
-    /// Interaction logic for ctrlSelector.xaml
+    /// Interaction logic for ctrlBuscador.xaml
     /// </summary>
     public partial class ctrlBuscador : UserControl, INotifyPropertyChanged
     {
         #region Initialize
-        //readonly ctrlBuscadorViewModel thisDataContext;
-
         public ctrlBuscador()
         {
-            InitializeComponent(); firstControl.DataContext = new ctrlBuscadorViewModel(this);// thisDataContext = DataContext as ctrlBuscadorViewModel; thisDataContext.thisControl = this;
+            InitializeComponent();
+            _searchTimer.Tick += new EventHandler(searchTimer_Click); _searchTimer.Interval = new TimeSpan(0, 0, 0, 0, 150);
+
+            try
+            {
+
+                localCollectionViewSourceProductos.SortDescriptions.Clear(); localCollectionViewSourceProductos.SortDescriptions.Add(new SortDescription(nameof(productoModel.Descripcion), ListSortDirection.Ascending));
+                localCollectionViewSourceProductos.Filter = delegate (object item)
+                {
+                    productoModel tempItem = item as productoModel;
+
+                    if (hasStockOption)
+                    {
+                        if (localBoolConStock == true && tempItem.Stock < 1) { return false; }
+                        else if (localBoolConStock == false && tempItem.Stock > 0) { return false; }
+                    }
+                    if (hasActivoOption)
+                    {
+                        if (localBoolIsActivo == true && !tempItem.Activo) { return false; }
+                        else if (localBoolIsActivo == false && tempItem.Activo) { return false; }
+                    }
+
+                    if (localBoolDescripcionCodigo)
+                    { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !tempItem.Descripcion.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { return false; } }
+                    else { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !tempItem.Codigo.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { return false; } }
+                    return true;
+                };
+            }
+            catch { }
+
+            DataContext = this;
         }
         #endregion // Initialize
 
 
-        #region Variables
+
+        #region Timer
+        readonly System.Windows.Threading.DispatcherTimer _searchTimer = new System.Windows.Threading.DispatcherTimer();
+
+        void searchTimer_Click(object sender, EventArgs e)
+        {
+            localCollectionViewSourceProductos.Refresh();
+            if (_localCollectionSourceProductos.View.Cast<object>().Count() == 1) { _ = localCollectionViewSourceProductos.MoveCurrentToFirst(); isOnlyOneProducto = true; } else { isOnlyOneProducto = false; }
+
+            _searchTimer.Stop();
+        }
+
+        void searchTimerRestart() { _searchTimer.Stop(); _searchTimer.Start(); }
+        #endregion // Timer
+
+
+
+        #region Filters
+        void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            /*
+            productoModel item = sender as productoModel;
+
+            if (hasStockOption)
+            {
+                if (stockTripleOption)
+                {
+                    if (localBoolConStockTriple == true && item.Stock < 1) { e.Accepted = false; }
+                    else if (localBoolConStockTriple == false && item.Stock > 0) { e.Accepted = false; }
+                }
+                else
+                {
+                    if (localBoolConStock && item.Stock < 1) { e.Accepted = false; }
+                }
+            }
+
+            if (localBoolDescripcionCodigo)
+            { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !item.Descripcion.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { e.Accepted = false; } }
+            else { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !item.Codigo.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { e.Accepted = false; } }
+            */
+            e.Accepted = true;
+        }
+        #endregion // Filters
+
+
+
+        #region Local
+        readonly CollectionViewSource _localCollectionSourceProductos = new CollectionViewSource() { Source = context.globalAllProductos };
+        public ICollectionView localCollectionViewSourceProductos => _localCollectionSourceProductos.View;
+
+
+        string _localStringToSearch;
+        public string localStringToSearch { get => _localStringToSearch; set { if (_localStringToSearch != value) { _localStringToSearch = value; OnPropChanged(); searchTimerRestart(); } } }
+
+        bool _localBoolDescripcionCodigo = true;
+        public bool localBoolDescripcionCodigo { get => _localBoolDescripcionCodigo; set { if (_localBoolDescripcionCodigo != value) { _localBoolDescripcionCodigo = value; OnPropChanged(); OnPropChanged(nameof(localButtonContentDescripcion)); } } }
+
+        bool? _localBoolConStock;
+        public bool? localBoolConStock { get => _localBoolConStock; set { if (_localBoolConStock != value) { _localBoolConStock = value; OnPropChanged(); OnPropChanged(nameof(localStockContent)); searchTimerRestart(); } } }
+
+        bool? _localBoolIsActivo;
+        public bool? localBoolIsActivo { get => _localBoolIsActivo; set { if (_localBoolIsActivo != value) { _localBoolIsActivo = value; OnPropChanged(); OnPropChanged(nameof(localActivoContent)); searchTimerRestart(); } } }
+
+        public string localButtonContentDescripcion => localBoolDescripcionCodigo ? "Descripción" : "Código";
+        public string localStockContent => localBoolConStock == null ? "Con/Sin Stock" : localBoolConStock == true ? "Con Stock" : "Sin Stock";
+        public string localActivoContent => localBoolIsActivo == null ? "Activo/Inactivo" : localBoolIsActivo == true ? "Activo" : "Inactivo";
+
+
+        public Command localCommandLimpiar => new Command((object parameter) => localStringToSearch = "");
+        public Command localCommandToggleButton => new Command((object parameter) => localBoolDescripcionCodigo = !localBoolDescripcionCodigo);
+        #endregion // Local
+
+
+
+        #region Properties
         public bool isOnlyOneProducto { get => (bool)GetValue(isOnlyOneProductoProperty); set { SetValue(isOnlyOneProductoProperty, value); OnPropChanged(); } }
-        public object selectedItem { get => GetValue(selectedItemProperty); set { SetValue(selectedItemProperty, value); OnPropChanged(); } }
-        public Visibility soloStockVisibility { get => (Visibility)GetValue(soloStockVisibilityProperty); set { SetValue(soloStockVisibilityProperty, value); OnPropChanged(); } }
         public bool hasSentCommand { get => (bool)GetValue(hasSentCommandProperty); set { SetValue(hasSentCommandProperty, value); OnPropChanged(); } }
+        public bool hasStockOption { get => (bool)GetValue(hasStockOptionProperty); set { SetValue(hasStockOptionProperty, value); OnPropChanged(); } }
+        public bool hasActivoOption { get => (bool)GetValue(hasActivoOptionProperty); set { SetValue(hasActivoOptionProperty, value); OnPropChanged(); } }
+        public bool hasCantidadIngresado { get => (bool)GetValue(hasCantidadIngresadoProperty); set { SetValue(hasCantidadIngresadoProperty, value); OnPropChanged(); } }
+
+        public Command oneProductoCommand { get => (Command)GetValue(oneProductoCommandProperty); set { SetValue(oneProductoCommandProperty, value); OnPropChanged(); } }
+        public Command DGBackspaceCommand { get => (Command)GetValue(DGBackspaceCommandProperty); set { SetValue(DGBackspaceCommandProperty, value); OnPropChanged(); } }
+        public Command DGDeleteCommand { get => (Command)GetValue(DGDeleteCommandProperty); set { SetValue(DGDeleteCommandProperty, value); OnPropChanged(); } }
+        public Command DGEnterCommand { get => (Command)GetValue(DGEnterCommandProperty); set { SetValue(DGEnterCommandProperty, value); OnPropChanged(); } }
+        public Command DGF5Command { get => (Command)GetValue(DGF5CommandProperty); set { SetValue(DGF5CommandProperty, value); OnPropChanged(); } }
+
+        public productoModel DGSelectedProducto { get => (productoModel)GetValue(DGSelectedProductoProperty); set { SetValue(DGSelectedProductoProperty, value); OnPropChanged(); } }
+
 
 
         public static readonly DependencyProperty isOnlyOneProductoProperty = DependencyProperty.Register("isOnlyOneProducto", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
-        public static readonly DependencyProperty selectedItemProperty = DependencyProperty.Register("selectedItem", typeof(object), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
-        public static readonly DependencyProperty soloStockVisibilityProperty = DependencyProperty.Register("soloStockVisibility", typeof(Visibility), typeof(ctrlBuscador), new PropertyMetadata(Visibility.Visible));
         public static readonly DependencyProperty hasSentCommandProperty = DependencyProperty.Register("hasSentCommand", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
-        #endregion // Variables
+        public static readonly DependencyProperty hasStockOptionProperty = DependencyProperty.Register("hasStockOption", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
+        public static readonly DependencyProperty hasActivoOptionProperty = DependencyProperty.Register("hasActivoOption", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
+        public static readonly DependencyProperty hasCantidadIngresadoProperty = DependencyProperty.Register("hasCantidadIngresado", typeof(bool), typeof(ctrlBuscador), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty oneProductoCommandProperty = DependencyProperty.Register("oneProductoCommand", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
+        public static readonly DependencyProperty DGBackspaceCommandProperty = DependencyProperty.Register("DGBackspaceCommand", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
+        public static readonly DependencyProperty DGDeleteCommandProperty = DependencyProperty.Register("DGDeleteCommand", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
+        public static readonly DependencyProperty DGEnterCommandProperty = DependencyProperty.Register("DGEnterCommand", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
+        public static readonly DependencyProperty DGF5CommandProperty = DependencyProperty.Register("DGF5Command", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
 
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropChanged([CallerMemberName] string name = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
-        #endregion // PropertyChanged
+        public static readonly DependencyProperty DGSelectedProductoProperty = DependencyProperty.Register("DGSelectedProducto", typeof(productoModel), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
+        #endregion // Properties
+
 
 
         #region TextBox
@@ -51,103 +167,15 @@ namespace IDQ.WPF.Controls
             _ = (sender as TextBox).Focus();
         }
         #endregion // TextBox
-    }
 
 
 
-    public class ctrlBuscadorViewModel : Base.ViewModelBase
-    {
-        #region Initialize
-        public ctrlBuscador thisControl;
-
-        public ctrlBuscadorViewModel() { }
-
-        public ctrlBuscadorViewModel(ctrlBuscador sentControl)
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropChanged([CallerMemberName] string name = null)
         {
-            thisControl = sentControl;
-            initilizeSearchTimer();
-            selectorListProductosSource.Source = context.globalAllProductos;
-
-            try
-            {
-                selectorListProductos.SortDescriptions.Clear(); selectorListProductos.SortDescriptions.Add(new SortDescription("Descripcion", ListSortDirection.Ascending));
-                selectorListProductos.Filter = delegate (object item)
-                {
-                    if (item is null) { return false; }
-                    else
-                    {
-                        productoModel tempItem = item as productoModel;
-                        return !string.IsNullOrWhiteSpace(strSearchProducto)
-                            ? bolSelectorSoloStock
-                                ? bolSearchDescripcionCodigo ? tempItem.stockVsMinimo != 1 && tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.stockVsMinimo != 1 && tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
-                                : bolSearchDescripcionCodigo ? tempItem.Descripcion.ToLower().Contains(strSearchProducto.ToLower()) : tempItem.Codigo.ToLower().Contains(strSearchProducto.ToLower())
-                            : !bolSelectorSoloStock || tempItem.stockVsMinimo != 1;
-                    }
-                };
-            }
-            catch { }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-        #endregion // Initialize
-
-
-
-        #region Timer
-        readonly System.Windows.Threading.DispatcherTimer _searchTimer = new System.Windows.Threading.DispatcherTimer();
-        void initilizeSearchTimer() { _searchTimer.Tick += new EventHandler(searchTimer_Click); _searchTimer.Interval = new TimeSpan(0, 0, 0, 0, 150); }
-        void searchTimer_Click(object sender, EventArgs e) { searchTimerClick(); _searchTimer.Stop(); }
-
-        void searchTimerClick()
-        {
-            selectorListProductos.Refresh();
-            if (selectorListProductos is not null && selectorListProductosSource.View.Cast<object>().Count() == 1) { _ = selectorListProductos.MoveCurrentToFirst(); thisControl.isOnlyOneProducto = true; } else { thisControl.isOnlyOneProducto = false; }
-        }
-        void searchTimerRestart()
-        {
-            _searchTimer.Stop();
-            _searchTimer.Start();
-        }
-        #endregion // Timer
-
-
-
-        #region Variables
-        string _strSearchProducto = "";
-        public string strSearchProducto { get => _strSearchProducto; set { if (SetProperty(ref _strSearchProducto, value)) { OnPropertyChanged(); searchTimerRestart(); } } }
-
-        bool _bolMantenerVentanaAbierta;
-        public bool bolMantenerVentanaAbierta { get => _bolMantenerVentanaAbierta; set { if (SetProperty(ref _bolMantenerVentanaAbierta, value)) { OnPropertyChanged(); } } }
-
-        bool _ventaFallo;
-        public bool ventaFallo { get => _ventaFallo; set { if (SetProperty(ref _ventaFallo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(windowBackground)); } } }
-
-        bool _bolSelectorSoloStock;
-        public bool bolSelectorSoloStock { get => _bolSelectorSoloStock; set { if (SetProperty(ref _bolSelectorSoloStock, value)) { OnPropertyChanged(); selectorListProductos.Refresh(); } } }
-
-        bool _bolSearchDescripcionCodigo = true;
-        public bool bolSearchDescripcionCodigo { get => _bolSearchDescripcionCodigo; set { if (SetProperty(ref _bolSearchDescripcionCodigo, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(strSearchDescripcionCodigo)); strSearchProducto = ""; } } }
-
-        productoModel _selectedSelectorProducto;
-        public productoModel selectedSelectorProducto { get => _selectedSelectorProducto; set { if (SetProperty(ref _selectedSelectorProducto, value)) { OnPropertyChanged(); } } }
-
-
-        public string windowBackground => !ventaFallo ? Shared.GlobalVars.colorWindowBackgroundOK : Shared.GlobalVars.colorWindowBackkgroundNO;
-        public string strSearchDescripcionCodigo => bolSearchDescripcionCodigo ? "Descripción" : "Código";
-
-
-        readonly CollectionViewSource selectorListProductosSource = new CollectionViewSource() { /*Source = Variables.Inventario.Productos.Local.ToObservableCollection()*/ };
-        public ICollectionView selectorListProductos => selectorListProductosSource.View;
-        #endregion // Variables
-
-
-
-        #region Commands
-        public Command comAbrirProducto => new Command((object parameter) => { if (parameter is not null) { /*Views.addConversionView vTemp = new Views.addConversionView(parameter as productosModel); _ = vTemp.ShowDialog(); */} });
-
-        public Command comSearchDescripcionCodigo => new Command((object parameter) => bolSearchDescripcionCodigo = !bolSearchDescripcionCodigo);
-
-        public Command comLimpiar => new Command(
-            (object parameter) => strSearchProducto = "",
-            (object parameter) => !string.IsNullOrWhiteSpace(strSearchProducto));
-        #endregion // Commands
+        #endregion // PropertyChanged
     }
 }

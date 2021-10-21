@@ -11,6 +11,11 @@
     <d:UserControl.DataContext>
         <viewmodel:pagarVentaViewModel/>
     </d:UserControl.DataContext>
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding controlCommandGuardarVenta}"/>
+        <KeyBinding Key="Esc" Command="{Binding controlCommandCancelar}"/>
+    </UserControl.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -30,8 +35,8 @@
             </Grid.ColumnDefinitions>
 
             <ctrls:ctrlTextBox text="{Binding ventaTotal, Mode=OneWay}" labelContent="Total" isReadOnly="True" Grid.Column="0" />
-            <ctrls:ctrlTextBox text="{Binding pagoEfectivo}" labelContent="Efectivo" Grid.Column="1"/>
-            <ctrls:ctrlTextBox text="{Binding pagoMP}" labelContent="MP" Grid.Column="2"/>
+            <ctrls:ctrlTextBox text="{Binding pagoEfectivo}" isMaster="True" enterCommand="{Binding bNextControl}" labelContent="Efectivo" Grid.Column="1"/>
+            <ctrls:ctrlTextBox text="{Binding pagoMP}" enterCommand="{Binding bNextControl}" labelContent="MP" Grid.Column="2"/>
             <ctrls:ctrlTextBox text="{Binding Vuelto, Mode=OneWay}" labelContent="{Binding vueltoString}" isReadOnly="True" Grid.Column="3"/>
         </Grid>
 

@@ -97,7 +97,10 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
+            <ctrls:ctrlInfoShortcuts textF1="Guardar" textDelete="Quitar" enabledDelete="{Binding selectedVentaProducto, Converter={StaticResource NullToTrueComparerConverter}, ConverterParameter=true}" Grid.Row="0"/>
+
+            <Button Content="Limpliar" Command="{Binding resultCommandCancelar}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1"/>
         </Grid>
         
     </Grid>

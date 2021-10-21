@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Views.Main"
-             xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Main"
+             xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              x:Name="thisPage"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -25,6 +25,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="AUTO" />
         </Grid.RowDefinitions>
+        
+        
+        <!--
 
         <GroupBox Header="Buscar" Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
@@ -51,6 +54,10 @@
         <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1">
             <ContentControl Content="{Binding Navigator.CurrentViewModel}" />
         </Grid>
+        -->
+
+        <ctrls:ctrlBuscador DGSelectedProducto="{Binding selectedProducto}" hasStockOption="True" hasActivoOption="True" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2"/>
+
 
         <!--Collapsed, don't remember what this does-->
         <ctrls:ctrlTextBox text="{Binding stockIntProductosTotal, Mode=OneWay}" labelContent="Total de Productos:" isReadOnly="True" isCurrency="False" textAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" Margin="115,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
