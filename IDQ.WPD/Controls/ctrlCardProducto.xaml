@@ -7,6 +7,9 @@
              x:Name="thisControl"
              mc:Ignorable="d"
              VerticalAlignment="Top" Margin="5">
+    <d:UserControl.DataContext>
+        <local:ctrlCardProducto/>
+    </d:UserControl.DataContext>
     
     <Border Padding="5" Style="{StaticResource CardBorderBackground}" BorderThickness="1" CornerRadius="10">
         <Grid>
@@ -16,7 +19,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Style="{StaticResource CardTitleTextBox}" Text="{Binding ElementName=thisControl, Path=titleText}" HorizontalAlignment="Center" Grid.Row="0"/>
+            <TextBlock Style="{StaticResource CardTitleTextBox}" Text="{Binding titleText}" HorizontalAlignment="Center" Grid.Row="0"/>
 
             <Rectangle Style="{StaticResource CardRectangleSeparator}" Grid.Row="1"/>
 
@@ -26,8 +29,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                <Label Style="{StaticResource CardPesosLabel}" Visibility="{Binding ElementName=thisControl, Path=isCurrency, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="0"/>
-                <Label Content="{Binding ElementName=thisControl, Path=valueText}" Style="{StaticResource CardLabel}" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label Style="{StaticResource CardPesosLabel}" Visibility="{Binding isCurrency, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="0"/>
+                <Label Content="{Binding valueText}" Style="{StaticResource CardLabel}" HorizontalAlignment="Left" Grid.Column="1"/>
             </Grid>
         </Grid>
     </Border>

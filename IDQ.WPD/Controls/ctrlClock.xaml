@@ -6,14 +6,13 @@
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d"
              x:Name="thisControl">
-    <UserControl.DataContext>
-        <local:ClockViewModel />
-    </UserControl.DataContext>
+    <d:UserControl.DataContext>
+        <local:ctrlClock />
+    </d:UserControl.DataContext>
     
     <GroupBox>
         <Grid VerticalAlignment="Center">
-            <Label VerticalAlignment="Center" Content="{Binding stringLongTime, FallbackValue=00:00:00}" FontSize="{Binding ElementName=thisControl, Path=FontSize}" Visibility="{Binding ElementName=thisControl, Path=hasSeconds, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Label VerticalAlignment="Center" Content="{Binding stringShortTime, FallbackValue=00:00}" FontSize="{Binding ElementName=thisControl, Path=FontSize}" Visibility="{Binding ElementName=thisControl, Path=hasSeconds, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+            <Label VerticalAlignment="Center" Content="{Binding stringTime, FallbackValue=00:00}"/>
         </Grid>
     </GroupBox>
 </UserControl>

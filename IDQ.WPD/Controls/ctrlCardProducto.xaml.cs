@@ -11,7 +11,7 @@ namespace IDQ.WPF.Controls
     public partial class ctrlCardProducto : UserControl, INotifyPropertyChanged
     {
         #region Initialize
-        public ctrlCardProducto() { InitializeComponent(); }
+        public ctrlCardProducto() { InitializeComponent(); DataContext = this; }
         #endregion // Initialize
 
 

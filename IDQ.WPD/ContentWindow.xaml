@@ -25,7 +25,6 @@
             </Grid.RowDefinitions>
 
             <ContentControl IsEnabled="{Binding  ContentTopNavigator.isNavigatorEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False">
-            <!--<ContentControl IsEnabled="{Binding isEditBarEnabled, Converter={StaticResource InvertBoolConverter}}" VerticalAlignment="Center" Focusable="False" IsTabStop="False"-->
                 <Grid>
                     <Grid.Resources>
                         <ResourceDictionary>
@@ -72,7 +71,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
                         <Label Content="{Binding testString}"/>
-                        <ctrls:ctrlClock hasSeconds="True" FontSize="30" />
+                        <ctrls:ctrlClock hasSeconds="True" has24hours="True" FontSize="30" />
                     </StackPanel>
                 </Grid>
             </ContentControl>
