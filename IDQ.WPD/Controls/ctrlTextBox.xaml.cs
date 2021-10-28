@@ -51,12 +51,12 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty textWithdProperty = DependencyProperty.Register("textWidth", typeof(int), typeof(ctrlTextBox), new PropertyMetadata(70));
         #endregion // Properties
 
-
+        
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion // Property Changed
-
+        
 
         #region TextBox
         readonly System.Windows.Threading.DispatcherTimer Timer = new System.Windows.Threading.DispatcherTimer();

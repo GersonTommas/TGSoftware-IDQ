@@ -18,6 +18,15 @@
                 <scm:SortDescription PropertyName="Fecha"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <CollectionViewSource x:Key="CollectionViewSourceConteos" Source="{Binding CollectionSourceConteos}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Fecha.Fecha" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Fecha"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid>
@@ -31,6 +40,86 @@
         </Grid.RowDefinitions>
 
 
+        <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceConteos}}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+            <DataGrid.GroupStyle>
+                <GroupStyle >
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Background="Gray" DataContext="{Binding Items}" Text="{Binding Fecha.Fecha}"/>
+                            <!--Visibility="{Binding ElementName=thisControl, Path=DataContext.isAgrupadoPorFecha, Converter={StaticResource BoolToVisibilityConverter}}" /-->
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Usuario" Binding="{Binding Usuario.Usuario}"/>
+                <DataGridTemplateColumn Width="*" Header="Ingreso $$$">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Margin="15,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="$" Grid.Column="0" Grid.Row="0"/>
+                                <TextBlock Text="{Binding CajaEntrada.Efectivo}" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="0"/>
+
+                                <TextBlock Text="$" Grid.Column="0" Grid.Row="1"/>
+                                <TextBlock Text="{Binding CajaEntrada.CajaEfectivo}" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1"/>
+
+                                <StackPanel HorizontalAlignment="Center" Visibility="Collapsed">
+                                    <TextBlock Text="{Binding CajaEntrada.Efectivo}"/>
+                                    <TextBlock Text="{Binding CajaEntrada.CajaEfectivo}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Ingreso MP">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding CajaEntrada.MercadoPago}"/>
+                                    <TextBlock Text="{Binding CajaEntrada.CajaMercadoPago}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Salida $$$">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding CajaSalida.Efectivo}"/>
+                                    <TextBlock Text="{Binding CajaSalida.CajaEfectivo}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Salida MP">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding CajaSalida.MercadoPago}"/>
+                                    <TextBlock Text="{Binding CajaSalida.CajaMercadoPago}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--
         <Label Content="Fechas" Grid.Column="0" Grid.Row="0"/>
         <DataGrid ItemsSource="{Binding Source={StaticResource CollectionViewSourceFechas}}" Grid.Column="0" Grid.Row="1">
             <DataGrid.Columns>
@@ -92,6 +181,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+        -->
     </Grid>
 </UserControl>

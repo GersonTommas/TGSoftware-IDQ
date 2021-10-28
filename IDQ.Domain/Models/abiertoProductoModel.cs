@@ -9,19 +9,17 @@
         int _CantidadAgregado;
         public int CantidadAgregado { get => _CantidadAgregado; set { if (SetProperty(ref _CantidadAgregado, value)) { OnPropertyChanged(); } } }
 
-        public int ProductoSacadoID { get; set; }
+        public int ProductoSacadoId { get; private set; }
         productoModel _ProductoSacado;
         public virtual productoModel ProductoSacado { get => _ProductoSacado; set { if (SetProperty(ref _ProductoSacado, value)) { OnPropertyChanged(); } } }
 
-        public int ProductoAgregadoID { get; set; }
+        public int ProductoAgregadoId { get; private set; }
         productoModel _ProductoAgregado;
         public virtual productoModel ProductoAgregado { get => _ProductoAgregado; set { if (SetProperty(ref _ProductoAgregado, value)) { OnPropertyChanged(); } } }
 
-        public int FechaID { get; set; }
         fechaModel _Fecha;
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
-        public int UsuarioID { get; set; }
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
         #endregion // Variables

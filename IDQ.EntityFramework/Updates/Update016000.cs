@@ -1,10 +1,7 @@
 ﻿using IDQ.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IDQ.EntityFramework.Updates
 {
@@ -160,7 +157,7 @@ namespace IDQ.EntityFramework.Updates
                             {
                                 try { tempFechaPagado = venta.Deudor.cajasPerDeudor.Last().Fecha; } catch { }
                             }
-                            
+
                             tempDeuda.FechaPagado = tempFechaPagado;
                         }
                         tempDeuda.TotalPagado = tempDeuda.deudaProductosPerDeuda.Sum(x => x.PrecioPagado * (x.CantidadAdeudada - x.CantidadFaltante));

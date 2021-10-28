@@ -14,11 +14,9 @@ namespace IDQ.Domain.Models
         Decimal _Precio;
         public Decimal Precio { get => _Precio; set { if (SetProperty(ref _Precio, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); } } }
 
-        public int ProductoID { get; set; }
         productoModel _Producto;
         public virtual productoModel Producto { get => _Producto; set { if (SetProperty(ref _Producto, value)) { OnPropertyChanged(); } } }
 
-        public int VentaID { get; set; }
         ventaModel _Venta;
         public virtual ventaModel Venta { get => _Venta; set { if (SetProperty(ref _Venta, value)) { OnPropertyChanged(); } } }
 

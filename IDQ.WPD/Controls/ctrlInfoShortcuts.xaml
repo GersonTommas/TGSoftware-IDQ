@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IDQ.WPF.Controls"
+             xmlns:help="clr-namespace:IDQ.WPF.Controls.Helpers"
              mc:Ignorable="d"
              x:Name="thisControl"
              d:Background="Gray">
@@ -23,113 +24,21 @@
     <GroupBox Header="Comandos" VerticalAlignment="Top">
         <StackPanel>
             <StackPanel HorizontalAlignment="Center">
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF1, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF1}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F1: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF1}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF2, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF2}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F2: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF2}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF3, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF3}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F3: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF3}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF4, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF4}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F4: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF4}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF5, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF5}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F5: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF5}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF6, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF6}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F6: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF6}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textF7, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF7}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="F7: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textF7}" Grid.Column="1" />
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textEnter, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEnter}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Enter: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textEnter}" Grid.Column="1" />
-                </Grid>
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textDelete, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledDelete}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Delete: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textDelete}" Grid.Column="1"/>
-                </Grid>
-
-
-                <Grid Visibility="{Binding ElementName=thisControl, Path=textEsc, Converter={StaticResource NullToVisibleConverter}, ConverterParameter=true}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEsc}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Esc: "/>
-                    <TextBlock Text="{Binding ElementName=thisControl, Path=textEsc}" Grid.Column="1" />
-                </Grid>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F1: " textRight="{Binding ElementName=thisControl, Path=textF1}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF1}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F2: " textRight="{Binding ElementName=thisControl, Path=textF2}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF2}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F3: " textRight="{Binding ElementName=thisControl, Path=textF3}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF3}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F4: " textRight="{Binding ElementName=thisControl, Path=textF4}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF4}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F5: " textRight="{Binding ElementName=thisControl, Path=textF5}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF5}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F6: " textRight="{Binding ElementName=thisControl, Path=textF6}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF6}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F7: " textRight="{Binding ElementName=thisControl, Path=textF7}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF7}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F8: " textRight="{Binding ElementName=thisControl, Path=textF8}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF8}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F9: " textRight="{Binding ElementName=thisControl, Path=textF9}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF9}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F10: " textRight="{Binding ElementName=thisControl, Path=textF10}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF10}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F11: " textRight="{Binding ElementName=thisControl, Path=textF11}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF11}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="F12: " textRight="{Binding ElementName=thisControl, Path=textF12}" IsEnabled="{Binding ElementName=thisControl, Path=enabledF12}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="Enter: " textRight="{Binding ElementName=thisControl, Path=textEnter}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEnter}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="Delete: " textRight="{Binding ElementName=thisControl, Path=textDelete}" IsEnabled="{Binding ElementName=thisControl, Path=enabledDelete}"/>
+                <help:helperCtrlInfoShortcutsTextItem textLeft="Esc: " textRight="{Binding ElementName=thisControl, Path=textEsc}" IsEnabled="{Binding ElementName=thisControl, Path=enabledEsc}"/>
             </StackPanel>
         </StackPanel>
     </GroupBox>

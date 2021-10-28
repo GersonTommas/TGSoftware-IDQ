@@ -13,6 +13,7 @@ namespace IDQ.WPF.ViewModels.Main
 
         #region Properties
         public ObservableCollection<fechaModel> CollectionSourceFechas => context.globalAllFechas;
+        public ObservableCollection<conteoModel> CollectionSourceConteos => context.globalDb.conteos.Local.ToObservableCollection();
         #endregion // Properties
     }
 }

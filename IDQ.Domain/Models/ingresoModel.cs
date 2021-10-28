@@ -9,11 +9,11 @@ namespace IDQ.Domain.Models
     public class ingresoModel : Base.ModelBase
     {
         #region Variables
-        Decimal _PagadoPesos;
-        public Decimal PagadoPesos { get => _PagadoPesos; set { if (SetProperty(ref _PagadoPesos, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        //Decimal _PagadoPesos; // Deprecated
+        public Decimal PagadoPesos { get; private set; }// { get => _PagadoPesos; set { if (SetProperty(ref _PagadoPesos, Math.Round(value, 2))) { OnPropertyChanged(); } } } // Deprecated
 
-        Decimal _PagadoMP;
-        public Decimal PagadoMP { get => _PagadoMP; set { if (SetProperty(ref _PagadoMP, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        //Decimal _PagadoMP; // Deprecated
+        public Decimal PagadoMP { get; private set; } //{ get => _PagadoMP; set { if (SetProperty(ref _PagadoMP, Math.Round(value, 2))) { OnPropertyChanged(); } } } // Deprecated
 
         Decimal _PrecioTotal;
         public Decimal PrecioTotal { get => _PrecioTotal; set { if (SetProperty(ref _PrecioTotal, Math.Round(value, 2))) { OnPropertyChanged(); } } }
@@ -24,17 +24,18 @@ namespace IDQ.Domain.Models
         string _Detalle;
         public string Detalle { get => _Detalle; set { if (SetProperty(ref _Detalle, value)) { OnPropertyChanged(); } } }
 
-        public int UsuarioID { get; set; }
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
 
-        public int ProveedorID { get; set; }
         proveedorModel _Proveedor;
         public virtual proveedorModel Proveedor { get => _Proveedor; set { if (SetProperty(ref _Proveedor, value)) { OnPropertyChanged(); } } }
 
-        public int FechaID { get; set; }
         fechaModel _Fecha;
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
+
+        public int? CajaId { get; private set; }
+        cajaModel _Caja;
+        public virtual cajaModel Caja { get => _Caja; set { if (SetProperty(ref _Caja, value)) { OnPropertyChanged(); } } }
         #endregion // Variables
 
         #region Navigation
@@ -43,13 +44,13 @@ namespace IDQ.Domain.Models
 
 
         #region NotMapped
-        [NotMapped]
-        public int ingresosCantidadProductosPerIngreso => IngresoProductosPerIngreso.Count;
+        [NotMapped] // Deprecated
+        public int ingresosCantidadProductosPerIngreso => IngresoProductosPerIngreso.Count; // Deprecated
         #endregion // NotMapped
 
         public override void updateModel()
         {
-            PrecioTotal = IngresoProductosPerIngreso.Sum(x => x.PrecioActual * x.Cantidad);
+            PrecioTotal = IngresoProductosPerIngreso.Sum(x => x.PrecioPagado * x.Cantidad);
             base.updateModel();
         }
     }

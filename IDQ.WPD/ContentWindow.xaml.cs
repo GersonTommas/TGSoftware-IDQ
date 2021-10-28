@@ -2,7 +2,9 @@
 using IDQ.EntityFramework;
 using IDQ.WPF.States.Navigators;
 using IDQ.WPF.ViewModels;
+using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -59,9 +61,13 @@ namespace IDQ.WPF
 
         public ContentViewModel()
         {
-            mainNavigator.CurrentViewModel = new MainViewModel();
-            consumosNavigator.CurrentViewModel = new ConsumosViewModel();
-            logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator);
+            try
+            {
+                mainNavigator.CurrentViewModel = new MainViewModel();
+                consumosNavigator.CurrentViewModel = new ConsumosViewModel();
+                logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator);
+            }
+            catch { }
         }
         #endregion // Initialize
 
@@ -72,6 +78,8 @@ namespace IDQ.WPF
 
         #region Commands
         public Command buttonCommandCerrarSesion => new Command((object parameter) => logInNavigator.CurrentViewModel = new LogCajaViewModel(logInNavigator, true));
+
+        public Command buttonCommandExportar => new Command((object parameter) => { /*fechaModel fechaTest = context.globalDb.fechas.Single(x => x.Fecha == "2021/10/11"); Shared.GlobalVars.exportToExcel(fechaTest.CajasPerFecha, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\IDQ3", "excelTest.xlsx");*/ });
         #endregion // Commands
     }
 }

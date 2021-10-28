@@ -29,15 +29,12 @@ namespace IDQ.Domain.Models
         bool _Activo;
         public bool Activo { get => _Activo; set { if (SetProperty(ref _Activo, value)) { OnPropertyChanged(); } } }
 
-        public int? FechaModificadoID { get; set; }
         fechaModel _FechaModificado;
         public virtual fechaModel FechaModificado { get => _FechaModificado; set { if (SetProperty(ref _FechaModificado, value)) { OnPropertyChanged(); } } }
 
-        public int TagID { get; set; }
         tagModel _Tag;
         public virtual tagModel Tag { get => _Tag; set { if (SetProperty(ref _Tag, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(stockVsMinimo)); } } }
 
-        public int MedidaID { get; set; }
         medidaModel _Medida;
         public virtual medidaModel Medida { get => _Medida; set { if (SetProperty(ref _Medida, value)) { OnPropertyChanged(); } } }
         #endregion // Variables

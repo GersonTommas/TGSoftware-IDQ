@@ -122,6 +122,22 @@ namespace IDQ.EntityFramework.Updates
                         {
                             subitem.Fecha = newFecha;
                         }
+                        item.Fecha = "1111/11/11";
+                    }
+                }
+            }
+
+            foreach (ingresoModel item in context.globalDb.ingresos.Local.ToObservableCollection())
+            {
+                if (item.PagadoMP > 0 || item.PagadoPesos > 0)
+                {
+                    decimal tempVuelto = item.PagadoPesos + item.PagadoMP - item.PrecioTotal;
+
+                    item.Caja = new cajaModel() { Fecha = item.Fecha, Hora = item.Hora, Efectivo = item.PagadoPesos, MercadoPago = item.PagadoMP, isCredito = true };
+
+                    if (tempVuelto > 0)
+                    {
+                        item.Caja.Vuelto = tempVuelto;
                     }
                 }
             }

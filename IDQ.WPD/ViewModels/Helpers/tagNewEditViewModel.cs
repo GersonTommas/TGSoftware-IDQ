@@ -51,7 +51,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                 if (_newProducto is not null) { _newProducto.Tag = newTag; Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
                 else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
-            else { Shared.GlobalVars.messageError.Existencia(); }
+            else { Shared.GlobalErrors.Existencia(); }
         }
 
         void helperGuardarEdit()
@@ -69,7 +69,7 @@ namespace IDQ.WPF.ViewModels.Helpers
                 if (_newProducto is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
                 else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
-            else { Shared.GlobalVars.messageError.Existencia(); }
+            else { Shared.GlobalErrors.Existencia(); }
         }
 
         tagModel findCompare()

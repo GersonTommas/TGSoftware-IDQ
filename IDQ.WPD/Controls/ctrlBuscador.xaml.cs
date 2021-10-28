@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace IDQ.WPF.Controls
 {
@@ -70,35 +71,6 @@ namespace IDQ.WPF.Controls
 
 
 
-        #region Filters
-        void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            /*
-            productoModel item = sender as productoModel;
-
-            if (hasStockOption)
-            {
-                if (stockTripleOption)
-                {
-                    if (localBoolConStockTriple == true && item.Stock < 1) { e.Accepted = false; }
-                    else if (localBoolConStockTriple == false && item.Stock > 0) { e.Accepted = false; }
-                }
-                else
-                {
-                    if (localBoolConStock && item.Stock < 1) { e.Accepted = false; }
-                }
-            }
-
-            if (localBoolDescripcionCodigo)
-            { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !item.Descripcion.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { e.Accepted = false; } }
-            else { if (!String.IsNullOrWhiteSpace(localStringToSearch) && !item.Codigo.Contains(localStringToSearch, StringComparison.OrdinalIgnoreCase)) { e.Accepted = false; } }
-            */
-            e.Accepted = true;
-        }
-        #endregion // Filters
-
-
-
         #region Local
         readonly CollectionViewSource _localCollectionSourceProductos = new CollectionViewSource() { Source = context.globalAllProductos };
         public ICollectionView localCollectionViewSourceProductos => _localCollectionSourceProductos.View;
@@ -108,7 +80,7 @@ namespace IDQ.WPF.Controls
         public string localStringToSearch { get => _localStringToSearch; set { if (_localStringToSearch != value) { _localStringToSearch = value; OnPropChanged(); searchTimerRestart(); } } }
 
         bool _localBoolDescripcionCodigo = true;
-        public bool localBoolDescripcionCodigo { get => _localBoolDescripcionCodigo; set { if (_localBoolDescripcionCodigo != value) { _localBoolDescripcionCodigo = value; OnPropChanged(); OnPropChanged(nameof(localButtonContentDescripcion)); } } }
+        public bool localBoolDescripcionCodigo { get => _localBoolDescripcionCodigo; set { if (_localBoolDescripcionCodigo != value) { _localBoolDescripcionCodigo = value; OnPropChanged(); OnPropChanged(nameof(localButtonContentDescripcion)); searchTimerRestart(); } } }
 
         bool? _localBoolConStock;
         public bool? localBoolConStock { get => _localBoolConStock; set { if (_localBoolConStock != value) { _localBoolConStock = value; OnPropChanged(); OnPropChanged(nameof(localStockContent)); searchTimerRestart(); } } }
@@ -156,7 +128,8 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty DGEnterCommandProperty = DependencyProperty.Register("DGEnterCommand", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
         public static readonly DependencyProperty DGF5CommandProperty = DependencyProperty.Register("DGF5Command", typeof(Command), typeof(ctrlBuscador), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty DGSelectedProductoProperty = DependencyProperty.Register("DGSelectedProducto", typeof(productoModel), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
+        public static readonly DependencyProperty DGSelectedProductoProperty = DependencyProperty.Register("DGSelectedProducto", typeof(productoModel), typeof(ctrlBuscador), new PropertyMetadata(null));
+        //public static readonly DependencyProperty DGSelectedProductoProperty = DependencyProperty.Register("DGSelectedProducto", typeof(productoModel), typeof(ctrlBuscador), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null, false, UpdateSourceTrigger.PropertyChanged));
         #endregion // Properties
 
 

@@ -14,7 +14,6 @@ namespace IDQ.Domain.Models
         String _AñoMes;
         public String AñoMes { get => _AñoMes; set { if (SetProperty(ref _AñoMes, Convert.ToDateTime(value).ToString("yyyy/MM"))) { OnPropertyChanged(); } } }
 
-        public int UsuarioID { get; set; }
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
         #endregion // Public

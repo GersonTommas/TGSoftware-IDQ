@@ -15,19 +15,18 @@ namespace IDQ.Domain.Models
         String _Hora;
         public String Hora { get => _Hora; set { if (SetProperty(ref _Hora, Convert.ToDateTime(value).ToString("HH:mm:ss"))) { OnPropertyChanged(); } } }
 
-        public int FechaSacadoID { get; set; }
+        public int FechaSacadoId { get; private set; }
         fechaModel _FechaSacado;
         public virtual fechaModel FechaSacado { get => _FechaSacado; set { if (SetProperty(ref _FechaSacado, value)) { OnPropertyChanged(); } } }
 
-        public int? FechaPagadoID { get; set; }
+        public int? FechaPagadoId { get; private set; }
         fechaModel _FechaPagado;
         public virtual fechaModel FechaPagado { get => _FechaPagado; set { if (SetProperty(ref _FechaPagado, value)) { OnPropertyChanged(); } } }
 
-        public int DeudorID { get; set; }
         deudorModel _Deudor;
         public virtual deudorModel Deudor { get => _Deudor; set { if (SetProperty(ref _Deudor, value)) { OnPropertyChanged(); } } }
 
-        public int VentaID { get; set; }
+        public int VentaId { get; private set; }
         ventaModel _Venta;
         public virtual ventaModel Venta { get => _Venta; set { if (SetProperty(ref _Venta, value)) { OnPropertyChanged(); } } }
         #endregion // Variables

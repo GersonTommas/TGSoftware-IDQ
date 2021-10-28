@@ -6,11 +6,16 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views.Helpers"
              xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Helpers"
+             xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              Height="100" d:DesignWidth="800">
     <d:UserControl.DataContext>
         <viewmodel:pagarCompraViewModel/>
     </d:UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding controlCommandGuardar}"/>
+        <KeyBinding Key="Esc" Command="{Binding controlCommandCancelar}"/>
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionViewSourceProveedores" Source="{Binding sourceCollectionProveedores}">
             <CollectionViewSource.SortDescriptions>
@@ -21,13 +26,39 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Label Content="Proveedor:" VerticalAlignment="Center" Grid.Column="0"/>
-        <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceProveedores}}" VerticalAlignment="Center" Grid.Column="1"/>
-        <Button Content="Nuevo Proveedor" Grid.Column="2"/>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Proveedor:" VerticalAlignment="Center" Grid.Column="0"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceProveedores}}" DisplayMemberPath="Nombre" SelectedItem="{Binding selectedProveedor}" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button Content="Nuevo Proveedor" Grid.Column="2" Visibility="Collapsed"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ctrls:ctrlTextBox text="{Binding Total}" labelContent="Total:" isReadOnly="True" Grid.Column="0"/>
+            <ctrls:ctrlTextBox text="{Binding Efectivo}" isMaster="True" labelContent="Efectivo:" inputType="2" Grid.Column="1"/>
+            <ctrls:ctrlTextBox text="{Binding MercadoPago}" labelContent="MP:" inputType="2" Grid.Column="2"/>
+            <ctrls:ctrlTextBox text="{Binding Vuelto, Mode=OneWay}" labelContent="Vuelto:" isReadOnly="True" Grid.Column="3"/>
+        </Grid>
+
+        <ctrls:ctrlInfoShortcuts textF1="Guardar" textEsc="Cancelar" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

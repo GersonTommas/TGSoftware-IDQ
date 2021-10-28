@@ -11,7 +11,7 @@ namespace IDQ.WPF.Controls
     public partial class ctrlInfoShortcuts : UserControl, INotifyPropertyChanged
     {
         #region Initialize
-        public ctrlInfoShortcuts() { InitializeComponent(); this.DataContext = this; }
+        public ctrlInfoShortcuts() { InitializeComponent(); DataContext = this; }
         #endregion // Initialize
 
 
@@ -30,6 +30,16 @@ namespace IDQ.WPF.Controls
         public bool enabledF6 { get => (bool)GetValue(enabledF6Property); set { SetValue(enabledF6Property, value); OnPropChanged(); } }
         public string textF7 { get => (string)GetValue(textF7Property); set { SetValue(textF7Property, value); OnPropChanged(); } }
         public bool enabledF7 { get => (bool)GetValue(enabledF7Property); set { SetValue(enabledF7Property, value); OnPropChanged(); } }
+        public string textF8 { get => (string)GetValue(textF8Property); set { SetValue(textF8Property, value); OnPropChanged(); } }
+        public bool enabledF8 { get => (bool)GetValue(enabledF8Property); set { SetValue(enabledF8Property, value); OnPropChanged(); } }
+        public string textF9 { get => (string)GetValue(textF9Property); set { SetValue(textF9Property, value); OnPropChanged(); } }
+        public bool enabledF9 { get => (bool)GetValue(enabledF9Property); set { SetValue(enabledF9Property, value); OnPropChanged(); } }
+        public string textF10 { get => (string)GetValue(textF10Property); set { SetValue(textF10Property, value); OnPropChanged(); } }
+        public bool enabledF10 { get => (bool)GetValue(enabledF10Property); set { SetValue(enabledF10Property, value); OnPropChanged(); } }
+        public string textF11 { get => (string)GetValue(textF11Property); set { SetValue(textF11Property, value); OnPropChanged(); } }
+        public bool enabledF11 { get => (bool)GetValue(enabledF11Property); set { SetValue(enabledF11Property, value); OnPropChanged(); } }
+        public string textF12 { get => (string)GetValue(textF12Property); set { SetValue(textF12Property, value); OnPropChanged(); } }
+        public bool enabledF12 { get => (bool)GetValue(enabledF12Property); set { SetValue(enabledF12Property, value); OnPropChanged(); } }
         public string textEnter { get => (string)GetValue(textEnterProperty); set { SetValue(textEnterProperty, value); OnPropChanged(); } }
         public bool enabledEnter { get => (bool)GetValue(enabledEnterProperty); set { SetValue(enabledEnterProperty, value); OnPropChanged(); } }
         public string textDelete { get => (string)GetValue(textDeleteProperty); set { SetValue(textDeleteProperty, value); OnPropChanged(); } }
@@ -53,6 +63,16 @@ namespace IDQ.WPF.Controls
         public static readonly DependencyProperty enabledF6Property = DependencyProperty.Register("enabledF6", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
         public static readonly DependencyProperty textF7Property = DependencyProperty.Register("textF7", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
         public static readonly DependencyProperty enabledF7Property = DependencyProperty.Register("enabledF7", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
+        public static readonly DependencyProperty textF8Property = DependencyProperty.Register("textF8", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty enabledF8Property = DependencyProperty.Register("enabledF8", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
+        public static readonly DependencyProperty textF9Property = DependencyProperty.Register("textF9", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty enabledF9Property = DependencyProperty.Register("enabledF9", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
+        public static readonly DependencyProperty textF10Property = DependencyProperty.Register("textF10", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty enabledF10Property = DependencyProperty.Register("enabledF10", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
+        public static readonly DependencyProperty textF11Property = DependencyProperty.Register("textF11", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty enabledF11Property = DependencyProperty.Register("enabledF11", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
+        public static readonly DependencyProperty textF12Property = DependencyProperty.Register("textF12", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
+        public static readonly DependencyProperty enabledF12Property = DependencyProperty.Register("enabledF12", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
         public static readonly DependencyProperty textEnterProperty = DependencyProperty.Register("textEnter", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));
         public static readonly DependencyProperty enabledEnterProperty = DependencyProperty.Register("enabledEnter", typeof(bool), typeof(ctrlInfoShortcuts), new PropertyMetadata(true));
         public static readonly DependencyProperty textDeleteProperty = DependencyProperty.Register("textDelete", typeof(string), typeof(ctrlInfoShortcuts), new PropertyMetadata(null));

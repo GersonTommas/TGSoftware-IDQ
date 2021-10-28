@@ -106,7 +106,7 @@ namespace IDQ.WPF.ViewModels
                     {
                         if (MessageBox.Show("Hay una caja abierta para el usuario " + selectedUser.Usuario + ". Desea cerrarla y abrir una nueva?", "Caja Abierta", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _Hora = Shared.GlobalVars.strHora;
+                            fechaModel _fecha = Shared.GlobalVars.returnFecha(); String _Hora = globalStringHora;
 
                             tempConteo.CajaSalida = new pseudoCajaModel()
                             {
@@ -210,7 +210,7 @@ namespace IDQ.WPF.ViewModels
                 //newCajaConteo.Usuario = selectedUser;
                 isLoginIn = false;
             }
-            else { Shared.GlobalVars.messageError.LogIn(); if (sender is not null) { ((PasswordBox)sender).SelectAll(); } }
+            else { Shared.GlobalErrors.LogIn(); if (sender is not null) { ((PasswordBox)sender).SelectAll(); } }
         }
 
         void helperSaltear()
@@ -234,7 +234,7 @@ namespace IDQ.WPF.ViewModels
 
         void helperGuardar()
         {
-            fechaModel _fechaActual = Shared.GlobalVars.returnFecha(); String _HoraActual = Shared.GlobalVars.strHora;
+            fechaModel _fechaActual = Shared.GlobalVars.returnFecha(); String _HoraActual = globalStringHora;
 
             if (isCajaCierre)
             {

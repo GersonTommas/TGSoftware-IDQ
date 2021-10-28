@@ -49,12 +49,12 @@ namespace IDQ.WPF.ViewModels.Helpers
             {
                 _ = context.globalDb.medidas.Add(newMedida);
                 _ = context.globalDb.SaveChanges();
-                Shared.GlobalVars.messageError.Guardado();
+                Shared.GlobalErrors.Guardado();
 
                 if (_newEditProducto is not null) { _newEditProducto.Medida = newMedida; Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
                 else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
-            else { Shared.GlobalVars.messageError.Existencia(); }
+            else { Shared.GlobalErrors.Existencia(); }
         }
 
         void helperGuardarEdit()
@@ -65,12 +65,12 @@ namespace IDQ.WPF.ViewModels.Helpers
             {
                 _editMedida.Activo = newMedida.Activo; _editMedida.Medida = newMedida.Medida;
                 _ = context.globalDb.SaveChanges();
-                Shared.GlobalVars.messageError.Guardado();
+                Shared.GlobalErrors.Guardado();
 
                 if (_newEditProducto is not null) { Shared.Navigators.ProductoTagMedidaNavigator.updateNavigator(null); }
                 else { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
             }
-            else { Shared.GlobalVars.messageError.Existencia(); }
+            else { Shared.GlobalErrors.Existencia(); }
         }
 
         medidaModel findCompare()

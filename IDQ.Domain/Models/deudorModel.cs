@@ -21,7 +21,6 @@ namespace IDQ.Domain.Models
         string _Detalles;
         public string Detalles { get => _Detalles; set { if (SetProperty(ref _Detalles, value)) { OnPropertyChanged(); } } }
 
-        public int UsuarioID { get; set; }
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
         #endregion // Variables

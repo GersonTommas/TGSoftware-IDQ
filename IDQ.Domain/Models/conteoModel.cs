@@ -11,11 +11,11 @@ namespace IDQ.Domain.Models
         fechaModel _Fecha;
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
-        public int? CajaEntradaId { get; set; }
+        public int? CajaEntradaId { get; private set; }
         pseudoCajaModel _CajaEntrada;
         public virtual pseudoCajaModel CajaEntrada { get => _CajaEntrada; set { if (SetProperty(ref _CajaEntrada, value)) { OnPropertyChanged(); } } }
 
-        public int? CajaSalidaId { get; set; }
+        public int? CajaSalidaId { get; private set; }
         pseudoCajaModel _CajaSalida;
         public virtual pseudoCajaModel CajaSalida { get => _CajaSalida; set { if (SetProperty(ref _CajaSalida, value)) { OnPropertyChanged(); } } }
         #endregion // Properties

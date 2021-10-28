@@ -64,7 +64,7 @@ namespace IDQ.WPF.ViewModels
                 newVentaProducto.Producto = null;
                 if (!string.IsNullOrWhiteSpace(_failedCodigo) && _failedCodigo.ToLower() == _tempInputCodigo.ToLower())
                 {
-                    if (Shared.GlobalVars.messageError.NewProduct())
+                    if (Shared.GlobalErrors.NewProduct())
                     {
                         Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.productoNewEditViewModel(_tempInputCodigo));
                     }
@@ -82,7 +82,8 @@ namespace IDQ.WPF.ViewModels
             ventaProductoModel duplicate = null;
 
             try
-            { duplicate = newVenta.VentaProductosPerVenta.Single(x => x.Producto == newVentaProducto.Producto); } catch { }
+            { duplicate = newVenta.VentaProductosPerVenta.Single(x => x.Producto == newVentaProducto.Producto); }
+            catch { }
 
             if (duplicate is not null)
             {
@@ -113,7 +114,7 @@ namespace IDQ.WPF.ViewModels
         {
             Shared.Navigators.ContentTopNavigator.updateNavigator(new Helpers.pagarVentaViewModel(this));
         }
-        
+
         public void helperGuardarVenta(cajaModel sentCaja, deudorModel sentDeudor, bool isPagarDeuda)
         {
             newVenta.Caja = sentCaja;
@@ -201,7 +202,7 @@ namespace IDQ.WPF.ViewModels
 
         void helperGuardarVentaEfectivoExacto()
         {
-            newVenta.Caja = new cajaModel() { Efectivo = newVenta.PrecioTotal, Fecha = Shared.GlobalVars.returnFecha(), Hora = Shared.GlobalVars.strHora, MercadoPago = 0, Vuelto = 0 };
+            newVenta.Caja = new cajaModel() { Efectivo = newVenta.PrecioTotal, Fecha = Shared.GlobalVars.returnFecha(), Hora = globalStringHora, MercadoPago = 0, Vuelto = 0 };
             newVenta.Deudor = null;
 
             internalContabilizarVenta(true);

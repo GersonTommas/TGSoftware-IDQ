@@ -71,6 +71,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
                         <Label Content="{Binding testString}"/>
+                        <Button Content="Export" VerticalAlignment="Center" Command="{Binding buttonCommandExportar}"/>
                         <ctrls:ctrlClock hasSeconds="True" has24hours="True" FontSize="30" />
                     </StackPanel>
                 </Grid>
@@ -120,7 +121,7 @@
                             <views:VentasView/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Venta 2">
+                    <TabItem Header="Venta 2" Background="Red">
                         <Grid>
                             <views:VentasView/>
                         </Grid>

@@ -36,7 +36,7 @@ namespace IDQ.WPF.ViewModels.Helpers
         void helperGuardar()
         {
             fechaModel tempToday = Shared.GlobalVars.returnFecha();
-            String tempNow = Shared.GlobalVars.strHora;
+            String tempNow = globalStringHora;
 
             Decimal tempVuelto = Deudor.updatePagarAllDeudas(Efectivo + MercadoPago + Deudor.Resto, tempToday);
 

@@ -12,19 +12,17 @@ namespace IDQ.Domain.Models
         Decimal _Precio;
         public Decimal Precio { get => _Precio; set { if (SetProperty(ref _Precio, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PrecioTotal)); } } }
 
-        public int ProductoID { get; set; }
         productoModel _Producto;
         public virtual productoModel Producto { get => _Producto; set { if (SetProperty(ref _Producto, value)) { OnPropertyChanged(); } } }
 
-        public int UsuarioID { get; set; }
         usuarioModel _Usuario;
         public virtual usuarioModel Usuario { get => _Usuario; set { if (SetProperty(ref _Usuario, value)) { OnPropertyChanged(); } } }
 
-        public int FechaSacadoID { get; set; }
+        public int FechaSacadoId { get; private set; }
         fechaModel _FechaSacado;
         public virtual fechaModel FechaSacado { get => _FechaSacado; set { if (SetProperty(ref _FechaSacado, value)) { OnPropertyChanged(); } } }
 
-        public int? FechaPagadoID { get; set; }
+        public int? FechaPagadoId { get; private set; }
         fechaModel _FechaPagado;
         public virtual fechaModel FechaPagado { get => _FechaPagado; set { if (SetProperty(ref _FechaPagado, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(BolPagado)); } } }
         #endregion // Variables

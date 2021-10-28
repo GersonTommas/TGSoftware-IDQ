@@ -74,7 +74,7 @@ namespace IDQ.WPF
             thisWindow.DialogResult = true;
         }
 
-        bool checkGuardar => cantidadVisibility == Visibility.Visible ? Cantidad > 0 : false;
+        bool checkGuardar => cantidadVisibility == Visibility.Visible && Cantidad > 0;
         #endregion Helpers
 
 
@@ -94,7 +94,7 @@ namespace IDQ.WPF
             (object parameter) => Cantidad > 0);
 
         public Command resultCommandPrecioVenta => new Command(
-            (object parameter) => { },
+            (object parameter) => { (thisWindow as HelperWindow).cantidad = Cantidad; (thisWindow as HelperWindow).precioCompra = PrecioCompra; (thisWindow as HelperWindow).precioVenta = PrecioVenta; thisWindow.DialogResult = true; },
             (object parameter) => Cantidad > 0 && PrecioCompra >= 0 && PrecioVenta > 0);
 
         public Command cancelCommand => new Command((object parameter) => thisWindow.DialogResult = false);

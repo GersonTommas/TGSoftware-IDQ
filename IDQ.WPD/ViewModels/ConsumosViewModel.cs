@@ -19,7 +19,7 @@ namespace IDQ.WPF.ViewModels
 
         #region Variables
         public ObservableCollection<fechaModel> sourceCollectionFechas => context.globalAllFechas;
-        public fechaModel fechaActual = Shared.GlobalVars.returnFecha();
+        //public fechaModel fechaActual = Shared.GlobalVars.returnFecha();
 
         string _strCodigoFailed;
         int _intCodigoFailedCount;
@@ -50,7 +50,7 @@ namespace IDQ.WPF.ViewModels
                 {
                     if (_intCodigoFailedCount >= 1)
                     {
-                        if (Shared.GlobalVars.messageError.NewProduct())
+                        if (Shared.GlobalErrors.NewProduct())
                         {/*
                             if (gOpenAddProducto(strCodigo))*/
                             {

@@ -3,14 +3,16 @@ using System;
 using IDQ.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IDQ.EntityFramework.Migrations
 {
     [DbContext(typeof(IDQDbContext))]
-    partial class IDQDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211025030102_TEST-Update-RemoveIDs")]
+    partial class TESTUpdateRemoveIDs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,9 +363,6 @@ namespace IDQ.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CajaId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Detalle")
                         .HasColumnType("TEXT");
 
@@ -389,9 +388,6 @@ namespace IDQ.EntityFramework.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CajaId")
-                        .IsUnique();
 
                     b.HasIndex("FechaId");
 
@@ -1131,10 +1127,6 @@ namespace IDQ.EntityFramework.Migrations
 
             modelBuilder.Entity("IDQ.Domain.Models.ingresoModel", b =>
                 {
-                    b.HasOne("IDQ.Domain.Models.cajaModel", "Caja")
-                        .WithOne("IngresoForCaja")
-                        .HasForeignKey("IDQ.Domain.Models.ingresoModel", "CajaId");
-
                     b.HasOne("IDQ.Domain.Models.fechaModel", "Fecha")
                         .WithMany("IngresosPerFecha")
                         .HasForeignKey("FechaId");
@@ -1146,8 +1138,6 @@ namespace IDQ.EntityFramework.Migrations
                     b.HasOne("IDQ.Domain.Models.usuarioModel", "Usuario")
                         .WithMany("IngresosPerUsuario")
                         .HasForeignKey("UsuarioId");
-
-                    b.Navigation("Caja");
 
                     b.Navigation("Fecha");
 
@@ -1420,8 +1410,6 @@ namespace IDQ.EntityFramework.Migrations
                     b.Navigation("CajaConteoForCaja");
 
                     b.Navigation("DeudorPagosPerCaja");
-
-                    b.Navigation("IngresoForCaja");
 
                     b.Navigation("RetirosCajaPerCaja");
 

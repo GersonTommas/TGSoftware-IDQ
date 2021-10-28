@@ -7,7 +7,7 @@ namespace IDQ.Domain.Models
 {
     public class cajaModel : Base.ModelBase
     {
-        #region Variables
+        #region Properties
         Decimal _Efectivo;
         public Decimal Efectivo { get => _Efectivo; set { if (SetProperty(ref _Efectivo, Math.Round(value, 2))) { OnPropertyChanged(); privUpdateVenta(); } } }
 
@@ -20,15 +20,24 @@ namespace IDQ.Domain.Models
         String _Hora;
         public String Hora { get => _Hora; set { if (SetProperty(ref _Hora, Convert.ToDateTime(value).ToString("HH:mm:ss"))) { OnPropertyChanged(); } } }
 
-        public int FechaID { get; set; }
         fechaModel _Fecha;
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
+        bool _isCredito;
+        public bool isCredito { get => _isCredito; set { if (SetProperty(ref _isCredito, value)) { OnPropertyChanged(); } } }
+        #endregion // Properties
+
+
+
+        #region Navigation
         ventaModel _VentaForCaja;
         public virtual ventaModel VentaForCaja { get => _VentaForCaja; set { if (SetProperty(ref _VentaForCaja, value)) { OnPropertyChanged(); } } }
 
         deudorModel _DeudorForCaja;
         public virtual deudorModel DeudorForCaja { get => _DeudorForCaja; set { if (SetProperty(ref _DeudorForCaja, value)) { OnPropertyChanged(); } } }
+
+        ingresoModel _ingresoForCaja;
+        public virtual ingresoModel IngresoForCaja { get => _ingresoForCaja; set { if (SetProperty(ref _ingresoForCaja, value)) { OnPropertyChanged(); } } }
 
         cajaConteoModel _CajaConteoForCaja;
         [InverseProperty(nameof(cajaConteoModel.Caja))]
@@ -36,26 +45,13 @@ namespace IDQ.Domain.Models
         cajaConteoModel _CajaConteoCierreForCaja;
         [InverseProperty(nameof(cajaConteoModel.CajaCierre))]
         public virtual cajaConteoModel CajaConteoCierreForCaja { get => _CajaConteoCierreForCaja; set { if (SetProperty(ref _CajaConteoCierreForCaja, value)) { OnPropertyChanged(); } } }
-        #endregion // Variables
 
-
-        #region Navigation
+        
         public virtual ICollection<ventaProductoModel> VentaProductosPerCaja { get; private set; } = new ObservableCollection<ventaProductoModel>();
         public virtual ICollection<retiroCajaModel> RetirosCajaPerCaja { get; private set; } = new ObservableCollection<retiroCajaModel>();
         public virtual ICollection<deudorPagoModel> DeudorPagosPerCaja { get; private set; } = new ObservableCollection<deudorPagoModel>();
         #endregion // Navigation
 
-
-        #region Helpers
-        void privUpdateVenta()
-        {
-            if (VentaForCaja is not null)
-            {
-                OnPropertyChanged(nameof(doubleEfectivoTotal));
-                OnPropertyChanged(nameof(doubleTotalTotal));
-            }
-        }
-        #endregion // Helpers
 
 
         #region NotMapped
@@ -66,9 +62,20 @@ namespace IDQ.Domain.Models
         #endregion // NotMapped
 
 
+        #region Update
         public override void updateModel()
         {
             base.updateModel();
         }
+
+        void privUpdateVenta()
+        {
+            if (VentaForCaja is not null)
+            {
+                OnPropertyChanged(nameof(doubleEfectivoTotal));
+                OnPropertyChanged(nameof(doubleTotalTotal));
+            }
+        }
+        #endregion // Update
     }
 }

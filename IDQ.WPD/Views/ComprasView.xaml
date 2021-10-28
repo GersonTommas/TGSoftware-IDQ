@@ -8,9 +8,13 @@
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <d:UserControl.DataContext>
+    <UserControl.DataContext>
         <viewmodel:ComprasViewModel/>
-    </d:UserControl.DataContext>
+    </UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding ControlCommandGuardarIngreso}"/>
+        <KeyBinding Key="F4" Command="{Binding ControlCommandNuevoProducto}"/>
+    </UserControl.InputBindings>
     
     
     <Grid>
@@ -23,9 +27,156 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ctrls:ctrlBuscador hasStockOption="True" hasActivoOption="True" hasCantidadIngresado="True" Grid.Column="0" Grid.Row="0"/>
+        <TabControl Grid.Column="0" Grid.Row="0">
+            <TabItem Header="Buscador">
 
-        <ctrls:ctrlTextBox text="{Binding newIngreso.PrecioTotal}" labelContent="Gastado:" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Buscador" Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="{Binding buscButtonContent}" Command="{Binding buscButtonCommand}" VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding buscStringToSearch}" Width="200" VerticalAlignment="Center">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding buscIsOnlyOneCommand}"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <CheckBox Content="{Binding buscCheckBoxStockContent}" IsChecked="{Binding buscCheckBoxStockIsChecked}" IsThreeState="True" VerticalAlignment="Center"/>
+                            <CheckBox Content="{Binding buscCheckBoxIsActivoContent}" IsChecked="{Binding buscCheckBoxIsActivoIsChecked}" IsThreeState="True" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <DataGrid KeyboardNavigation.TabNavigation="None" Focusable="True" IsTabStop="True" ItemsSource="{Binding buscCollectionViewSourceProductos}" SelectedItem="{Binding buscDGSelectedProducto}" IsSynchronizedWithCurrentItem="True" RowStyle="{StaticResource stockGridRow}" Grid.Row="1" Margin="5,5,5,5">
+                        <DataGrid.InputBindings>
+                            <KeyBinding Key="Backspace" Command="{Binding ctrlBuscadorDeleteCommand}"/>
+                            <KeyBinding Key="Delete" Command="{Binding ctrlBuscadorDeleteCommand}"/>
+                            <KeyBinding Key="Return" CommandParameter="{Binding ElementName=dataGridProducts, Path=SelectedItem}" Command="{Binding ctrlBuscadorAddCommand}" />
+                        </DataGrid.InputBindings>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CellStyle="{StaticResource dataGridColumnActivo}"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle>
+                                            <Rectangle.Style>
+                                                <Style TargetType="{x:Type Rectangle}" BasedOn="{StaticResource ColourRectangle}">
+                                                    <Setter Property="Fill" Value="{StaticResource AgregadoForeground}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CantidadIngresado}" Value="0">
+                                                            <Setter Property="Fill" Value="Transparent" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Width="100" Header="Código" Binding="{Binding Codigo}" />
+                            <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Descripcion}" />
+                            <DataGridTextColumn MinWidth="60" Width="auto" Header="Medida" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Medida.fullMedida}" />
+                            <DataGridTextColumn MinWidth="50" Header="Stock" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Stock}" />
+                            <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Precio" SortMemberPath="PrecioActual">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="15,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="$" Grid.Column="0"/>
+                                            <TextBlock Text="{Binding PrecioActual}" HorizontalAlignment="Right" Grid.Column="1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn MinWidth="100" Width="auto" Header="Tag" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Tag.Tag}" />
+                            <DataGridTextColumn MinWidth="60" Width="auto" Header="Ingresado" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadIngresado, Mode=OneWay, Converter={StaticResource CeroIsNothingConverter}}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Compra">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ctrls:ctrlTextBox isMaster="True" text="{Binding listInputCodigo}" labelContent="Código" enterCommand="{Binding textBoxCommandFindProducto}" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="0"/>
+                        <ctrls:ctrlTextBox text="{Binding listNewIngresoProducto.Producto.Descripcion, Mode=OneWay}" labelContent="Descripción" isReadOnly="True" textAlignment="Left" isHeaderTop="True" isCurrency="False" Grid.Column="1"/>
+                        <ctrls:ctrlTextBox text="{Binding listNewIngresoProducto.Cantidad}" labelContent="Cantidad" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" textAlignment="Center" isHeaderTop="True" isCurrency="False" Grid.Column="2"/>
+                        <ctrls:ctrlTextBox text="{Binding listNewIngresoProducto.PrecioPagado, Mode=OneWay}" labelContent="Precio Compra" isHeaderTop="True" Grid.Column="3"/>
+                        <ctrls:ctrlTextBox text="{Binding listNewIngresoProducto.PrecioActual, Mode=OneWay}" enterCommand="{Binding listAgregarIngresoProducto}" labelContent="Precio Venta" isHeaderTop="True" Grid.Column="4"/>
+                    </Grid>
+
+                    <DataGrid KeyboardNavigation.TabNavigation="None" Focusable="True" IsTabStop="True" ItemsSource="{Binding newIngreso.IngresoProductosPerIngreso}" SelectedItem="{Binding listSelectedIngresoProducto}" IsSynchronizedWithCurrentItem="True" RowStyle="{StaticResource stockGridRow}" Grid.Row="1" Margin="5,5,5,5">
+                        <DataGrid.InputBindings>
+                            <KeyBinding Key="Backspace" Command="{Binding listDeleteCommand}"/>
+                            <KeyBinding Key="Delete" Command="{Binding listDeleteCommand}"/>
+                        </DataGrid.InputBindings>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CellStyle="{StaticResource dataGridColumnActivo}"/>
+                            <DataGridTextColumn Width="60" Header="Código" Binding="{Binding Producto.Codigo}" />
+                            <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding Producto.Descripcion}" />
+                            <DataGridTextColumn MinWidth="60" Width="auto" Header="Medida" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Producto.Medida.fullMedida}" />
+                            <DataGridTextColumn MinWidth="60" Width="auto" Header="Tag" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Producto.Tag.fullTag}" />
+                            <DataGridTextColumn MinWidth="50" Header="Stock" ElementStyle="{StaticResource TextCenter}" Binding="{Binding Producto.Stock}" />
+                            <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Compra" SortMemberPath="PrecioActual">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="15,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="$" Grid.Column="0"/>
+                                            <TextBlock Text="{Binding PrecioPagado}" HorizontalAlignment="Right" Grid.Column="1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn MinWidth="70" Width="auto" Header="Actual" SortMemberPath="PrecioActual">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="15,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="$" Grid.Column="0"/>
+                                            <TextBlock Text="{Binding PrecioActual}" HorizontalAlignment="Right" Grid.Column="1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn MinWidth="60" Width="auto" Header="Ingresado" ElementStyle="{StaticResource TextCenter}" Binding="{Binding CantidadIngresado, Mode=OneWay, Converter={StaticResource CeroIsNothingConverter}}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+        <!--ctrls:ctrlBuscador DGSelectedProducto="{Binding selectedProducto}" DGEnterCommand="{Binding ctrlBuscadorAddCommand}" DGDeleteCommand="{Binding ctrlBuscadorDeleteCommand}" DGBackspaceCommand="{Binding ctrlBuscadorDeleteCommand}" hasStockOption="True" hasActivoOption="True" hasCantidadIngresado="True" Grid.Column="0" Grid.Row="0"/-->
+
+        <Label Content="{Binding selectedProducto.Descripcion}" Grid.Column="0" Grid.Row="1"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">
+            <ctrls:ctrlTextBox text="{Binding newIngreso.IngresoProductosPerIngreso.Count, Mode=OneWay}" isReadOnly="True" labelContent="Productos:"/>
+            <ctrls:ctrlTextBox text="{Binding newIngreso.PrecioTotal, Mode=OneWay}" isReadOnly="True" labelContent="Gastado:"/>
+        </StackPanel>
 
         
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
@@ -35,7 +186,7 @@
                 <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
             
-            <ctrls:ctrlInfoShortcuts textF1="Guardar" textEnter="Agregar" textDelete="Quitar" textEsc="Cancelar" Grid.Row="0" />
+            <ctrls:ctrlInfoShortcuts textF1="Guardar" textF4="Nuevo Producto" textEnter="Agregar" textDelete="Quitar" Grid.Row="0" />
 
 
             <ctrls:ctrlInfoColors isActivoFullLine="False" hasActivoInactivo="True" hasActiveAndStock="True" hasMiddleColors="True" Grid.Row="2" />

@@ -46,7 +46,7 @@ namespace IDQ.WPF.ViewModels.Helpers
 
                         Shared.Navigators.ContentTopNavigator.updateNavigator(null);
                     }
-                    else { Shared.GlobalVars.messageError.LogIn(); }
+                    else { Shared.GlobalErrors.LogIn(); }
                 }
             }
         }

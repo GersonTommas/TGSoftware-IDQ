@@ -25,15 +25,12 @@ namespace IDQ.WPF.ViewModels.Helpers
                 newProducto.Codigo = sentProducto.Codigo;
                 newProducto.Descripcion = sentProducto.Descripcion;
                 newProducto.FechaModificado = sentProducto.FechaModificado;
-                newProducto.FechaModificadoID = sentProducto.FechaModificadoID;
                 newProducto.Medida = sentProducto.Medida;
-                newProducto.MedidaID = sentProducto.MedidaID;
                 newProducto.PrecioActual = sentProducto.PrecioActual;
                 newProducto.PrecioIngreso = sentProducto.PrecioIngreso;
                 newProducto.Stock = sentProducto.Stock;
                 newProducto.StockInicial = sentProducto.StockInicial;
                 newProducto.Tag = sentProducto.Tag;
-                newProducto.TagID = sentProducto.TagID;
                 
                 isEdit = true;
             }
@@ -102,26 +99,22 @@ namespace IDQ.WPF.ViewModels.Helpers
                     _editProducto.Descripcion = newProducto.Descripcion;
                     _editProducto.FechaModificado = newProducto.FechaModificado;
                     _editProducto.PrecioActual = newProducto.PrecioActual;
-                    _editProducto.TagID = newProducto.Tag.Id;
                     _editProducto.Tag = newProducto.Tag;
-                    _editProducto.MedidaID = newProducto.Medida.Id;
                     _editProducto.Medida = newProducto.Medida;
 
                     _ = context.globalDb.SaveChanges();
-                    Shared.GlobalVars.messageError.Guardado();
+                    Shared.GlobalErrors.Guardado();
 
                     Shared.Navigators.ContentTopNavigator.updateNavigator(null);
                 }
-                else { Shared.GlobalVars.messageError.Existencia(); }
+                else { Shared.GlobalErrors.Existencia(); }
             }
             else
             {
-                if (compareProductCodigo is not null || compareProductDescripcion is not null) { Shared.GlobalVars.messageError.Existencia(); }
+                if (compareProductCodigo is not null || compareProductDescripcion is not null) { Shared.GlobalErrors.Existencia(); }
                 else
                 {
                     newProducto.Stock = newProducto.StockInicial;
-                    newProducto.TagID = newProducto.Tag.Id;
-                    newProducto.MedidaID = newProducto.Medida.Id;
                     _ = dataService.Create(newProducto);
 
                     Shared.Navigators.ContentTopNavigator.updateNavigator(null);

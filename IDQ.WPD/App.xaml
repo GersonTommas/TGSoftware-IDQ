@@ -98,6 +98,10 @@
                 <viewsHelper:medidaNewEditView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModelsHelper:pagarCompraViewModel}">
+                <viewsHelper:pagarCompraView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModelsHelper:pagarDeudaViewModel}">
                 <viewsHelper:pagarDeudaView/>
             </DataTemplate>
