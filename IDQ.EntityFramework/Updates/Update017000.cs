@@ -133,7 +133,7 @@ namespace IDQ.EntityFramework.Updates
                 {
                     decimal tempVuelto = item.PagadoPesos + item.PagadoMP - item.PrecioTotal;
 
-                    item.Caja = new cajaModel() { Fecha = item.Fecha, Hora = item.Hora, Efectivo = item.PagadoPesos, MercadoPago = item.PagadoMP, isCredito = true };
+                    item.Caja = new cajaModel() { Fecha = item.Fecha, Hora = item.Hora, Efectivo = item.PagadoPesos, MercadoPago = item.PagadoMP, isDebito = true };
 
                     if (tempVuelto > 0)
                     {

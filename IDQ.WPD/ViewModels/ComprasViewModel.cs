@@ -85,7 +85,8 @@ namespace IDQ.WPF.ViewModels
                     Fecha = newFecha,
                     Hora = newHora,
                     Efectivo = sentEfectivo,
-                    MercadoPago = sentMP
+                    MercadoPago = sentMP,
+                    isDebito = true
                 };
 
                 if (sentVuelto > 0)

@@ -23,8 +23,8 @@ namespace IDQ.Domain.Models
         fechaModel _Fecha;
         public virtual fechaModel Fecha { get => _Fecha; set { if (SetProperty(ref _Fecha, value)) { OnPropertyChanged(); } } }
 
-        bool _isCredito;
-        public bool isCredito { get => _isCredito; set { if (SetProperty(ref _isCredito, value)) { OnPropertyChanged(); } } }
+        bool _isDebito;
+        public bool isDebito { get => _isDebito; set { if (SetProperty(ref _isDebito, value)) { OnPropertyChanged(); } } }
         #endregion // Properties
 
 
