@@ -28,10 +28,32 @@ namespace IDQ.WPF.ViewModels.Main
         #endregion // Variables
 
 
+
+        #region Helpers
+        void helperPagarDeuda()
+        {
+
+        }
+
+        void helperEditarDeudor(deudorModel sentDeudor)
+        {
+            Shared.Navigators.ContentTopNavigator.updateNavigator(null); // Miss
+        }
+        #endregion // Helpers
+
+
+
         #region Commands
-        public Command buttonCommandPagarDeuda => new Command(
-            (object parameter) => { },
-            (object parameter) => true);
+        public Command controlCommandPagarDeuda => new Command(
+            (object parameter) => helperPagarDeuda(),
+            (object parameter) => passDeudor is not null);
+
+        public Command controlCommandNuevoDeudor => new Command(
+            (object parameter) => helperEditarDeudor(null));
+
+        public Command controlCommandEditarDeudor => new Command(
+            (object parameter) => helperEditarDeudor(passDeudor),
+            (object parameter) => passDeudor is not null);
         #endregion // Commands
     }
 }

@@ -24,16 +24,16 @@
                 <ResourceDictionary Source="/Styles/NavigationBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Storyboard x:Key="storyHeightShow">
-                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="100" Duration="0:0:0.5" AutoReverse="False"/>
+                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="100" Duration="0:0:0.1" AutoReverse="False"/>
             </Storyboard>
             <Storyboard x:Key="storyHeightHide">
-                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="100" To="0" Duration="0:0:0.5" AutoReverse="False"/>
+                <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="100" To="0" Duration="0:0:0.1" AutoReverse="False"/>
             </Storyboard>
             <Storyboard x:Key="storyWidthShow">
-                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="0" To="100" Duration="0:0:0.5" AutoReverse="False"/>
+                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="0" To="100" Duration="0:0:0.1" AutoReverse="False"/>
             </Storyboard>
             <Storyboard x:Key="storyWithHide">
-                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="100" To="0" Duration="0:0:0.5" AutoReverse="False"/>
+                <DoubleAnimation Storyboard.TargetProperty="MaxWith" From="100" To="0" Duration="0:0:0.1" AutoReverse="False"/>
             </Storyboard>
 
             <!--#region Converters-->
@@ -112,6 +112,10 @@
             
             <DataTemplate DataType="{x:Type viewModelsHelper:productoNewEditViewModel}">
                 <viewsHelper:productoNewEditView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModelsHelper:retiroNewViewModel}">
+                <viewsHelper:retiroNewView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModelsHelper:stockEditViewModel}">

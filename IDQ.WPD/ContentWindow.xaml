@@ -42,7 +42,7 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Test"/>
+                            <Button Content="Test" Visibility="Collapsed"/>
                             <Label Content="{Binding usuarioActivo.Usuario}" FontSize="20" Margin="5"/>
                         </StackPanel>
 
@@ -70,7 +70,6 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Grid.Column="2">
-                        <Label Content="{Binding testString}"/>
                         <Button Content="Export" VerticalAlignment="Center" Command="{Binding buttonCommandExportar}"/>
                         <ctrls:ctrlClock hasSeconds="True" has24hours="True" FontSize="30" />
                     </StackPanel>

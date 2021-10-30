@@ -1,6 +1,8 @@
 ﻿using IDQ.Domain.Models;
+using IDQ.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +48,8 @@ namespace IDQ.WPF.ViewModels.Helpers
 
         deudorModel _selectedDeudor;
         public deudorModel selectedDeudor { get => _selectedDeudor; set { if (SetProperty(ref _selectedDeudor, value)) { OnPropertyChanged(); updateVuelto(); } } }
+
+        public ObservableCollection<deudorModel> CollectionSourceDeudores => context.globalAllDeudores;
         #endregion // Properties
 
 

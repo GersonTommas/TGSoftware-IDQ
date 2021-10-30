@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:IDQ.WPF.Views.Helpers"
              xmlns:viewmodel="clr-namespace:IDQ.WPF.ViewModels.Helpers"
              xmlns:ctrls="clr-namespace:IDQ.WPF.Controls"
@@ -11,9 +12,17 @@
     <d:UserControl.DataContext>
         <viewmodel:pagarVentaViewModel/>
     </d:UserControl.DataContext>
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="CollectionViewSourceDeudores" Source="{Binding CollectionSourceDeudores}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Nombre" Direction="Ascending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
 
     <UserControl.InputBindings>
         <KeyBinding Key="F1" Command="{Binding controlCommandGuardarVenta}"/>
+        <KeyBinding Key="F2" Command="{Binding controlCommandNuevoDeudor}"/>
         <KeyBinding Key="Esc" Command="{Binding controlCommandCancelar}"/>
     </UserControl.InputBindings>
     <Grid>
@@ -43,7 +52,7 @@
         <Grid Grid.Column="0" Grid.Row="1">
 
             <Grid Visibility="{Binding deudorVisibility, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
-                <Button Content="Deudor" HorizontalAlignment="Center" Grid.ColumnSpan="50"/>
+                <Button Command="{Binding buttonCommandToggleDeudor}" Content="Deudor" HorizontalAlignment="Center" Grid.ColumnSpan="50"/>
             </Grid>
 
             <Grid Visibility="{Binding deudorVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -53,13 +62,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                
 
-                <ComboBox VerticalAlignment="Center" Margin="5,0" Grid.Column="0"/>
+
+                <ComboBox ItemsSource="{Binding Source={StaticResource CollectionViewSourceDeudores}}" SelectedItem="{Binding selectedDeudor}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Nombre" VerticalAlignment="Center" Margin="5,0" Grid.Column="0"/>
 
                 <CheckBox Content="Pagar Deuda" IsChecked="{Binding isPagarDeuda}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
 
-                <Button Content="Quitar Deudor" HorizontalAlignment="Center" Grid.Column="2"/>
+                <Button Command="{Binding buttonCommandToggleDeudor}" Content="Quitar Deudor" HorizontalAlignment="Center" Grid.Column="2"/>
             </Grid>
         </Grid>
 

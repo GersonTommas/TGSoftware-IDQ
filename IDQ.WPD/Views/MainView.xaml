@@ -33,6 +33,9 @@
                 <TabItem Header="Conteos">
                     <mainviews:mainConteosView Margin="5"/>
                 </TabItem>
+                <TabItem Header="Retiros">
+                    <mainviews:mainRetirosView/>
+                </TabItem>
                 <TabItem Header="Tags">
                     <mainviews:mainMedidasTagsView/>
                 </TabItem>

@@ -13,10 +13,10 @@ namespace IDQ.WPF.Shared
         public static INavigator ContentTopNavigator { get; } = new Navigator();
 
         public static INavigator ProductoTagMedidaNavigator { get; } = new Navigator();
-        //public static void UpdateProductoSlider(Base.ViewModelBase sentViewModel) { Views.Helpers.productoNewEditView.updateProductoSlider(sentViewModel); }
 
         public static INavigator VentaDeudorNavigator { get; } = new Navigator();
-        //public static void UpdateVentaDeudorSlider(Base.ViewModelBase sentViewModel) { Views.Helpers.pagarVentaView.updateVentaDeudorSlider(sentViewModel); }
+
+        public static INavigator RetiroMotivoNavigator { get; } = new Navigator();
         #endregion // Navigators
     }
 }

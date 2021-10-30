@@ -17,9 +17,9 @@ namespace IDQ.WPF
         public Decimal precioVenta;
 
         #region Initialize
-        public HelperWindow(int sentCantidad)
+        public HelperWindow(int sentCantidad, Decimal sentPrecioVenta = 0)
         {
-            InitializeComponent(); DataContext = new HelperWindowViewModel(this, sentCantidad);
+            InitializeComponent(); DataContext = new HelperWindowViewModel(this, sentCantidad, sentPrecioVenta);
         }
         public HelperWindow(int sentCantidad, Decimal sentPrecioCompra, Decimal sentPrecioVenta)
         {
@@ -34,10 +34,10 @@ namespace IDQ.WPF
     {
         #region Initialize
         public HelperWindowViewModel() { }
-        public HelperWindowViewModel(HelperWindow sentWindow, int sentCantidad)
+        public HelperWindowViewModel(HelperWindow sentWindow, int sentCantidad, Decimal sentPrecio)
         {
             thisWindow = sentWindow; cantidadVisibility = Visibility.Visible;
-            Cantidad = sentCantidad;
+            Cantidad = sentCantidad; PrecioVenta = sentPrecio;
         }
 
         public HelperWindowViewModel(HelperWindow sentWindow, int sentCantidad, Decimal sentPrecioCompra, Decimal sentPrecioVenta)
@@ -50,16 +50,18 @@ namespace IDQ.WPF
 
         #region Variables
         int _Cantidad;
-        public int Cantidad { get => _Cantidad; set { if (SetProperty(ref _Cantidad, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(PagadoTotal)); } } }
+        public int Cantidad { get => _Cantidad; set { if (SetProperty(ref _Cantidad, value)) { OnPropertyChanged(); OnPropertyChanged(nameof(PagadoTotal)); OnPropertyChanged(nameof(TotalVenta)); } } }
 
         Decimal _PrecioCompra;
         public Decimal PrecioCompra { get => _PrecioCompra; set { if (SetProperty(ref _PrecioCompra, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(PagadoTotal)); OnPropertyChanged(nameof(PrecioSugerido)); } } }
 
         Decimal _PrecioVenta;
-        public Decimal PrecioVenta { get => _PrecioVenta; set { if (SetProperty(ref _PrecioVenta, Math.Round(value, 2))) { OnPropertyChanged(); } } }
+        public Decimal PrecioVenta { get => _PrecioVenta; set { if (SetProperty(ref _PrecioVenta, Math.Round(value, 2))) { OnPropertyChanged(); OnPropertyChanged(nameof(TotalVenta)); } } }
 
         public Decimal PagadoTotal => Cantidad * PrecioCompra;
         public Decimal PrecioSugerido => Math.Round(PrecioCompra * 1.3m, 2);
+
+        public Decimal TotalVenta => Cantidad * PrecioVenta;
 
 
         public Visibility cantidadVisibility { get; } = Visibility.Collapsed;

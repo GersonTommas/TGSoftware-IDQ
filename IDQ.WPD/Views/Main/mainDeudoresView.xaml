@@ -13,6 +13,11 @@
     <UserControl.DataContext>
         <viewmodel:mainDeudoresViewModel/>
     </UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding controlCommandPagarDeuda}"/>
+        <KeyBinding Key="F5" Command="{Binding controlCommandNuevoDeudor}"/>
+        <KeyBinding Key="F6" Command="{Binding controlCommandEditarDeudor}"/>
+    </UserControl.InputBindings>
     
     <UserControl.Resources>
         <CollectionViewSource x:Key="collectionViewSourceDeudores" Source="{Binding sourceCollectionDeudores}">

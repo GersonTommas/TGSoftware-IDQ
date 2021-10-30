@@ -12,12 +12,18 @@ namespace IDQ.WPF.ViewModels.Helpers
     public class pagarDeudaViewModel : Base.ViewModelBase
     {
         #region Initialize
-        public pagarDeudaViewModel() { }
+        public pagarDeudaViewModel() { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
+
+        public pagarDeudaViewModel(deudorModel sentDeudor)
+        {
+            if (sentDeudor is null) { Shared.Navigators.ContentTopNavigator.updateNavigator(null); }
+            else { Deudor = sentDeudor; }
+        }
         #endregion // Initialize
 
 
         #region Properties
-        public ObservableCollection<proveedorModel> CollectionSourceProveedores => context.globalDb.proveedores.Local.ToObservableCollection();
+        //public ObservableCollection<proveedorModel> CollectionSourceProveedores => context.globalDb.proveedores.Local.ToObservableCollection();
 
         Decimal _Efectivo;
         public Decimal Efectivo { get => _Efectivo; set { if (SetProperty(ref _Efectivo, value)) { OnPropertyChanged(); } } }

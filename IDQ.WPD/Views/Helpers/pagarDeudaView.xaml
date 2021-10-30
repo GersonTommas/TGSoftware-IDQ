@@ -41,8 +41,8 @@
             <ctrls:ctrlTextBox text="{Binding Deudor.doubleFaltanteTotal}" labelContent="Faltante" isReadOnly="True" Grid.Column="0" Grid.Row="1"/>
             <ctrls:ctrlTextBox text="{Binding Efectivo}" labelContent="Efectivo" isMaster="True" Grid.Column="1" Grid.Row="1"/>
             <ctrls:ctrlTextBox text="{Binding MercadoPago}" labelContent="MercadoPago" Grid.Column="2" Grid.Row="1"/>
-            <ctrls:ctrlTextBox text="{Binding Vuelto}" labelContent="Vuelto" isReadOnly="True" Grid.Column="3" Grid.Row="1"/>
-            <ctrls:ctrlTextBox text="{Binding Resto}" labelContent="Faltante" isReadOnly="True" Grid.Column="3" Grid.Row="1"/>
+            <ctrls:ctrlTextBox text="{Binding Vuelto, Mode=OneWay}" labelContent="Vuelto" isReadOnly="True" Grid.Column="3" Grid.Row="1"/>
+            <ctrls:ctrlTextBox text="{Binding Resto, Mode=OneWay}" labelContent="Faltante" isReadOnly="True" Grid.Column="3" Grid.Row="1"/>
         </Grid>
     </GroupBox>
 </UserControl>

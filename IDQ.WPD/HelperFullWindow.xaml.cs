@@ -178,7 +178,7 @@ namespace IDQ.WPF
 
 
         public Command ctrlBuscadorAddCommand => new Command(
-            (object parameter) => { HelperWindow cantWindow = new HelperWindow(1); if (cantWindow.ShowDialog() == true) { (thisWindow as HelperFullWindow).resultCantidad = cantWindow.cantidad; (thisWindow as HelperFullWindow).resultProducto = selectedSelectorProducto; thisWindow.DialogResult = true; } },
+            (object parameter) => { HelperWindow cantWindow = new HelperWindow(1, selectedSelectorProducto.PrecioActual); if (cantWindow.ShowDialog() == true) { (thisWindow as HelperFullWindow).resultCantidad = cantWindow.cantidad; (thisWindow as HelperFullWindow).resultProducto = selectedSelectorProducto; thisWindow.DialogResult = true; } },
             (object parameter) => selectedSelectorProducto is not null);
 
         public Command bComUnSoloProducto => new Command(

@@ -257,7 +257,7 @@ namespace IDQ.WPF.ViewModels
             (object parameter) => { if (newVentaProducto.Cantidad < 2) { newVentaProducto.Cantidad = 1; } else { newVentaProducto.Cantidad--; } });
 
         public Command dataGridCommandRemoveProductoVenta => new Command(
-            (object parameter) => helperRemoveProductoVenta(parameter),
+            (object parameter) => helperRemoveProductoVenta(selectedVentaProducto),
             (object parameter) => selectedVentaProducto is not null);
 
         public Command controlCommandPagarVenta => new Command(

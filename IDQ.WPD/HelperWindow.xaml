@@ -26,7 +26,17 @@
 
 
         <Border BorderThickness="1" Padding="20" Visibility="{Binding cantidadVisibility}" BorderBrush="Gray" Grid.Row="0">
-            <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <ctrls:ctrlTextBox isMaster="True" text="{Binding Cantidad}" labelContent="Cantidad" enterCommand="{Binding resultCommandCantidad}" upKeyCommand="{Binding textBoxCommandUpCantidad}" dnKeyCommand="{Binding textBoxCommandDnCantidad}" inputType="1" isHeaderTop="True" textAlignment="Center" isCurrency="False" Grid.Column="0"/>
+                <ctrls:ctrlTextBox text="{Binding PrecioVenta}" labelContent="Precio" isHeaderTop="True" isReadOnly="True" Grid.Column="1"/>
+                <ctrls:ctrlTextBox text="{Binding TotalVenta, Mode=OneWay}" labelContent="Total" isHeaderTop="True" isReadOnly="True" Grid.Column="2"/>
+            </Grid>
         </Border>
         
         <Border BorderThickness="1" Padding="20" BorderBrush="Gray" Visibility="{Binding ingresoVisibility}" Grid.Row="1">
